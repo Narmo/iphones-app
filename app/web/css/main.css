@@ -1,0 +1,133 @@
+@import url(assets/normalize.css);
+@import url(assets/_swype.css);
+@import url(assets/tiles.css);
+@import url(assets/article.css);
+
+@font-face {
+	font-family: 'PT Sans Narrow';
+	src: url('./fonts/ptn57f_w.eot');
+	src: url('./fonts/PTN57F_W.woff') format('woff'), url('./fonts/PTN57F_W.ttf') format('truetype'), url('./fonts/PTN57F_W.svg#PTSans-Narrow') format('svg');
+}
+
+@font-face {
+	font-family: 'PT Sans Narrow';
+	font-weight: bold; 
+	src: url('./fonts/ptn77f_w.eot');
+	src: url('./fonts/PTN77F_W.woff') format('woff'), url('./fonts/PTN77F_W.ttf') format('truetype'), url('./fonts/PTN77F_W.svg#PTSans-NarrowBold') format('svg');
+}
+
+@font-face {
+	font-family: 'DinComp';
+	src: url('./fonts/pfdintextcomppro-medium-webfont.woff') format('woff'),
+	     url('./fonts/pfdintextcomppro-medium-webfont.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'DinCond';
+	src: url('./fonts/pfdintextcondpro-medium.woff') format('woff'),
+	     url('./fonts/pfdintextcondpro-medium.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'DinCond';
+	src: url('./fonts/pfdintextcondpro-regular.woff') format('woff'),
+	     url('./fonts/pfdintextcondpro-regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Cambria';
+	src: url('./fonts/cambria.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Cambria';
+	src: url('./fonts/cambriab.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Cambria';
+	src: url('./fonts/cambriai.ttf') format('truetype');
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Cambria';
+	src: url('./fonts/cambriaz.ttf') format('truetype');
+	font-weight: bold;
+	font-style: italic;
+}
+
+html {
+	background: #ebebeb;
+	width: 320px;
+	overflow: hidden;
+}
+
+body {
+	width: 320px;
+	height: 460px;
+	box-sizing: border-box;
+	/* background: red; */
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	position: relative;
+}
+
+.page-header {
+	padding: 10px;
+	height: 52px;
+}
+
+.page-header__title {
+	font-family: 'PT Sans Narrow', sans-serif;
+	font-weight: bold;
+	font-size: 20px;
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+}
+
+.page-header__caption {
+	margin: 0;
+	font-family: georgia, serif;
+	color: #aaa;
+	font-size: 11px;
+	font-style: italic;
+}
+
+/* .tiles-reel .tiles {
+	visibility: visible;
+} */
+
+.icon {
+	display: inline-block;
+}
+
+.icon_comment {
+	text-align: center;
+	line-height: 26px;
+	background: url(../i/icon-comment.png);
+	padding-left: 6px;
+	width: 24px;
+	height: 30px;
+	font-family: 'DinComp', sans-serif;
+	font-size: 13px;
+	-webkit-background-size: 30px 60px;
+	background-size: 30px 60px;
+}
+
+.icon_comment_dark {
+	background-position: 0 -30px;
+}

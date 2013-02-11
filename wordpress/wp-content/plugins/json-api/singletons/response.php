@@ -32,7 +32,7 @@ class JSON_API_Response {
     
     if (function_exists('json_encode')) {
       // Use the built-in json_encode function if it's available
-      return json_encode($data);
+      return json_encode($data, JSON_UNESCAPED_UNICODE);
     } else {
       // Use PEAR's Services_JSON encoder otherwise
       if (!class_exists('Services_JSON')) {

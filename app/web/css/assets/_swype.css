@@ -1,0 +1,85 @@
+/* Слои со страницами в режиме переворачивания */
+
+.swype-flip {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 1004;
+	
+	-webkit-transform-style: preserve-3d;
+	-webkit-perspective: 1000px;
+}
+
+.swype-flip .swype-item {
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+/* Стадии для вертикального перелистывания */
+.swype-flip_v-prev .swype-item_next {
+	visibility: hidden;
+}
+
+.swype-flip_v-prev .swype-item_prev {
+	z-index: 2;
+	right: auto;
+}
+
+.swype-flip_v-prev .swype-item_flip.swype-item_prev {
+	z-index: 11;
+}
+
+.swype-flip_v-next .swype-item_flip.swype-item_prev {
+	visibility: hidden;
+}
+
+.swype-flip__shade {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	/* opacity: 0; */
+	z-index: 1;
+}
+
+.booq-constrain > .swype-flip__shade {
+	height: 50%;
+	background: #000;
+	z-index: 1;
+}
+
+/* .tiles {
+	opacity: 0;
+} */
+
+.swype-empty {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	/* left: 0; */
+	top: 0;
+	background: #0c0a39 !important;
+}
+
+.swype-item {
+	visibility: visible !important;
+}
+
+.swype-item_current {
+	z-index: 4;
+}
+
+.swype-item_prev {
+	z-index: 5;
+	right: 100%;
+}
+
+ .swype-flip_v-next .swype-item_prev,
+ .swype-flip_v-prev .swype-item_next {
+ 	opacity: 0;
+ }
