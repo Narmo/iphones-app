@@ -3,8 +3,56 @@ $(function() {
 	var articleTmpl = _.template('<div class="article__image-holder">' +
 		'<img src="<%- image %>" class="article__image" />' + 
 		'</div>' +
+		'<h2 class="article__add-comment"><i class="icon icon_comment icon_comment_dark icon_comment_add"></i></h2>' + 
 		'<h2 class="article__title"><%- title %></h2>' + 
+		'<h3 class="article__author"><%- author.name %>, <%- date_formatted %></h3>' + 
 		'<%= content %>');
+
+	var months = ['января', 'февраля', 'марта', 'апреля', 'мая', 
+		'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+
+	Handlebars.registerHelper('format_date', function(str) {
+		return new Handlebars.SafeString(formatDate(str));
+	});
+
+	/**
+	 * Возвращает указанный наблон
+	 * @param  {String} name Название шаблона (без пути и расширения)
+	 * @return {Object}
+	 */
+	function t(name) {
+		return app.templates['templates/' + name + '.hbs'];
+	}
+
+
+	/**
+	 * Парсит дату, пришедшую из JSON API, в объект Date
+	 * @param  {String} str
+	 * @return {Date}
+	 */
+	function parseDate(str) {
+		var m = str.match(/^(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2}):(\d{2})$/);
+		return m ? new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6], 0) : null;
+	}
+
+	/**
+	 * Форматирует дату в удобочитаемый формат
+	 * @param  {Object} dt Дата для преобразования (строка из JSON API 
+	 * или <code>Date</code>)
+	 * @return {String}
+	 */
+	function formatDate(dt) {
+		if (_.isString(dt)) {
+			dt = parseDate(dt);
+		}
+
+		var str = dt.getDate() + ' ' + months[dt.getMonth()];
+		if ((new Date).getFullYear() != dt.getFullYear()) {
+			str += ' ' + dt.getFullYear();
+		}
+
+		return str;
+	}
 
 	/**
 	 * Возвращает коэффициент масштабирования, при котором прямоугольник
@@ -143,6 +191,16 @@ $(function() {
 		});
 	}
 
+	function render(template, data) {
+		var tmpl = t(template);
+		if (!tmpl) {
+			throw 'Can’t find "' + template + '" template';
+		}
+
+		tmpl = Handlebars.template(tmpl);
+		return $(tmpl(data));
+	}
+
 	// $.get('./feed.xml', function(data) {
 	// 	feed = readFeed(data);
 	// 	createFeedUI(feed);
@@ -162,9 +220,15 @@ $(function() {
 			});
 
 			if (feedData) {
-				$('.article__content').html(articleTmpl(feedData));
+				// if (!feedData.date_formatted) {
+				// 	feedData.date_formatted = formatDate(feedData.date)
+				// }
 
-				$(document.body).addClass('article-mode');
+				// $('.article__content').html(articleTmpl(feedData));
+
+				$(document.body)
+					.append(render('article', feedData))
+					.addClass('article-mode');
 			}
 		})
 		.on('pointertap', '.article__h', function() {

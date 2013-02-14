@@ -109,8 +109,17 @@
 	font-family: 'DinCond', sans-serif;
 	margin-top: 0;
 	line-height: 1;
-	margin-bottom: 20px;
+	margin-bottom: 0.2em;
 	padding-top: 10px;
+	font-size: 1.7em;
+}
+
+.article__author {
+	font-family: 'DinCond', sans-serif;
+	font-weight: normal;
+	color: #a0a0a0;
+	margin-top: 0;
+	font-size: 1em;
 }
 
 .article blockquote {
@@ -124,6 +133,12 @@
 .article-mode .article {
 	-webkit-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0);
+}
+
+.article__add-comment {
+	float: right;
+	margin-top: 11px;
+	margin-left: 30px;
 }
 
 /* .article-mode .tiles-reel {

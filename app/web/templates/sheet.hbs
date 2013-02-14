@@ -1,0 +1,14 @@
+<section class="sheet">
+	<header class="sheet__h">
+		<span class="sheet__h-back">{{{ back_label }}}</span>
+		{{#if title}}
+			<h2 class="sheet__h-title">{{{ title }}}</h2> 
+		{{/if}}
+		<span class="sheet__h-opt">{{{ options }}}</span>
+	</header>
+	<div class="sheet__scroller">
+		<div class="sheet__content">
+			{{{ content }}}
+		</div>
+	</div>
+</section>

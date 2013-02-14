@@ -1,6 +1,7 @@
 @import url(assets/normalize.css);
 @import url(assets/_swype.css);
 @import url(assets/tiles.css);
+@import url(assets/sheet.css);
 @import url(assets/article.css);
 
 @font-face {
@@ -113,21 +114,47 @@ body {
 
 .icon {
 	display: inline-block;
+	font-style: normal;
 }
 
 .icon_comment {
+	color: #fff;
 	text-align: center;
 	line-height: 26px;
 	background: url(../i/icon-comment.png);
 	padding-left: 6px;
 	width: 24px;
-	height: 30px;
+	height: 29px;
 	font-family: 'DinComp', sans-serif;
 	font-size: 13px;
 	-webkit-background-size: 30px 60px;
 	background-size: 30px 60px;
+	position: relative;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.3);
 }
 
 .icon_comment_dark {
 	background-position: 0 -30px;
+}
+
+.icon_comment_add:before,
+.icon_comment_add:after {
+	display: inline-block;
+	background: #000;
+	content: '';
+	position: absolute;
+}
+
+.icon_comment_add:before {
+	width: 10px;
+	height: 2px;
+	left: 13px;
+	top: 11px;
+}
+
+.icon_comment_add:after {
+	width: 2px;
+	height: 10px;
+	left: 17px;
+	top: 7px;
 }

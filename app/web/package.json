@@ -1,0 +1,12 @@
+{
+	"name": "iPhonesiOSApp",
+	"description": "iOS-приложение для сайта iphones.ru",
+	"version": "1.0.0",
+	"private": true,
+	"dependencies": {
+		"underscore": ">=1.4.0",
+		"grunt-contrib-copy": "~0.3",
+		"grunt-frontend": "~1",
+		"grunt-contrib-handlebars": "~0.3"
+	}
+}

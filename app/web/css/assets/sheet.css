@@ -1,0 +1,71 @@
+/* 
+ * Прокручиваемый лист с заголовком. 
+ * Используется для отображения списка новостей
+ * и комментариев
+ */
+.sheet {
+	position: absolute;
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: #f7f7f7;
+}
+
+.sheet__h {
+	padding: 0 12px;
+	height: 43px;
+	line-height: 43px;
+	background: rgba(255, 255, 255, 0.8);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	font-size: 16px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 2;
+	font-family: 'DinCond', sans-serif;
+}
+
+.sheet__h-title {
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0;
+}
+
+.sheet__h-back {
+	position: absolute;
+	left: 11px;
+}
+
+.sheet__h-back:before {
+	content: '';
+	background: url(../../i/icon-arrow.png) no-repeat;
+	width: 23px;
+	height: 21px;
+	display: inline-block;
+	position: relative;
+	top: 5px;
+
+	-webkit-background-size: 100% 100%;
+	background-size: 100% 100%;
+}
+
+.sheet__scroller {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	background: #fff;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+.sheet__content {
+	font-size: 14px;
+	padding: 43px 12px 12px;
+	line-height: 1.5;
+	font-family: 'Cambria', georgia, serif;
+}
