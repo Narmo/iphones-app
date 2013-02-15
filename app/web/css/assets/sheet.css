@@ -33,6 +33,7 @@
 	font-size: 16px;
 	font-weight: bold;
 	margin: 0;
+	color: #000;
 }
 
 .sheet__h-back {
@@ -42,7 +43,7 @@
 
 .sheet__h-back:before {
 	content: '';
-	background: url(../../i/icon-arrow.png) no-repeat;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAqCAYAAADMKGkhAAABBklEQVR42tXZPQrCMByGcaGrNxAKnkTo5BmcnATBqbcRnARB8EgFV89QKMSXSnhLB4v0wz5/eDJkCL8hS8hi4FmqTK3UaBNCGPS8VBUqqFJlBHiqnjXaXWcON7pVPj28P/qhkhHhMLThMLThMLThPLTh/dF3oyeDw9CGw9CGw9CGw9CG/4y+Gf1XOAxtOAxtOAxteCf6pY7qMIP2H6fhy/hyAVSqTYRvVQB1ifC1KkHwU/OO71SlQqtCnWdUrpII/4av6v2ZjeEkvOEwvOEwvOEwvOEwvOEwvOEwvOEwvOEwvOEwvOEwvOEwvOEwvOHj4AF/QMYz/oC68TkBHidrvlRGhWtB9gZmgHEGD/C0YAAAAABJRU5ErkJggg==) no-repeat;
 	width: 23px;
 	height: 21px;
 	display: inline-block;
@@ -68,4 +69,10 @@
 	padding: 43px 12px 12px;
 	line-height: 1.5;
 	font-family: 'Cambria', georgia, serif;
+}
+
+.sheet__h-opt {
+	position: absolute;
+	top: -1px;
+	right: 12px;
 }

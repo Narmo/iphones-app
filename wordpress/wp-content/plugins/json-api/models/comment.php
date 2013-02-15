@@ -7,6 +7,7 @@ class JSON_API_Comment {
   var $url;     // String
   var $date;    // String
   var $content; // String
+  var $hash;    // String
   var $parent;  // Integer
   var $author;  // Object (only if the user was registered & logged in)
   
@@ -27,6 +28,11 @@ class JSON_API_Comment {
     $this->url = $wp_comment->comment_author_url;
     $this->date = date($date_format, strtotime($wp_comment->comment_date));
     $this->content = $content;
+
+    if ($wp_comment->comment_author_email) {
+      $this->hash = md5(strtolower(trim($wp_comment->comment_author_email)));
+    }
+
     $this->parent = (int) $wp_comment->comment_parent;
     //$this->raw = $wp_comment;
     

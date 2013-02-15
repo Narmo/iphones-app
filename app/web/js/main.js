@@ -4,13 +4,13 @@ require(['article', 'utils', 'feed', 'tiles'], function(article, utils, feed, ti
 	feed.get('main', function(data) {
 		var mainTiles = $(tiles.create(data))
 			.on('pointertap', '.tiles__item', function(evt) {
+
 				var itemId = $(this).attr('data-feed-id');
-				var feedData = _.find(feed, function(item) {
+				var feedData = _.find(data, function(item) {
 					return item.id == itemId;
 				});
 
 				if (feedData) {
-					console.log('render', feedData)
 					$(document.body)
 						.append(article.create(feedData))
 						.addClass('article-mode');

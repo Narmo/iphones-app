@@ -3,6 +3,7 @@
 @import url(assets/tiles.css);
 @import url(assets/sheet.css);
 @import url(assets/article.css);
+@import url(assets/comments.css);
 
 @font-face {
 	font-family: 'PT Sans Narrow';
@@ -86,6 +87,23 @@ body {
 	position: relative;
 }
 
+h1 {
+	font-family: 'DinCond', sans-serif;
+	margin-top: 0;
+	line-height: 1;
+	margin-bottom: 0.2em;
+	padding-top: 10px;
+	font-size: 1.7em;
+}
+
+h2 {
+	font-family: 'DinCond', sans-serif;
+	font-weight: normal;
+	color: #a0a0a0;
+	margin-top: 0;
+	font-size: 1em;
+}
+
 .page-header {
 	padding: 10px;
 	height: 52px;
@@ -134,6 +152,7 @@ body {
 }
 
 .icon_comment_dark {
+	color: #000;
 	background-position: 0 -30px;
 }
 

@@ -2,6 +2,804 @@
  * Модуль для получения списка JSON-данных с сервера
  */
 define(function() {
+	var comments = [
+		{
+			"id": 523636,
+			"name": "burivuh",
+			"url": "",
+			"date": "2012-11-27 08:25:04",
+			"content": "<p>Мало того, что часы от розетки заряжать надо, так еще и перечатки!<br />\nХотя удобно)&#8230;<br />\nНо снег в них не подержишь</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 56721,
+				"slug": "burivuh",
+				"name": "burivuh",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "burivuh",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523640,
+			"name": "Kengas",
+			"url": "",
+			"date": "2012-11-27 08:36:22",
+			"content": "<p>смешные,да. Кстати, я тут заметила (случайно), что махровое полотенце отлично управляет моим айпадом) . так что умельцам на заметку. можно сварганить варежки и из него</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 57168,
+				"slug": "kengas",
+				"name": "Kengas",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Kengas",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523642,
+			"name": "Whilser",
+			"url": "",
+			"date": "2012-11-27 08:50:51",
+			"content": "<p>@Kengas, Полотенце управляет твоим айпэдом? Варежки из полотенца? Без комментариев&#8230;</p>\n",
+			"parent": 523640,
+			"author": {
+				"id": 50716,
+				"slug": "whilser",
+				"name": "Whilser",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Whilser",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523648,
+			"name": "arlekino78",
+			"url": "",
+			"date": "2012-11-27 09:26:51",
+			"content": "<p>Она имела ввиду что айпад управляет полотенцем, и пора бы сделать перчатки из айпада для того что бы можно было управлять полотенцем из любой точки мира подкючившись к интернету через блютуз или вайфай!</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 52186,
+				"slug": "arlekino78",
+				"name": "arlekino78",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "arlekino78",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523650,
+			"name": "Redfox41",
+			"url": "",
+			"date": "2012-11-27 09:45:31",
+			"content": "<p>На тему взаимодействия перчаток с телефоном )) сегодня с утра &#8220;провзаимодействовал&#8221; с Lumia 920 в перчатках &#8211; отлично работает тачскрин и в перчатках, да хоть в варежках, причем совершенно обыкновенных, очень удобно когда в машине холодно, а надо посмотреть пробки &#8211; такой номер с 4S не проходит, приходится носом на звонки отвечать ))</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 53116,
+				"slug": "redfox41",
+				"name": "Redfox41",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Redfox41",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523654,
+			"name": "SCell",
+			"url": "",
+			"date": "2012-11-27 09:59:16",
+			"content": "<p>@Redfox41, СГС 3 работает от уголка сигаретной пачки :-) Почему именно от уголка непонятно.</p>\n",
+			"parent": 523650,
+			"author": {
+				"id": 54945,
+				"slug": "scell",
+				"name": "SCell",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "SCell",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523655,
+			"name": "dmastaone",
+			"url": "",
+			"date": "2012-11-27 10:00:09",
+			"content": "<p>Лучше бы сделали микрофон там где перчатки заряжаются, так удобней держать руку, чем пальцы в растопырку.</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 55322,
+				"slug": "dmastaone",
+				"name": "dmastaone",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "dmastaone",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523656,
+			"name": "bod",
+			"url": "",
+			"date": "2012-11-27 10:00:52",
+			"content": "<p>Это шутка? Или реально такие вареЖки есть)))</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 37175,
+				"slug": "bod",
+				"name": "bod",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "bod",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523657,
+			"name": "nicshitz",
+			"url": "",
+			"date": "2012-11-27 10:06:05",
+			"content": "<p>@arlekino78, по-моему все проще. ворсинки полотенца раздают вай-фай, в то время как само полотенце управляет перчатками для ответа на вызов на айфоне. а если с айпадовского Скайпа позвонить на айфон, то полотенце поменяет цвет и закричит &#8220;краааааааа&#8221;</p>\n",
+			"parent": 523648,
+			"author": {
+				"id": 37372,
+				"slug": "nicshitz",
+				"name": "nicshitz",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "room_43",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523672,
+			"name": "Gr0m",
+			"url": "",
+			"date": "2012-11-27 11:18:33",
+			"content": "<p>Интересно, а зачем они сделаны так, что обязательно нужно пальцы растопыривать? Почему не сделать, что просто ладошкой ухо накрываешь и все ОК? Ведь удобнее бы было, да и уху теплее :)</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 55625,
+				"slug": "gr0m",
+				"name": "Gr0m",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Gr0m",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523681,
+			"name": "KiFa",
+			"url": "",
+			"date": "2012-11-27 11:41:35",
+			"content": "<p>Ребьзя! В статье ошибка. Перчатки сенсорные! ;)</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 57173,
+				"slug": "kifa",
+				"name": "KiFa",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "KiFa",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523688,
+			"name": "Brawer",
+			"url": "",
+			"date": "2012-11-27 11:45:22",
+			"content": "<p>@Gr0m, так не круто&#8230; Хороший понт дороже денег!</p>\n",
+			"parent": 523672,
+			"author": {
+				"id": 53851,
+				"slug": "brawer",
+				"name": "Brawer",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Brawer",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523690,
+			"name": "Brawer",
+			"url": "",
+			"date": "2012-11-27 11:47:42",
+			"content": "<p>а где в Италии их можно купить? в Милане</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 53851,
+				"slug": "brawer",
+				"name": "Brawer",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Brawer",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523693,
+			"name": "Whilser",
+			"url": "",
+			"date": "2012-11-27 11:57:02",
+			"content": "<p>@bod, видимо шутка т.к. на картинках перчатки, а не варежки.</p>\n",
+			"parent": 523656,
+			"author": {
+				"id": 50716,
+				"slug": "whilser",
+				"name": "Whilser",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Whilser",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523694,
+			"name": "KiFa",
+			"url": "",
+			"date": "2012-11-27 12:01:57",
+			"content": "<p>@Brawer, hi-Fun.com</p>\n",
+			"parent": 523690,
+			"author": {
+				"id": 57173,
+				"slug": "kifa",
+				"name": "KiFa",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "KiFa",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523706,
+			"name": "Enterprise",
+			"url": "",
+			"date": "2012-11-27 13:08:10",
+			"content": "<p>@KiFa, да, иначе зачем указательный и большой палец выделены другим цветом?</p>\n",
+			"parent": 523681,
+			"author": {
+				"id": 5355,
+				"slug": "enterprise",
+				"name": "Enterprise",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Enterprise",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523712,
+			"name": "PAHAN",
+			"url": "",
+			"date": "2012-11-27 13:19:48",
+			"content": "<p>@SCell, Скорее всего потому что там скопление фольги, кстати, если вытащить фольгу из пачки, скрутить в трубочку, можно управлять iphone</p>\n",
+			"parent": 523654,
+			"author": {
+				"id": 18401,
+				"slug": "pahan",
+				"name": "PAHAN",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "PAHAN",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523714,
+			"name": "PAHAN",
+			"url": "",
+			"date": "2012-11-27 13:20:42",
+			"content": "<p>@Gr0m, В любом случае будешь выглядеть как ид;от во время разговора с рукой )</p>\n",
+			"parent": 523672,
+			"author": {
+				"id": 18401,
+				"slug": "pahan",
+				"name": "PAHAN",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "PAHAN",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523721,
+			"name": "Konstantin",
+			"url": "",
+			"date": "2012-11-27 13:32:03",
+			"content": "<p>Втыкаешь в ухо перчатку &#8211; и получается полноценная гарнитура.</p>\n<p>Правда другие не поймут почему у тебя из уха перчатка торчит.<br />\n:-)</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 48900,
+				"slug": "mdes",
+				"name": "Konstantin",
+				"first_name": "Konstantin",
+				"last_name": "",
+				"nickname": "MDes",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523722,
+			"name": "Konstantin",
+			"url": "",
+			"date": "2012-11-27 13:32:42",
+			"content": "<p>@Gr0m, ну если перчатку целиком к уху прикладывать &#8211; то чем плохо тогда вложить в эту перчатку телефон?</p>\n",
+			"parent": 523672,
+			"author": {
+				"id": 48900,
+				"slug": "mdes",
+				"name": "Konstantin",
+				"first_name": "Konstantin",
+				"last_name": "",
+				"nickname": "MDes",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523729,
+			"name": "mikla",
+			"url": "https://twitter.com/mynameismikla",
+			"date": "2012-11-27 13:52:01",
+			"content": "<p>Был уже один тип в ютюбе по пачке сигарет разговаривал&#8230; <a href=\"http://youtu.be/wYwzB0dpL-0\" rel=\"nofollow\">http://youtu.be/wYwzB0dpL-0</a></p>\n",
+			"parent": 0,
+			"author": {
+				"id": 50924,
+				"slug": "mikla",
+				"name": "mikla",
+				"first_name": "Михаил",
+				"last_name": "Решетников",
+				"nickname": "mikla",
+				"url": "https://twitter.com/mynameismikla",
+				"description": "Дизайнер, Москва"
+			}
+		},
+		{
+			"id": 523738,
+			"name": "monke",
+			"url": "",
+			"date": "2012-11-27 14:34:44",
+			"content": "<p>@nicshitz, для этого сначала полотоенце должно пыхнуть</p>\n",
+			"parent": 523657,
+			"author": {
+				"id": 27384,
+				"slug": "monke",
+				"name": "monke",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "monke",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523740,
+			"name": "safari2",
+			"url": "",
+			"date": "2012-11-27 14:37:30",
+			"content": "<p>покупал в прошлом году перчатки для смартфона с емкостным экраном в C&amp;A &#8211; здесь на сайте была то ли новость, то ли обзор.<br />\nВпечатления так себе: слишком тонкие, руки мерзли. очень скользкие, рулить в них неудобно. очень быстро износились &#8211; разошлись по швам, даже на сезон не хватило.</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 38930,
+				"slug": "safari2",
+				"name": "safari2",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "safari2",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523743,
+			"name": "lossderks",
+			"url": "",
+			"date": "2012-11-27 14:52:30",
+			"content": "<p>Попробуйте сделать козу, как на фото, и подержите ее минут пять у уха.<br />\n&#8220;Извини, у меня пальцы уже отсохли, потом перезвоню&#8221;.</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 55268,
+				"slug": "lossderks",
+				"name": "lossderks",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "lossderks",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523747,
+			"name": "Cooler",
+			"url": "",
+			"date": "2012-11-27 15:02:12",
+			"content": "<p>Купил себе такие. Пальцы оттопыреными неудобно держать, быстро устают, оказалось, что там очень чувствительный микрофон, вполне удобно говорить даже не оттопыривая мизинец, просто он прилегает к щеке. Честно говоря качество &#8220;китайское&#8221; какое-то, кнопки неровно попадают под нарисованные кружки, про долговечность вообще не понятно, думаю не долго протянут, хотя идея интересная, динамик хороший, слышно хорошо!</p>\n<p>Ну и перчатки очень теплые)) Больше как игрушка, хоть и рабочая игрушка.</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 45864,
+				"slug": "cooler1983",
+				"name": "Cooler",
+				"first_name": "Cooler",
+				"last_name": "",
+				"nickname": "Cooler1983",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523751,
+			"name": "Ohm",
+			"url": "",
+			"date": "2012-11-27 15:15:39",
+			"content": "<p>@arlekino78, Неее&#8230; Подключиться к интернету по блюфай через вантуз!</p>\n",
+			"parent": 523648,
+			"author": {
+				"id": 44211,
+				"slug": "ohm",
+				"name": "Ohm",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Ohm",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523755,
+			"name": "Whilser",
+			"url": "",
+			"date": "2012-11-27 15:27:29",
+			"content": "<p>А если просто гарнитурку небольшую удобную купить? Ту же Bluetooth, не? Да и вообще не вижу особых проблем использования телефона на улице, у нас нет 50-ти градусных морозов, чтоб околеть от звонка, а если где и есть, то такие перчатки не спасут. Товар &#8211; просто оригинальная идея, не более того.</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 50716,
+				"slug": "whilser",
+				"name": "Whilser",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Whilser",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523760,
+			"name": "iМаньяк",
+			"url": "",
+			"date": "2012-11-27 15:29:07",
+			"content": "<p>В вечернем урганте показывали))</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 52264,
+				"slug": "eriskhan",
+				"name": "iМаньяк",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "iМаньяк",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523786,
+			"name": "Steveee",
+			"url": "",
+			"date": "2012-11-27 16:40:40",
+			"content": "<p>Где купить?</p>\n<p>Хороший подарок на новый год.</p>\n<p>Киньте ссылку где продаются, pls.</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 56685,
+				"slug": "steveee",
+				"name": "Steveee",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Steveee",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523887,
+			"name": "safari2",
+			"url": "",
+			"date": "2012-11-27 20:18:16",
+			"content": "<p>@Steveee, жми Купить  перчатки Hi-Call в конце статьи</p>\n",
+			"parent": 523786,
+			"author": {
+				"id": 38930,
+				"slug": "safari2",
+				"name": "safari2",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "safari2",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523993,
+			"name": "Артур Малосиев",
+			"url": "",
+			"date": "2012-11-28 00:29:45",
+			"content": "<p>@lossderks, три минуты для меня. Потом начинаю чувствовать себя Кабаевой.</p>\n",
+			"parent": 523743,
+			"author": {
+				"id": 1,
+				"slug": "admin",
+				"name": "Артур Малосиев",
+				"first_name": "Артур",
+				"last_name": "Малосиев",
+				"nickname": "SeaBreeze",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 523995,
+			"name": "Артур Малосиев",
+			"url": "",
+			"date": "2012-11-28 00:31:12",
+			"content": "<p>@Enterprise, экран пятерки неохотно откликается.</p>\n",
+			"parent": 523706,
+			"author": {
+				"id": 1,
+				"slug": "admin",
+				"name": "Артур Малосиев",
+				"first_name": "Артур",
+				"last_name": "Малосиев",
+				"nickname": "SeaBreeze",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 524102,
+			"name": "ghool",
+			"url": "",
+			"date": "2012-11-28 10:06:41",
+			"content": "<p>@nicshitz, &#8220;Потому что всегда надо знать, где твое полотенце&#8221; (с) Дуглас Адамс, автостопом по галактике</p>\n",
+			"parent": 523657,
+			"author": {
+				"id": 42624,
+				"slug": "ghool",
+				"name": "ghool",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "ghool",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 524778,
+			"name": "safari2",
+			"url": "",
+			"date": "2012-11-29 16:39:57",
+			"content": "<p>@kastanedakarlos, ага, в два раза дороже, чем по ссылке в статье.</p>\n",
+			"parent": 523887,
+			"author": {
+				"id": 38930,
+				"slug": "safari2",
+				"name": "safari2",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "safari2",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 562199,
+			"name": "Sunlitcopper",
+			"url": "",
+			"date": "2013-02-15 09:20:56",
+			"content": "<p>@Konstantin, этапять</p>\n",
+			"parent": 523721,
+			"author": {
+				"id": 53364,
+				"slug": "sunlitcopper",
+				"name": "Sunlitcopper",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Sunlitcopper",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 562252,
+			"name": "AXel-AleXey",
+			"url": "",
+			"date": "2013-02-15 11:40:03",
+			"content": "<p>Бесполезное вложение))) Лучше гарнитуры пока нет ничего&#8230;</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 58007,
+				"slug": "axel-alexey",
+				"name": "AXel-AleXey",
+				"first_name": "Alexey",
+				"last_name": "",
+				"nickname": "AXel-AleXey",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 562263,
+			"name": "Twice",
+			"url": "",
+			"date": "2013-02-15 11:58:54",
+			"content": "<p>Я хооочу сказать!<br />\n1,5 человека согласятся как дураки ходить и вот так говорить по телефону!</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 50752,
+				"slug": "twice",
+				"name": "Twice",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Twice",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 562271,
+			"name": "Afx40",
+			"url": "",
+			"date": "2013-02-15 12:17:29",
+			"content": "<p>Давным-давно японцы разрабатывали радиостанцию в наручных часах. Для того, что бы слушать, надо было приложить средний палец за ухом. Звук передавался от часов в среднее ухо по костям кисти и черепа. А говорить в таком положении можно было прямо в часы.</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 47336,
+				"slug": "afx40",
+				"name": "Afx40",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "Afx40",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 562290,
+			"name": "G-VIPER",
+			"url": "",
+			"date": "2013-02-15 13:04:19",
+			"content": "<p>Сенсорные перчатки удобнее</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 19296,
+				"slug": "g-viper",
+				"name": "G-VIPER",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "G-VIPER",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 562308,
+			"name": "LaoAn",
+			"url": "",
+			"date": "2013-02-15 13:38:13",
+			"content": "<p>@KiFa,<br />\nДа, они сенсорные, токопроводящая нить вплетена в большом и указательном пальцах. Но, видимо, недостаточно, поскольку на моей пятерке нужно сильно давить на экран, чтобы он среагировал. Печатать в них невозможно.<br />\nКстати, есть такие же кожаные, на производстве, по крайней мере, видел.</p>\n",
+			"parent": 523681,
+			"author": {
+				"id": 31504,
+				"slug": "laoan",
+				"name": "LaoAn",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "LaoAn",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 562331,
+			"name": "varlamov",
+			"url": "",
+			"date": "2013-02-15 14:54:00",
+			"content": "<p>@monke, полотенчик решил пыхнуть. Кстати, пыхнуть хотите?</p>\n",
+			"parent": 523738,
+			"author": {
+				"id": 57855,
+				"slug": "varlamov",
+				"name": "varlamov",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "varlamov",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 562341,
+			"name": "shashilx",
+			"url": "http://",
+			"date": "2013-02-15 15:32:35",
+			"content": "<p>@arlekino78, ага, так всётаки не полотенце айпадом, а айпад управляет полотенцем? права полотенца, недюсь, при этом не нарушаются? айпад бережно управляет полотенцем? тяжести не заставляет таскать?</p>\n",
+			"parent": 523648,
+			"author": {
+				"id": 26105,
+				"slug": "shashilx",
+				"name": "shashilx",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "shashilx",
+				"url": "http://",
+				"description": ""
+			}
+		},
+		{
+			"id": 562344,
+			"name": "Konstantin",
+			"url": "",
+			"date": "2013-02-15 15:41:59",
+			"content": "<p>Пора уже шарфик сделать&#8230;<br />\nОбматываешь вокруг головы и все! Никто даже не догадается что это гарнитура.</p>\n<p>Вспомните старый советский фильм о Шурике.<br />\n:-)</p>\n",
+			"parent": 0,
+			"author": {
+				"id": 48900,
+				"slug": "mdes",
+				"name": "Konstantin",
+				"first_name": "Konstantin",
+				"last_name": "",
+				"nickname": "MDes",
+				"url": "",
+				"description": ""
+			}
+		},
+		{
+			"id": 562362,
+			"name": "®ealGAR",
+			"url": "",
+			"date": "2013-02-15 17:04:54",
+			"content": "<p>@Артур Малосиев, Что, дети от путина появились?</p>\n",
+			"parent": 523993,
+			"author": {
+				"id": 15701,
+				"slug": "realgar",
+				"name": "®ealGAR",
+				"first_name": "",
+				"last_name": "",
+				"nickname": "®ealGAR",
+				"url": "",
+				"description": ""
+			}
+		}
+	];
+		
+
+
+
 	return {
 		/**
 		 * Получает указанный поток с сервера и возвращает его 
@@ -10,6 +808,10 @@ define(function() {
 		 * @param  {Function} callback Функция, в которую вернётся результат
 		 */
 		get: function(name, callback) {
+			if (name == 'comments') {
+				return callback(comments);
+			}
+
 			// XXX пока возвращаем статическую выборку
 			callback([
 				{
