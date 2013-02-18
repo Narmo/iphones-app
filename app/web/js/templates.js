@@ -34,7 +34,7 @@ this["Handlebars"]["_templates"]["templates/article.hbs"] = function (Handlebars
 
 this["Handlebars"]["_templates"]["templates/comment.hbs"] = function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers; data = data || {};
-  var buffer = "", stack1, stack2, foundHelper, functionType="function", escapeExpression=this.escapeExpression, self=this;
+  var buffer = "", stack1, stack2, foundHelper, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing, self=this;
 
 function program1(depth0,data) {
   
@@ -44,6 +44,16 @@ function program1(depth0,data) {
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.hash; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1) + "?s=50\" class=\"comment__avatar-img\" />";
+  return buffer;}
+
+function program3(depth0,data) {
+  
+  var buffer = "", stack1, foundHelper;
+  buffer += "\n		";
+  stack1 = {};
+  foundHelper = helpers.renderComment;
+  stack1 = foundHelper ? foundHelper.call(depth0, depth0, {hash:stack1,data:data}) : helperMissing.call(depth0, "renderComment", depth0, {hash:stack1,data:data});
+  buffer += escapeExpression(stack1) + "\n	";
   return buffer;}
 
   buffer += "<div class=\"comment\" data-comment-id=\"";
@@ -68,7 +78,38 @@ function program1(depth0,data) {
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.content; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</div>\n</div>";
+  buffer += "</div>\n	";
+  stack1 = depth0.children;
+  stack2 = {};
+  stack1 = helpers.each.call(depth0, stack1, {hash:stack2,inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</div>";
+  return buffer;};
+
+this["Handlebars"]["_templates"]["templates/comments-list.hbs"] = function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers; data = data || {};
+  var buffer = "", stack1, stack2, foundHelper, helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, functionType="function", self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, foundHelper;
+  buffer += "\n		";
+  stack1 = {};
+  foundHelper = helpers.renderComment;
+  stack1 = foundHelper ? foundHelper.call(depth0, depth0, {hash:stack1,data:data}) : helperMissing.call(depth0, "renderComment", depth0, {hash:stack1,data:data});
+  buffer += escapeExpression(stack1) + "\n	";
+  return buffer;}
+
+  buffer += "<h1>Комментарии</h1>\n<h2>";
+  foundHelper = helpers.title;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1) + "</h2>\n<div class=\"comments__list\">\n	";
+  stack1 = depth0.comments;
+  stack2 = {};
+  stack1 = helpers.each.call(depth0, stack1, {hash:stack2,inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n</div>";
   return buffer;};
 
 this["Handlebars"]["_templates"]["templates/sheet.hbs"] = function (Handlebars,depth0,helpers,partials,data) {

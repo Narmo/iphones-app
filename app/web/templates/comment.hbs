@@ -5,4 +5,7 @@
 		<p class="comment__date">{{ date }}</p>
 	</div>
 	<div class="comment__content">{{{ content }}}</div>
+	{{#each children}}
+		{{renderComment .}}
+	{{/each}}
 </div>

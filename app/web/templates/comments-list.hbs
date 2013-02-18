@@ -1,0 +1,7 @@
+<h1>Комментарии</h1>
+<h2>{{ title }}</h2>
+<div class="comments__list">
+	{{#each comments}}
+		{{renderComment .}}
+	{{/each}}
+</div>
