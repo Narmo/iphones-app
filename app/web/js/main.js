@@ -1,4 +1,20 @@
-require(['article', 'utils', 'feed', 'tiles', 'comments-list'], function(article, utils, feed, tiles, commentsList) {
+require(
+	['article', 'utils', 'feed', 'tiles', 'comments-list', 'nav-history'], 
+	function(article, utils, feed, tiles, commentsList, nav) {
+
+
+	/**
+	 * Показываем комментарии для указанной статьи
+	 * @param  {Object} article Объект с информацией о статье
+	 */
+	function showComments(article) {
+		feed.get('comments', function(comments) {
+			nav.go(commentsList.create({
+				title: article ? article.title : '',
+				comments: comments
+			}));
+		});
+	}
 
 	// получаем основную ленту и отрисовываем её
 	feed.get('main', function(data) {
@@ -10,28 +26,18 @@ require(['article', 'utils', 'feed', 'tiles', 'comments-list'], function(article
 					return item.id == itemId;
 				});
 
-				if (feedData) {
-					$(document.body)
-						.append(article.create(feedData))
-						.addClass('article-mode');
+				if ($(evt.target).closest('.tiles__comments').length) {
+					// тапнули на комментарий
+					showComments(feedData);
+				} else if (feedData) {
+					nav.go(article.create(feedData, {
+						onOptionTap: function(evt) {
+							if ($(evt.target).closest('.icon_comment').length) {
+								showComments(feedData);
+							}
+						}
+					}));
 				}
-			})
-			.on('pointertap', '.tiles__comments', function(evt) {
-				var itemId = $(this).closest('.tiles__item').attr('data-feed-id');
-				var feedData = _.find(data, function(item) {
-					return item.id == itemId;
-				});
-
-				feed.get('comments', function(comments) {
-					$(document.body)
-						.append(commentsList.create({
-							title: feedData.title,
-							comments: comments
-						}))
-						.addClass('article-mode');
-				});
-
-				evt.stopImmediatePropagation();
 			});
 
 		swype.setup(_.toArray(mainTiles.find('.tiles')), {
@@ -39,10 +45,13 @@ require(['article', 'utils', 'feed', 'tiles', 'comments-list'], function(article
 			viewport: mainTiles[0],
 			tapzone: 0
 		});
+
+		// фиксируем плитки как главную страницу
+		nav.go(mainTiles);
 	});
 
-	swype.addPointerTest(function() {
-		// TODO блокировать swype в нужный момент
-		return !$(document.body).hasClass('article-mode');
-	});
+	// swype.addPointerTest(function() {
+	// 	// TODO блокировать swype в нужный момент
+	// 	return !$(document.body).hasClass('article-mode');
+	// });
 });
