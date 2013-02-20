@@ -4,6 +4,10 @@ Controller name: iOS App
 Controller description: iOS App API
 */
 class JSON_API_App_Controller {
+	var $splashCatgories = array('news', 'appstore', 'accessories');
+	var $splashPageIDs = array('team', 'app-custom');
+
+
 	function __construct() {
 		
 	}
@@ -20,6 +24,37 @@ class JSON_API_App_Controller {
 		global $json_api;
 		$posts = $json_api->introspector->get_posts();
 		return $this->posts_result($posts);
+	}
+
+	/**
+	 * Выводим данные для основной страницы приложения
+	 * @return array
+	 */
+	public function splash() {
+		global $json_api, $wpdb;
+		// получаем ID всех категорий
+		$slugs = "'" . implode("','", $this->splashCatgories) . "'";
+		$cats = $wpdb->get_results(
+			"
+			SELECT a.slug, a.term_id AS id
+			FROM $wpdb->terms AS a
+			INNER JOIN $wpdb->term_taxonomy AS b
+			ON a.term_id = b.term_id
+			WHERE b.taxonomy = 'category' AND a.slug IN ($slugs)
+			", OBJECT_K);
+
+		$posts = array_map(function($item) use($cats) {
+			if (array_key_exists($item, $cats)) {
+				return get_posts(array(
+					'posts_per_page' => 1,
+					'category' => $cats[$item]->id
+				))[0];
+			}
+
+			return false;
+		}, $this->splashCatgories);
+
+		return array('items' => $posts);
 	}
 
 	/**
