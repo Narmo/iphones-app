@@ -5,7 +5,7 @@ Controller description: iOS App API
 */
 class JSON_API_App_Controller {
 	var $splashCatgories = array('news', 'appstore', 'accessories');
-	var $splashPageIDs = array('team', 'app-custom');
+	var $splashPages = array('team', 'app-custom');
 
 
 	function __construct() {
@@ -43,18 +43,37 @@ class JSON_API_App_Controller {
 			WHERE b.taxonomy = 'category' AND a.slug IN ($slugs)
 			", OBJECT_K);
 
-		$posts = array_map(function($item) use($cats) {
+		// var_dump($cats);
+		$posts = array_map(function($item) use($cats, $json_api) {
 			if (array_key_exists($item, $cats)) {
-				return get_posts(array(
+				
+				$p = get_posts(array(
 					'posts_per_page' => 1,
 					'category' => $cats[$item]->id
-				))[0];
+				));
+
+				if (count($p)) {
+					return new JSON_API_Post($p[0]);
+				}
 			}
 
 			return false;
 		}, $this->splashCatgories);
 
-		return array('items' => $posts);
+		// достаём страницы
+		foreach ($this->splashPages as $page) {
+			$p = get_posts(array(
+				'pagename' => $page,
+				'posts_per_page' => 1,
+				'post_type' => 'page'
+			));
+
+			if (count($p)) {
+				$posts[] = new JSON_API_Post($p[0]);
+			}
+		}
+
+		return $this->posts_result($posts);
 	}
 
 	/**
@@ -104,7 +123,7 @@ class JSON_API_App_Controller {
 
 		foreach ($posts as $post) {
 			unset(
-				$post->categories, $post->type, $post->slug, $post->status,
+				$post->categories, $post->status,
 				$post->tags, $post->comments, $post->attachments, $post->excerpt
 			);
 		}
