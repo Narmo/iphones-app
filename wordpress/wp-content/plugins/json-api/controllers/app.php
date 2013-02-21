@@ -123,7 +123,7 @@ class JSON_API_App_Controller {
 
 		foreach ($posts as $post) {
 			unset(
-				$post->categories, $post->status,
+				$post->status,
 				$post->tags, $post->comments, $post->attachments, $post->excerpt
 			);
 		}

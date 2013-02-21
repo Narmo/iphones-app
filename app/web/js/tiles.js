@@ -5,10 +5,11 @@ define(['require', 'utils'], function(require, utils) {
 	function renderFeed(data, options) {
 		options = _.extend({
 			waitImages: false,
-			classNames: ''
+			classNames: '',
+			tiles: data
 		}, options || {});
 
-		var feed = $('<section class="tiles ' + options.classNames + '"></section>')
+		var feed = $(utils.render('tiles', options))
 			.appendTo(document.body);
 
 		var complete = function() {
@@ -44,15 +45,14 @@ define(['require', 'utils'], function(require, utils) {
 			}
 		};
 
-		_.each(data, function(item) {
-			var tile = $(utils.render('tile', item));
-			feed.append(tile);
+		feed.find('.tiles__item').each(function(i, tile) {
+			tile = $(tile);
 
-			if (item.image) {
+			if (tile.attr('data-image')) {
 				var img = new Image;
 				img.className = 'tiles__image';
 				img.onload = onLoad;
-				img.src = item.image;
+				img.src = tile.attr('data-image');
 
 				images.push(img);
 				tile.append(img);

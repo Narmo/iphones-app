@@ -1,5 +1,10 @@
 <div class="tiles__item" data-feed-id="{{ id }}">
 	<h2 class="tiles__title">{{ title }}</h2>
+	{{#if subtitle }}
+	<h3 class="tiles__subtitle">{{ subtitle }}</h3>
+	{{/if}}
+	{{#if allowComments }}
 	<i class="tiles__comments icon icon_comment">{{ comment_count }}</i>
+	{{/if}}
 	{{{ tileAddon }}}
 </div>

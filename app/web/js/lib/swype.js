@@ -23,7 +23,7 @@ var swype = (function() {
 	var ua = navigator.userAgent;
 	
 	var allowDrag = Modernizr.touch || ua.match(/windows\s+phone\s+os/i);
-	// allowDrag = true;
+	allowDrag = true;
 	
 	var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 	

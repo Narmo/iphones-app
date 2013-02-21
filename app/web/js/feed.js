@@ -2,6 +2,11 @@
  * Модуль для получения списка JSON-данных с сервера
  */
 define(function() {
+	var urls = {
+		'splash': 'http://localhost:8104/api/app/splash/',
+		'category_posts': 'http://localhost:8104/api/core/get_category_posts/'
+	};
+
 	var comments = [
 		{
 			"id": 523636,
@@ -805,9 +810,23 @@ define(function() {
 		 * Получает указанный поток с сервера и возвращает его 
 		 * в функцию <code>callback</code>
 		 * @param  {String}   name     Название потока
+		 * @param {Object} params Дополнительные параметры для запроса
 		 * @param  {Function} callback Функция, в которую вернётся результат
 		 */
-		get: function(name, callback) {
+		get: function(name) {
+			callback = _.last(arguments);
+			var params = arguments.length > 2 ? arguments[1] : {};
+
+			if (name in urls) {
+				return $.ajax({
+					url: urls[name],
+					data: params,
+					dataType: 'jsonp',
+					success: callback
+				});
+			}
+
+
 			if (name == 'comments') {
 				return callback(comments);
 			}

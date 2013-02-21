@@ -30,3 +30,8 @@
 	margin-left: 20px;
 	margin-right: 20px;
 }
+
+.article .icon_comment_add {
+	float: right;
+	margin-top: 12px;
+}

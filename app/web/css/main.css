@@ -7,6 +7,8 @@
 
 @font-face {
 	font-family: 'PT Sans Narrow';
+	font-weight: normal;
+	font-style: normal;
 	src: url('./fonts/ptn57f_w.eot');
 	src: url('./fonts/PTN57F_W.woff') format('woff'), url('./fonts/PTN57F_W.ttf') format('truetype'), url('./fonts/PTN57F_W.svg#PTSans-Narrow') format('svg');
 }
