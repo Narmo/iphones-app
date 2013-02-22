@@ -1,0 +1,6 @@
+<article class="article article_preview">
+	{{#if image}}<div class="article__image-holder"><img src="{{ image }}" class="article__image" /></div>{{/if}}
+	<i class="icon icon_comment icon_comment_dark">{{ comment_count }}</i>
+	<h1 class="article__title">{{ title }}</h1>
+	<h2 class="article__author">{{ author.name }}, {{{ format_date date }}}</h2>
+</article>

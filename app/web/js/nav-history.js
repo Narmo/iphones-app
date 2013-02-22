@@ -7,9 +7,22 @@ define(['utils'], function(utils) {
 	var target = 'body';
 
 	function detach(elem) {
-		var el = $(elem)[0];
+		if (!elem) {
+			return;
+		}
+
+		elem = $(elem);
+		var el = elem[0];
 		if (el && el.parentNode) {
 			el.parentNode.removeChild(el);
+			elem.trigger('history:detach');
+		}
+	}
+
+	function attach(target, item) {
+		if (item && target) {
+			$(target).append(item);
+			$(item).trigger('history:attach');
 		}
 	}
 
@@ -20,15 +33,9 @@ define(['utils'], function(utils) {
 		 * @param  {Element} elem Элемент, который нужно показать
 		 */
 		go: function(elem) {
-			var lastItem = _.last(history);
-			if (lastItem) {
-				// удаляем последний элемент из дерева
-				// потом добавим анимацию
-				detach(lastItem);
-			}
-
+			detach(_.last(history));
 			history.push(elem);
-			$(target).append(elem);
+			attach(target, elem);
 		},
 
 		/**
@@ -37,15 +44,8 @@ define(['utils'], function(utils) {
 		 */
 		back: function() {
 			var curItem = history.pop();
-			if (curItem) {
-				detach(curItem);
-			}
-
-			var prevItem = _.last(history);
-			if (prevItem) {
-				$(target).append(prevItem);
-			}
-
+			detach(curItem);
+			attach(target, _.last(history));
 			return curItem;
 		},
 
@@ -53,7 +53,7 @@ define(['utils'], function(utils) {
 		 * Очищает всю историю
 		 */
 		purge: function() {
-			$(history).detach();
+			_.each(history, detach);
 			history.length = 0;
 		}
 	}

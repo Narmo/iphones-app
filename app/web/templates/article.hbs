@@ -3,5 +3,7 @@
 	<div class="article__add-comment"><i class="icon icon_comment icon_comment_dark icon_comment_add"></i></div>
 	<h1 class="article__title">{{ title }}</h1>
 	<h2 class="article__author">{{ author.name }}, {{{ format_date date }}}</h2>
-	{{{ content }}}
+	{{#if content}}
+	<div class="article__content">{{{ content }}}</div>
+	{{/if}}
 </article>

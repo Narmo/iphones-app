@@ -6,9 +6,27 @@ define(function() {
 	var months = ['января', 'февраля', 'марта', 'апреля', 'мая', 
 		'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 
+	var knownCategories = ['news', 'appstore', 'accessories'];
+
 	Handlebars.registerHelper('format_date', function(str) {
 		return new Handlebars.SafeString(module.formatDate(str));
 	});
+
+	/**
+	 * Для указанного объекта с постом создаёт поле image, 
+	 * в котором будет храниться путь к основной картинке
+	 * @param {Object} post
+	 */
+	function setImage(post) {
+		if (!post.image) {
+			var img = post.content.match(/<img\s+[^>]*src=['"](.+?)['"]/i);
+			if (img) {
+				post.image = img[1];
+			}
+		}
+		
+		return post;
+	}
 
 	return module = {
 		/**
@@ -99,6 +117,38 @@ define(function() {
 			return html.replace(/\&(\w+);/g, function(full, name) {
 				return (name in entities) ? entities[name] : full;
 			});
+		},
+
+		getKnownCategory: function(post) {
+			return _.find(post.categories, function(c) {
+				return _.include(knownCategories, c.slug);
+			});
+		},
+
+		transformPost: function(post) {
+			post.allowComments = post.comment_status == 'open';
+
+			setImage(post);
+
+			if (post.type == 'post') {
+				// запись из блога
+				var isNews = _.find(post.categories, function(c) {
+					return c.slug == 'news';
+				});
+
+				if (!isNews && post.categories.length) {
+					var cat = this.getKnownCategory(post) || post.categories[0];
+					post.title = cat.title;
+				}
+			}
+
+			if (~post.title.indexOf(':::')) {
+				var parts = post.title.split(':::');
+				post.title = $.trim(parts[0]);
+				post.subtitle = $.trim(parts[1]);
+			}
+
+			return post;
 		}
 	};
 });

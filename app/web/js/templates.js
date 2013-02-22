@@ -1,10 +1,60 @@
 this["Handlebars"] = this["Handlebars"] || {};
 this["Handlebars"]["_templates"] = this["Handlebars"]["_templates"] || {};
 
+this["Handlebars"]["_templates"]["templates/article-preview.hbs"] = function (Handlebars,depth0,helpers,partials,data) {
+  helpers = helpers || Handlebars.helpers; data = data || {};
+  var buffer = "", stack1, stack2, foundHelper, functionType="function", escapeExpression=this.escapeExpression, self=this, helperMissing=helpers.helperMissing;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, foundHelper;
+  buffer += "<div class=\"article__image-holder\"><img src=\"";
+  foundHelper = helpers.image;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.image; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1) + "\" class=\"article__image\" /></div>";
+  return buffer;}
+
+  buffer += "<article class=\"article article_preview\">\n	";
+  stack1 = depth0.image;
+  stack2 = {};
+  stack1 = helpers['if'].call(depth0, stack1, {hash:stack2,inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n	<i class=\"icon icon_comment icon_comment_dark\">";
+  foundHelper = helpers.comment_count;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.comment_count; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1) + "</i>\n	<h1 class=\"article__title\">";
+  foundHelper = helpers.title;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1) + "</h1>\n	<h2 class=\"article__author\">";
+  stack1 = depth0.author;
+  stack1 = stack1 == null || stack1 === false ? stack1 : stack1.name;
+  stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1;
+  buffer += escapeExpression(stack1) + ", ";
+  stack1 = depth0.date;
+  stack2 = {};
+  foundHelper = helpers.format_date;
+  stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:stack2,data:data}) : helperMissing.call(depth0, "format_date", stack1, {hash:stack2,data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</h2>\n</article>";
+  return buffer;};
+
 this["Handlebars"]["_templates"]["templates/article.hbs"] = function (Handlebars,depth0,helpers,partials,data) {
   helpers = helpers || Handlebars.helpers; data = data || {};
-  var buffer = "", stack1, stack2, foundHelper, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing;
+  var buffer = "", stack1, stack2, foundHelper, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing, self=this;
 
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, foundHelper;
+  buffer += "\n	<div class=\"article__content\">";
+  foundHelper = helpers.content;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.content; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</div>\n	";
+  return buffer;}
 
   buffer += "<article class=\"article\">\n	<div class=\"article__image-holder\"><img src=\"";
   foundHelper = helpers.image;
@@ -25,9 +75,9 @@ this["Handlebars"]["_templates"]["templates/article.hbs"] = function (Handlebars
   stack1 = foundHelper ? foundHelper.call(depth0, stack1, {hash:stack2,data:data}) : helperMissing.call(depth0, "format_date", stack1, {hash:stack2,data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</h2>\n	";
-  foundHelper = helpers.content;
-  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.content; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  stack1 = depth0.content;
+  stack2 = {};
+  stack1 = helpers['if'].call(depth0, stack1, {hash:stack2,inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</article>";
   return buffer;};

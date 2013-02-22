@@ -2,58 +2,13 @@
  * Контроллер для работы со сплэш-страницей
  */
 define(
-	['feed', 'tiles', 'utils', 'nav-history', 'article'], 
-	function(feed, tiles, utils, nav, article) {
+	['feed', 'tiles', 'utils', 'nav-history', 'article', 'article-reel'], 
+	function(feed, tiles, utils, nav, article, articleReel) {
 	// // swype.addPointerTest(function() {
 	// 	// TODO блокировать swype в нужный момент
 	// 	return !$(document.body).hasClass('article-mode');
 	// });
 	// 
-	var knownCategories = ['news', 'appstore', 'accessories'];
-
-	function getKnownCategory(post) {
-		return _.find(post.categories, function(c) {
-			return _.include(knownCategories, c.slug);
-		});
-	}
-
-	/**
-	 * Для указанного объекта с постом создаёт поле image, 
-	 * в котором будет храниться путь к основной картинке
-	 * @param {Object} post
-	 */
-	function setImage(post) {
-		var img = post.content.match(/<img\s+[^>]*src=['"](.+?)['"]/i);
-		if (img) {
-			post.image = img[1];
-		}
-
-		return post;
-	}
-
-	function transformPost(post) {
-		post.allowComments = post.comment_status == 'open';
-
-		if (post.type == 'post') {
-			// запись из блога
-			var isNews = _.find(post.categories, function(c) {
-				return c.slug == 'news';
-			});
-
-			if (!isNews && post.categories.length) {
-				var cat = getKnownCategory(post) || post.categories[0];
-				post.title = cat.title;
-			}
-		}
-
-		if (~post.title.indexOf(':::')) {
-			var parts = post.title.split(':::');
-			post.title = $.trim(parts[0]);
-			post.subtitle = $.trim(parts[1]);
-		}
-
-		return post;
-	}
 
 	return {
 		create: function() {
@@ -66,9 +21,7 @@ define(
 					p.id = _.uniqueId('splash');
 					postsLookup[p.id] = p;
 
-					transformPost(p);
-
-					return setImage(p);
+					return utils.transformPost(p);
 				});
 
 
@@ -89,8 +42,11 @@ define(
 								nav.go(article.create(post));	
 							} else {
 								// покажем ленту новостей для указанной категории
-								var cat = getKnownCategory(post) || post.categories[0];
+								var cat = utils.getKnownCategory(post) || post.categories[0];
 								feed.get('category_posts', {slug: cat.slug}, function(data) {
+									if (data && data.posts) {
+										nav.go(articleReel.create(cat.title, data.posts));
+									}
 									console.log('received', data);
 								});
 							}
