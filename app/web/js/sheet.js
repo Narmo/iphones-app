@@ -27,13 +27,23 @@ define(['require', 'utils', 'nav-history'], function(require, utils, nav) {
 		 */
 		onOptionTap: function(evt) {
 			return;
-		}
+		},
 
-	}
+		features: []
+	};
+
 	return {
 		create: function(data, options) {
 			options = _.extend({}, defaultOptions, options || {});
 			var sheet = $(utils.render('sheet', data));
+			if (data.features) {
+				var classNames = _.map(data.features, function(f) {
+					return 'sheet_' + f;
+				}).join(' ');
+
+				sheet.addClass(classNames);
+			}
+
 			sheet.find('.sheet__h').on('pointertap', function(evt) {
 				var target = $(evt.target);
 				if (target.closest('.sheet__h-back').length) {

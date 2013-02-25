@@ -2,8 +2,8 @@
  * Контроллер для работы со сплэш-страницей
  */
 define(
-	['feed', 'tiles', 'utils', 'nav-history', 'article', 'article-reel'], 
-	function(feed, tiles, utils, nav, article, articleReel) {
+	['feed', 'tiles', 'utils', 'nav-history', 'article', 'article-reel', 'comments-list'], 
+	function(feed, tiles, utils, nav, article, articleReel, commentsList) {
 	// // swype.addPointerTest(function() {
 	// 	// TODO блокировать swype в нужный момент
 	// 	return !$(document.body).hasClass('article-mode');
@@ -24,22 +24,20 @@ define(
 					return utils.transformPost(p);
 				});
 
+				var transitionGroup = null;
 
 				var mainTiles = $(tiles.create(posts))
 					.on('pointertap', '.tiles__item', function(evt) {
-
 						var itemId = $(this).attr('data-feed-id');
 						var post = postsLookup[itemId];
 
 						if ($(evt.target).closest('.tiles__comments').length) {
 							// тапнули на комментарий
-							console.log('show comments');
-							// showComments(feedData);
+							commentsList.showForPost(post);
 						} else if (post) {
-							console.log('show article');
 							if (post.type == 'page') {
 								// тапнули на обычную страницу, покажем её содержимое
-								nav.go(article.create(post));	
+								nav.go(article.create(post));
 							} else {
 								// покажем ленту новостей для указанной категории
 								var cat = utils.getKnownCategory(post) || post.categories[0];
@@ -47,18 +45,27 @@ define(
 									if (data && data.posts) {
 										nav.go(articleReel.create(cat.title, data.posts));
 									}
-									console.log('received', data);
 								});
 							}
 							
 						}
-					});
+					})
+					.on('history:attach', function() {
+						if (transitionGroup) {
+							transitionGroup.destroy();
+						}
 
-				swype.setup(_.toArray(mainTiles.find('.tiles')), {
-					active: 1,
-					viewport: mainTiles[0],
-					tapzone: 0
-				});
+						transitionGroup = swype.setup(_.toArray(mainTiles.find('.tiles')), {
+							active: 1,
+							viewport: mainTiles[0],
+							tapzone: 0
+						});
+					})
+					.on('history:detach', function() {
+						if (transitionGroup) {
+							transitionGroup.destroy();
+						}
+					});
 
 				// фиксируем плитки как страницу приложения,
 				// на которую можно вернуться

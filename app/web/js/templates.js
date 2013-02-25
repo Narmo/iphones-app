@@ -8,19 +8,23 @@ this["Handlebars"]["_templates"]["templates/article-preview.hbs"] = function (Ha
 function program1(depth0,data) {
   
   var buffer = "", stack1, foundHelper;
-  buffer += "<div class=\"article__image-holder\"><img src=\"";
+  buffer += " data-image=\"";
   foundHelper = helpers.image;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.image; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1) + "\" class=\"article__image\" /></div>";
+  buffer += escapeExpression(stack1) + "\"";
   return buffer;}
 
-  buffer += "<article class=\"article article_preview\">\n	";
+  buffer += "<article class=\"article article_preview\" data-post-id=\"";
+  foundHelper = helpers.id;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1) + "\" ";
   stack1 = depth0.image;
   stack2 = {};
   stack1 = helpers['if'].call(depth0, stack1, {hash:stack2,inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	<i class=\"icon icon_comment icon_comment_dark\">";
+  buffer += ">\n	<div class=\"article__image-holder\"></div>\n	<i class=\"icon icon_comment icon_comment_dark\">";
   foundHelper = helpers.comment_count;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.comment_count; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }

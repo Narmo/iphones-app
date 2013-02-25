@@ -414,15 +414,19 @@ var swype = (function() {
 					
 					shCur.style.backgroundColor = '#fff';
 					
-					elNext.style.clip = elMain.style.clip = 'rect(auto, auto, ' + half + 'px, auto)';
-					shNext.style.backgroundColor = '#000';
+					if (elNext) {
+						elNext.style.clip = elMain.style.clip = 'rect(auto, auto, ' + half + 'px, auto)';
+						shNext.style.backgroundColor = '#000';
+					}
 					
 					this._flipData.dir = 'next';
 				}
-				
-				elNext.style[transformCSS] = flipTmpl({angle: angle - 180});
-				if (absAngle > 90) {
-					shNext.style.opacity = (1 - (absAngle % 90) / 90) * opt.maxShadeOpacity - opt.shadeOpacityOffset;
+
+				if (elNext) {
+					elNext.style[transformCSS] = flipTmpl({angle: angle - 180});
+					if (absAngle > 90) {
+						shNext.style.opacity = (1 - (absAngle % 90) / 90) * opt.maxShadeOpacity - opt.shadeOpacityOffset;
+					}	
 				}
 			} else if (delta > 0) {
 				// перелистываем к предыдущей странице
@@ -434,16 +438,21 @@ var swype = (function() {
 					var half = Math.round(elCur.offsetHeight / 2);
 					elCur.style.clip = 'rect(auto, auto, ' + half + 'px, auto)';
 					shCur.style.backgroundColor = '#000';
-					
-					elPrev.style.clip = elMain.style.clip = 'rect(' + half + 'px, auto, auto, auto)';
-					shPrev.style.backgroundColor = '#fff';
+					elMain.style.clip = 'rect(' + half + 'px, auto, auto, auto)';
+
+					if (elPrev) {
+						elPrev.style.clip = 'rect(' + half + 'px, auto, auto, auto)';
+						shPrev.style.backgroundColor = '#fff';	
+					}
 					
 					this._flipData.dir = 'prev';
 				}
 				
-				elPrev.style[transformCSS] = flipTmpl({angle: 180 + angle});
-				if (absAngle > 90) {
-					shPrev.style.opacity = (1 - (absAngle % 90) / 90) * opt.maxShadeOpacity - opt.shadeOpacityOffset;
+				if (elPrev) {
+					elPrev.style[transformCSS] = flipTmpl({angle: 180 + angle});
+					if (absAngle > 90) {
+						shPrev.style.opacity = (1 - (absAngle % 90) / 90) * opt.maxShadeOpacity - opt.shadeOpacityOffset;
+					}	
 				}
 			}
 			
@@ -606,8 +615,10 @@ var swype = (function() {
 		// let's see if we're able to handler this event
 		if (_.find(pointerTests, function(fn) {
 			return fn(evt) === false;
-		})) 
+		})) {
 			return activeGroup = null;
+		}
+			
 		
 		// locate group that matches pointer
 		if (activeGroup = locateActiveGroup(evt)) {
@@ -625,8 +636,9 @@ var swype = (function() {
 	addEvent('pointerend', function(evt) {
 		if (activeGroup) {
 			activeGroup.onPointerUp(evt);
-			if (evt.moved)
+			if (evt.moved) {
 				activeGroup = null;
+			}
 		}
 	});
 	

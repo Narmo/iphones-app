@@ -1,7 +1,7 @@
 /**
  * Модуль для отрисовки содержимого статьи
  */
-define(['sheet', 'utils'], function(sheet, utils) {
+define(['sheet', 'utils', 'feed', 'nav-history'], function(sheet, utils, feed, nav) {
 	Handlebars.registerHelper('renderComment', function(ctx) {
 		return new Handlebars.SafeString(utils.render('comment', ctx))
 	});
@@ -33,6 +33,22 @@ define(['sheet', 'utils'], function(sheet, utils) {
 				back_label: 'Назад к статье',
 				options: '<i class="icon icon_comment icon_comment_dark icon_comment_add">&nbsp;</i>',
 				content: utils.render('comments-list', data)
+			});
+		},
+
+		/**
+		 * Создаёт и показывает комментарии для указанного поста
+		 * @param  {Object} post Информация о посте, для которого нужно показать
+		 * комментарии
+		 * @param {Function} callback
+		 */
+		showForPost: function(post, callback) {
+			var that = this;
+			feed.get('comments', function(comments) {
+				nav.go(that.create({
+					title: post ? post.title : '',
+					comments: comments
+				}));
 			});
 		}
 	}
