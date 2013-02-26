@@ -1,6 +1,6 @@
 <article class="article article_preview" data-post-id="{{ id }}" {{#if image}} data-image="{{ image }}"{{/if}}>
 	<div class="article__image-holder"></div>
-	<i class="icon icon_comment icon_comment_dark">{{ comment_count }}</i>
+	<i class="icon icon_comment icon_comment_dark" data-trigger="show_comments:{{ id }}">{{ comment_count }}</i>
 	<h1 class="article__title">{{ title }}</h1>
 	<h2 class="article__author">{{ author.name }}, {{{ format_date date }}}</h2>
 </article>

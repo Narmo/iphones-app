@@ -17,8 +17,8 @@ define(
 				var postsLookup = {};
 				var posts = _.map(data.posts, function(p) {
 					p = _.clone(p);
-					p.realId = p.id;
-					p.id = _.uniqueId('splash');
+					// p.realId = p.id;
+					// p.id = _.uniqueId('splash');
 					postsLookup[p.id] = p;
 
 					return utils.transformPost(p);
@@ -27,13 +27,13 @@ define(
 				var transitionGroup = null;
 
 				var mainTiles = $(tiles.create(posts))
-					.on('pointertap', '.tiles__item', function(evt) {
+					.on('pointertap2', '.tiles__item', function(evt) {
 						var itemId = $(this).attr('data-feed-id');
 						var post = postsLookup[itemId];
 
 						if ($(evt.target).closest('.tiles__comments').length) {
 							// тапнули на комментарий
-							commentsList.showForPost(post);
+							// commentsList.showForPost(post);
 						} else if (post) {
 							if (post.type == 'page') {
 								// тапнули на обычную страницу, покажем её содержимое

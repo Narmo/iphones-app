@@ -38,7 +38,7 @@ define(
 						}
 
 						if ($(evt.target).closest('.icon_comments').length) {
-							commentsList.showForPost(post);
+							// commentsList.showForPost(post);
 						} else {
 							nav.go(article.create(post));
 						}

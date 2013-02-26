@@ -7,6 +7,12 @@ define(function() {
 		'category_posts': 'http://localhost:8104/api/core/get_category_posts/'
 	};
 
+	/**
+	 * Кэш всех полученных постов с сервера. Ключом является ID поста
+	 * @type {Object}
+	 */
+	var posts = {};
+
 	var comments = [
 		{
 			"id": 523636,
@@ -822,7 +828,18 @@ define(function() {
 					url: urls[name],
 					data: params,
 					dataType: 'jsonp',
-					success: callback
+					success: function(data) {
+						console.log('feed complete', data);
+						if (data && data.status == 'ok' && data.posts) {
+							// сохраняем все посты в кэш
+							console.log('put to cache');
+							_.each(data.posts, function(item) {
+								posts[item.id] = item;
+							});
+						}
+
+						callback(data);
+					}
 				});
 			}
 
@@ -1268,6 +1285,15 @@ define(function() {
 					}
 				}
 			]);
+		},
+
+		/**
+		 * Возвращает информацию о закэшированном посте
+		 * @param  {String} id ID поста
+		 * @return {Object}
+		 */
+		getPost: function(id) {
+			return posts[id];
 		}
 	};
 });

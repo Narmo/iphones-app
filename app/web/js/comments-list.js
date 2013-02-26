@@ -43,6 +43,10 @@ define(['sheet', 'utils', 'feed', 'nav-history'], function(sheet, utils, feed, n
 		 * @param {Function} callback
 		 */
 		showForPost: function(post, callback) {
+			if (post && !_.isObject(post)) {
+				post = feed.getPost(post);
+			}
+
 			var that = this;
 			feed.get('comments', function(comments) {
 				nav.go(that.create({

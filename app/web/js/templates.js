@@ -24,7 +24,11 @@ function program1(depth0,data) {
   stack2 = {};
   stack1 = helpers['if'].call(depth0, stack1, {hash:stack2,inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += ">\n	<div class=\"article__image-holder\"></div>\n	<i class=\"icon icon_comment icon_comment_dark\">";
+  buffer += ">\n	<div class=\"article__image-holder\"></div>\n	<i class=\"icon icon_comment icon_comment_dark\" data-trigger=\"show_comments:";
+  foundHelper = helpers.id;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1) + "\">";
   foundHelper = helpers.comment_count;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.comment_count; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -64,7 +68,11 @@ function program1(depth0,data) {
   foundHelper = helpers.image;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.image; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1) + "\" class=\"article__image\" /></div>\n	<div class=\"article__add-comment\"><i class=\"icon icon_comment icon_comment_dark icon_comment_add\"></i></div>\n	<h1 class=\"article__title\">";
+  buffer += escapeExpression(stack1) + "\" class=\"article__image\" /></div>\n	<div class=\"article__add-comment\"><i class=\"icon icon_comment icon_comment_dark icon_comment_add\" data-trigger=\"add_comment:";
+  foundHelper = helpers.id;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1) + "\"></i></div>\n	<h1 class=\"article__title\">";
   foundHelper = helpers.title;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -221,7 +229,11 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = "", stack1, foundHelper;
-  buffer += "\n	<i class=\"tiles__comments icon icon_comment\">";
+  buffer += "\n	<i class=\"tiles__comments icon icon_comment\" data-trigger=\"show_comments:";
+  foundHelper = helpers.id;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1) + "\">";
   foundHelper = helpers.comment_count;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.comment_count; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -303,7 +315,11 @@ function program2(depth0,data) {
 function program4(depth0,data) {
   
   var buffer = "", stack1, foundHelper;
-  buffer += "\n			<i class=\"tiles__comments icon icon_comment\">";
+  buffer += "\n			<i class=\"icon icon_comment\" data-trigger=\"show_comments:";
+  foundHelper = helpers.id;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1) + "\">";
   foundHelper = helpers.comment_count;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.comment_count; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }

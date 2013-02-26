@@ -1,6 +1,6 @@
 <article class="article">
 	<div class="article__image-holder"><img src="{{ image }}" class="article__image" /></div>
-	<div class="article__add-comment"><i class="icon icon_comment icon_comment_dark icon_comment_add"></i></div>
+	<div class="article__add-comment"><i class="icon icon_comment icon_comment_dark icon_comment_add" data-trigger="add_comment:{{ id }}"></i></div>
 	<h1 class="article__title">{{ title }}</h1>
 	<h2 class="article__author">{{ author.name }}, {{{ format_date date }}}</h2>
 	{{#if content}}
