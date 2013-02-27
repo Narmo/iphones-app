@@ -45,6 +45,7 @@ define(['utils'], function(utils) {
 		back: function() {
 			var curItem = history.pop();
 			detach(curItem);
+			$(curItem).trigger('history:remove');
 			attach(target, _.last(history));
 			return curItem;
 		},

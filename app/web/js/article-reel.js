@@ -2,33 +2,15 @@
  * Модуль для вывода ленты статей
  */
 define(
-	['utils', 'sheet', 'image-preloader', 'nav-history', 'comments-list', 'article'], 
-	function(utils, sheet, imagePreloader, nav, commentsList, article) {
+	['utils', 'sheet', 'image-preloader', 'nav-history', 'comments-list', 'article', 'flipper'], 
+	function(utils, sheet, imagePreloader, nav, commentsList, article, flipper) {
 		return {
 			create: function(title, posts, options) {
-				var transitionGroup;
 				var reel = $('<div class="article__preview-container"></div>')
-					.on('history:attach', function() {
-						if (transitionGroup) {
-							transitionGroup.destroy();
-						}
-
-						reel.css('visibility', 'visible');
-						transitionGroup = swype.setup(_.toArray(reel.find('.sheet')), {
-							active: 0,
-							viewport: reel[0],
-							tapzone: 0
-						});
-					})
-					.on('history:detach', function() {
-						reel.remove();
-						reel = null;
-						if (transitionGroup) {
-							transitionGroup.destroy();
-						}
-					})
 					.css('visibility', 'hidden')
 					.appendTo(document.body);
+
+				flipper.attach(reel, '.sheet');
 
 				var lookup = {};
 				var images = _.map(posts, function(post) {

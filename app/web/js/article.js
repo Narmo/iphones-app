@@ -13,7 +13,6 @@ define(['sheet', 'utils', 'image-preloader'], function(sheet, utils, imagePreloa
 			var article = page.find('.article');
 
 			var image = article.attr('data-image');
-			console.log(image);
 
 			if (image) {
 				imagePreloader.getSize(image, function(src, size, image) {
