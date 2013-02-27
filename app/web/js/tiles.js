@@ -25,16 +25,8 @@ define(['require', 'utils', 'image-preloader'], function(require, utils, imagePr
 					options.callback(feed);
 				}
 			} else {
-				// считаем правильные габариты картинки
 				var parent = tileLookup[src];
-				var vp = {
-					width: parent.offsetWidth,
-					height: parent.offsetHeight
-				};
-
-				var coeff = utils.getScaleCoeff(vp, size);
-				var transformCSS = Modernizr.prefixed('transform');
-				image.style[transformCSS] = 'translate(-50%, -50%) scale(' + coeff + ')';
+				utils.centerImage(image, size, parent);
 				image.className = 'tiles__image';
 				parent.appendChild(image);
 			}

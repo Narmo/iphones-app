@@ -1,4 +1,5 @@
 <section class="tiles {{ classNames }}">
+	<header class="tiles__header"></header>
 	{{#each tiles}}
 		<div class="tiles__item" data-feed-id="{{ id }}" data-image="{{ image }}">
 			<h2 class="tiles__title">{{ title }}</h2>
@@ -11,4 +12,5 @@
 			{{{ tileAddon }}}
 		</div>
 	{{/each}}
+	<footer class="tiles__footer"></footer>
 </section>

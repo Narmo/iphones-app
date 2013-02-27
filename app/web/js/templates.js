@@ -345,10 +345,10 @@ function program4(depth0,data) {
   foundHelper = helpers.classNames;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.classNames; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1) + "\">\n	";
+  buffer += escapeExpression(stack1) + "\">\n	<header class=\"tiles__header\"></header>\n	";
   stack1 = depth0.tiles;
   stack2 = {};
   stack1 = helpers.each.call(depth0, stack1, {hash:stack2,inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n</section>";
+  buffer += "\n	<footer class=\"tiles__footer\"></footer>\n</section>";
   return buffer;};
