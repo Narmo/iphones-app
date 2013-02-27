@@ -30,7 +30,7 @@ define(['sheet', 'utils', 'feed', 'nav-history'], function(sheet, utils, feed, n
 			});
 
 			return sheet.create({
-				back_label: 'Назад к статье',
+				back_label: 'Назад',
 				options: '<i class="icon icon_comment icon_comment_dark icon_comment_add">&nbsp;</i>',
 				content: utils.render('comments-list', data)
 			});

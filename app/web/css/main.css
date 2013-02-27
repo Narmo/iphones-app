@@ -106,6 +106,10 @@ h2 {
 	font-size: 1em;
 }
 
+iframe {
+	max-width: 100%;
+}
+
 .page-header {
 	padding: 10px;
 	height: 52px;

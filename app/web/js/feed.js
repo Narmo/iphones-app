@@ -1,7 +1,7 @@
 /**
  * Модуль для получения списка JSON-данных с сервера
  */
-define(function() {
+define(['utils'], function(utils) {
 	var urls = {
 		'splash': 'http://localhost:8104/api/app/splash/',
 		'category_posts': 'http://localhost:8104/api/core/get_category_posts/'
@@ -829,12 +829,12 @@ define(function() {
 					data: params,
 					dataType: 'jsonp',
 					success: function(data) {
-						console.log('feed complete', data);
 						if (data && data.status == 'ok' && data.posts) {
 							// сохраняем все посты в кэш
-							console.log('put to cache');
 							_.each(data.posts, function(item) {
-								posts[item.id] = item;
+								if (!(item.id in posts)) {
+									posts[item.id] = utils.transformPost(item);	
+								}
 							});
 						}
 

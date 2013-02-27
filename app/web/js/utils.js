@@ -19,10 +19,10 @@ define(function() {
 	 */
 	function setImage(post) {
 		if (!post.image) {
-			var img = post.content.match(/<img\s+[^>]*src=['"](.+?)['"]/i);
-			if (img) {
-				post.image = img[1];
-			}
+			post.content = post.content.replace(/<img\s+[^>]*src=['"](.+?)['"].*?>/i, function(img, src) {
+				post.image = src;
+				return '';
+			});
 		}
 		
 		return post;
@@ -149,6 +149,19 @@ define(function() {
 			}
 
 			return post;
+		},
+
+		centerImage: function(image, imageSize, targetSize) {
+			if (_.isElement(targetSize)) {
+				targetSize = {
+					width: targetSize.offsetWidth,
+					height: targetSize.offsetHeight
+				}
+			}
+
+			var coeff = this.getScaleCoeff(targetSize, imageSize);
+			var transformCSS = Modernizr.prefixed('transform');
+			image.style[transformCSS] = 'translate(-50%, -50%) scale(' + coeff + ')';
 		}
 	};
 });

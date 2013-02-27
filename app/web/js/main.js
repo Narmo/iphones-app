@@ -1,6 +1,6 @@
 require(
-	['article', 'utils', 'feed', 'splash', 'comments-list', 'nav-history'], 
-	function(article, utils, feed, splash, commentsList, nav) {
+	['article', 'utils', 'feed', 'splash', 'comments-list', 'nav-history', 'article-reel'], 
+	function(article, utils, feed, splash, commentsList, nav, articleReel) {
 
 
 	/**
@@ -16,7 +16,12 @@ require(
 		});
 	}
 
-	splash.create();
+	splash.create(function(tiles) {
+		// фиксируем плитки как страницу приложения,
+		// на которую можно вернуться
+		nav.go(tiles);	
+	});
+	
 
 	/**
 	 * Универсальный хэндлер событий, который позволяет выполнять стандартные 
@@ -40,6 +45,19 @@ require(
 		switch (command) {
 			case 'show_comments':
 				commentsList.showForPost(params);
+				break;
+			case 'show_category_for_post':
+				var post = feed.getPost(params);
+				var cat = utils.getKnownCategory(post) || post.categories[0];
+				feed.get('category_posts', {slug: cat.slug}, function(data) {
+					if (data && data.posts) {
+						nav.go(articleReel.create(cat.title, data.posts));
+					}
+				});
+				break;
+			case 'show_post':
+				var post = feed.getPost(params);
+				nav.go(article.create(post));
 				break;
 		}
 

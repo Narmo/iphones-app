@@ -27,25 +27,8 @@ define(
 							transitionGroup.destroy();
 						}
 					})
-					.on('pointertap', '.article', function(evt) {
-						var postId = $(this).attr('data-post-id');
-						var post = _.find(posts, function(p) {
-							return p.id == postId;
-						});
-
-						if (!post) {
-							return;
-						}
-
-						if ($(evt.target).closest('.icon_comments').length) {
-							// commentsList.showForPost(post);
-						} else {
-							nav.go(article.create(post));
-						}
-					})
 					.css('visibility', 'hidden')
 					.appendTo(document.body);
-
 
 				var lookup = {};
 				var images = _.map(posts, function(post) {
@@ -58,6 +41,8 @@ define(
 					reel.append(page);
 
 					var article = page.find('.article');
+					// вешаем триггер
+					article.attr('data-trigger', 'show_post:' + article.attr('data-post-id'));
 					var img = article.attr('data-image');
 					lookup[img] = article;
 					return img;
@@ -65,16 +50,9 @@ define(
 
 				imagePreloader.getSize(images, function(src, size, image) {
 					if (src !== 'complete') {
-						var elem = $(lookup[src]);
-						var vp = {
-							width: elem[0].offsetWidth,
-							height: elem[0].offsetHeight
-						};
-
-						var coeff = utils.getScaleCoeff(vp, size);
-						var transformCSS = Modernizr.prefixed('transform');
-						image.style[transformCSS] = 'translate(-50%, -50%) scale(' + coeff + ')';
-						elem.find('.article__image-holder').append(image);
+						var holder = $(lookup[src]).find('.article__image-holder');
+						utils.centerImage(image, size, holder[0]);
+						holder.append(image);
 					}
 				});
 

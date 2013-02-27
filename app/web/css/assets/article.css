@@ -24,6 +24,7 @@
 	margin: 0 -12px;
 	position: relative;
 	height: 174px;
+	overflow: hidden;
 }
 
 .article__image-holder:before {
