@@ -7,7 +7,6 @@ define(
 		return {
 			create: function(title, posts, options) {
 				var reel = $('<div class="article__preview-container"></div>')
-					.css('visibility', 'hidden')
 					.appendTo(document.body);
 
 				flipper.attach(reel, '.sheet');
