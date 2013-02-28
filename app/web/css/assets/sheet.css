@@ -26,6 +26,9 @@
 	right: 0;
 	z-index: 2;
 	font-family: 'DinCond', sans-serif;
+
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
 }
 
 .sheet__h-title {

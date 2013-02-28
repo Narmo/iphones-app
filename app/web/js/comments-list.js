@@ -48,11 +48,14 @@ define(['sheet', 'utils', 'feed', 'nav-history'], function(sheet, utils, feed, n
 			}
 
 			var that = this;
-			feed.get('comments', function(comments) {
-				nav.go(that.create({
+			feed.get('comments', {id: post.id}, function(comments) {
+				var page = that.create({
 					title: post ? post.title : '',
 					comments: comments
-				}));
+				});
+
+				console.log('go nav', page[0]);
+				nav.go(page[0]);
 			});
 		}
 	}

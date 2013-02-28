@@ -87,6 +87,8 @@ body {
 	padding: 0;
 	overflow: hidden;
 	position: relative;
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 h1 {

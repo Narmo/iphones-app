@@ -35,6 +35,22 @@ define(['require', 'utils', 'image-preloader'], function(require, utils, imagePr
 		return feed;
 	}
 
+	/**
+	 * Возвращает данные для главного блока плиток
+	 * @param  {Array} feed Весь поток сплэш-страницы
+	 * @return {Array}
+	 */
+	function getMainTiles(feed) {
+		feed = feed.slice(0, 3);
+		var categoryHints = ['', 'appstore', 'accessories'];
+		return _.map(feed, function(post, i) {
+			var cat = _.find(post.categories, function(c) {
+				return c.slug == categoryHints[i];
+			});
+
+			return cat ? _.extend({}, post, {title: cat.title}) : post;
+		});
+	}
 
 	return {
 		/**
@@ -45,7 +61,7 @@ define(['require', 'utils', 'image-preloader'], function(require, utils, imagePr
 		create: function(feed) {
 			var reel = $('<div class="tiles-reel"></div>').appendTo(document.body);
 
-			reel.append(renderFeed(feed.slice(0, 3), {
+			reel.append(renderFeed(getMainTiles(feed), {
 				classNames: 'tiles_main'
 			}));
 

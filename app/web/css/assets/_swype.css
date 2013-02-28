@@ -37,6 +37,10 @@
 	visibility: hidden;
 }
 
+.swype-item_next {
+	z-index: 3;
+}
+
 .swype-flip__shade {
 	position: absolute;
 	top: 0;
@@ -69,6 +73,8 @@
 
 .swype-item {
 	visibility: visible !important;
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
 }
 
 .swype-item_current {

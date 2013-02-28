@@ -7,10 +7,13 @@ define(['utils'], function(utils) {
 	var target = 'body';
 
 	var animDefaults = {
-		duration: 400,
-		easing: 'easeOutCubic',
+		duration: 500,
+		easing: 'easeInOutCubic',
 		autostart: true
 	};
+
+	var outOpacity = .7;
+	var outScale = .8
 
 	function detach(elem) {
 		if (!elem) {
@@ -50,11 +53,12 @@ define(['utils'], function(utils) {
 		cur.css('zIndex', 100);
 		
 		curEl.style[transformCSS] = 'translate3d(0, 0, 0)';
+		attach(target, prevEl);
 
 		return new Tween(_.extend({}, animDefaults, {
 			step: function(pos) {
-				prevEl.style.opacity = 0.6 + 0.4 * pos;
-				prevEl.style[transformCSS] = 'scale(' + (0.7 + 0.3 * pos) + ')';
+				prevEl.style.opacity = outOpacity + (1 - outOpacity) * pos;
+				prevEl.style[transformCSS] = 'scale(' + (outScale + (1 - outScale) * pos) + ')  translate3d(0,0,0)';
 
 				curEl.style[transformCSS] = 'translate3d(' + (distance * pos) + 'px, 0, 0)';
 			},
@@ -65,9 +69,10 @@ define(['utils'], function(utils) {
 				});
 
 				cur.css('zIndex', '');
-				prevEl.style[transformCSS] = curEl.style[transformCSS] = 'none';
+				// prevEl.style[transformCSS] = curEl.style[transformCSS] = '';
 				detach(cur);
 				cur.trigger('history:remove');
+				cur.trigger('history:anim-complete');
 			}
 		}));
 	}
@@ -81,8 +86,9 @@ define(['utils'], function(utils) {
 		prev = $(prev);
 		cur = $(cur);
 
-		var prevEl = prev[0], curEl = cur[0];
+		attach(target, cur);
 
+		var prevEl = prev[0], curEl = cur[0];
 		var transformCSS = Modernizr.prefixed('transform');
 		var distance = curEl.offsetWidth;
 
@@ -93,8 +99,8 @@ define(['utils'], function(utils) {
 
 		return new Tween(_.extend({}, animDefaults, {
 			step: function(pos) {
-				prevEl.style.opacity = 1 - 0.6 * pos;
-				prevEl.style[transformCSS] = 'scale(' + (1 - 0.3 * pos) + ')';
+				prevEl.style.opacity = 1 - (1 - outOpacity) * pos;
+				prevEl.style[transformCSS] = 'scale(' + (1 - (1 - outScale) * pos) + ') translate3d(0,0,0)';
 
 				curEl.style[transformCSS] = 'translate3d(' + (distance * (1 - pos)) + 'px, 0, 0)';
 			},
@@ -105,8 +111,10 @@ define(['utils'], function(utils) {
 				});
 
 				cur.css('zIndex', '');
-				prevEl.style[transformCSS] = curEl.style[transformCSS] = 'none';
+				// prevEl.style[transformCSS] = curEl.style[transformCSS] = '';
 				detach(prev);
+
+				cur.trigger('history:anim-complete');
 			}
 		}));
 	}
@@ -120,10 +128,10 @@ define(['utils'], function(utils) {
 		go: function(elem) {
 			var prev = _.last(history);
 			history.push(elem);
-			attach(target, elem);
 			if (prev && elem) {
 				animateForward(prev, elem);
 			} else {
+				attach(target, elem);
 				detach(prev);
 			}
 		},
@@ -136,11 +144,10 @@ define(['utils'], function(utils) {
 			var cur = history.pop();
 			var prev = _.last(history);
 			
-			attach(target, prev);
-
 			if (cur && prev) {
 				animateBackward(prev, cur)
 			} else {
+				attach(target, prev);
 				detach(cur);
 				$(cur).trigger('history:remove');	
 			}

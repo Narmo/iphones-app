@@ -34,6 +34,8 @@ define(
 						var holder = $(lookup[src]).find('.article__image-holder');
 						utils.centerImage(image, size, holder[0]);
 						holder.append(image);
+					} else if (options.complete) {
+						options.complete(reel);
 					}
 				});
 

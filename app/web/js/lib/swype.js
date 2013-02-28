@@ -36,7 +36,7 @@ var swype = (function() {
 	var flipTmpl = _.template('rotateX(<%= angle %>deg)');
 	
 	var animDefaults = {
-		duration: 350,
+		duration: 450,
 		easing: 'easeOutCubic'
 	};
 	
@@ -264,7 +264,7 @@ var swype = (function() {
 			this._animating = true;
 			
 			options = options || {};
-			if (!options.duration) {
+			if (!options.duration && options.axis === 'x') {
 				options.duration = Math.min(Math.max(Math.abs(end - start), animDefaults.duration), 700);
 			}
 			
@@ -397,8 +397,6 @@ var swype = (function() {
 			var shNext = this._flipData.nextShade;
 			var shPrev = this._flipData.prevShade;
 			
-			
-			
 			// важно лишний раз не дёргать offsetHeight, так как это свойство
 			// вызывает reflow. Поэтому переменную half получаем отдельно в 
 			// каждом условии
@@ -414,8 +412,10 @@ var swype = (function() {
 					
 					shCur.style.backgroundColor = '#fff';
 					
+					elMain.style.clip = 'rect(auto, auto, ' + half + 'px, auto)';
+					
 					if (elNext) {
-						elNext.style.clip = elMain.style.clip = 'rect(auto, auto, ' + half + 'px, auto)';
+						elNext.style.clip = 'rect(auto, auto, ' + half + 'px, auto)';
 						shNext.style.backgroundColor = '#000';
 					}
 					
@@ -618,7 +618,6 @@ var swype = (function() {
 		})) {
 			return activeGroup = null;
 		}
-			
 		
 		// locate group that matches pointer
 		if (activeGroup = locateActiveGroup(evt)) {

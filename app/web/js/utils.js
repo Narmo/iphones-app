@@ -132,14 +132,14 @@ define(function() {
 
 			if (post.type == 'post') {
 				// запись из блога
-				var isNews = _.find(post.categories, function(c) {
-					return c.slug == 'news';
-				});
+				// var isNews = _.find(post.categories, function(c) {
+				// 	return c.slug == 'news';
+				// });
 
-				if (!isNews && post.categories.length) {
-					var cat = this.getKnownCategory(post) || post.categories[0];
-					post.title = cat.title;
-				}
+				// if (!isNews && post.categories.length) {
+				// 	var cat = this.getKnownCategory(post) || post.categories[0];
+				// 	post.title = cat.title;
+				// }
 			}
 
 			if (~post.title.indexOf(':::')) {

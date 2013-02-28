@@ -32,8 +32,6 @@ require(
 		evt.preventDefault();
 		evt.stopImmediatePropagation();
 
-		
-
 		var parts = $(this).attr('data-trigger').split(':');
 		var command = parts.shift();
 		var params = parts.join(':');
@@ -41,7 +39,7 @@ require(
 			params = JSON.parse(params);
 		}
 
-		console.log('handle trigger', command, params);
+		// console.log('handle trigger', command, params);
 		switch (command) {
 			case 'show_comments':
 				commentsList.showForPost(params);
@@ -51,7 +49,12 @@ require(
 				var cat = utils.getKnownCategory(post) || post.categories[0];
 				feed.get('category_posts', {slug: cat.slug}, function(data) {
 					if (data && data.posts) {
-						nav.go(articleReel.create(cat.title, data.posts));
+						articleReel.create(cat.title, data.posts, {
+							complete: function(reel) {
+								nav.go(reel);
+							}
+						});
+						// nav.go(reel);
 					}
 				});
 				break;

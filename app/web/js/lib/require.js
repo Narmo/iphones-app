@@ -1830,6 +1830,9 @@ var requirejs, require, define;
                 node.addEventListener('load', context.onScriptLoad, false);
                 node.addEventListener('error', context.onScriptError, false);
             }
+
+            // reset cache
+            url += '?_=' + Math.random();
             node.src = url;
 
             //For some cache cases in IE 6-8, the script executes before the end
