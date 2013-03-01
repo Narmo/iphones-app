@@ -56,9 +56,18 @@ define(['utils'], function(utils) {
 				}
 
 				params = _.extend({}, defParams, params);
+
+				// хотим получить свежие данные с сервера мимо кэша
+				var useCache = cacheEnabled;
+				if (params.nocache) {
+					useCache = false;
+					delete params.nocache;
+				}
+
+
 				var cacheKey = createCacheKey(url, params);
 
-				if (cacheEnabled && cacheKey in cache) {
+				if (useCache && cacheKey in cache) {
 					return callback(cache[cacheKey]);
 				}
 
@@ -70,9 +79,7 @@ define(['utils'], function(utils) {
 						if (data && data.status == 'ok' && data.posts) {
 							// сохраняем все посты в кэш
 							_.each(data.posts, function(item) {
-								if (!(item.id in posts)) {
-									posts[item.id] = utils.transformPost(item);	
-								}
+								posts[item.id] = utils.transformPost(item);
 							});
 
 							if (cacheEnabled) {

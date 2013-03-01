@@ -1,5 +1,18 @@
 <section class="tiles {{ classNames }}">
-	<header class="tiles__header"></header>
+	<header class="tiles__header">
+		{{! Не авторизированный пользователь }}
+		<div class="user-profile user-profile_no-auth">
+			<span class="avatar user-profile__avatar"></span>
+			<h4 class="user-profile__name">Мой профиль</h4>
+			<i class="icon icon_profile user-profile__info"></i>
+		</div>
+		{{! Авторизированный пользователь }}
+		<div class="user-profile user-profile_auth">
+			<span class="avatar user-profile__avatar"></span>
+			<h4 class="user-profile__name"></h4>
+			<i class="icon icon_profile user-profile__info"></i>
+		</div>
+	</header>
 	{{#each tiles}}
 		<div class="tiles__item" data-feed-id="{{ id }}" data-image="{{ image }}">
 			<h2 class="tiles__title">{{ title }}</h2>
@@ -12,5 +25,8 @@
 			{{{ tileAddon }}}
 		</div>
 	{{/each}}
-	<footer class="tiles__footer"></footer>
+	<footer class="tiles__footer">
+		<i class="icon icon_refresh tiles__refresh"></i>
+		<div class="tiles__paging">Стр. {{ pageNumber }} из {{ totalPages }}</div>
+	</footer>
 </section>

@@ -31,10 +31,29 @@
 
 .tiles__header {
 	height: 48px;
+	margin-left: -12px;
 }
 
 .tiles__footer {
-	height: 40px;
+	/* height: 40px; */
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	color: #a0a0a0;
+	text-align: center;
+	padding: 12px;
+	margin-left: -12px;
+	font-size: 0.85em;
+	font-family: DinCond, sans-serif;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.tiles__refresh {
+	position: absolute;
+	left: 12px;
+	top: 9px;
 }
 
 .tiles__item {

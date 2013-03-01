@@ -1,24 +1,12 @@
 @import url(assets/normalize.css);
 @import url(assets/_swype.css);
+@import url(assets/user-profile.css);
+@import url(assets/icons.css);
 @import url(assets/tiles.css);
 @import url(assets/sheet.css);
 @import url(assets/article.css);
 @import url(assets/comments.css);
 
-@font-face {
-	font-family: 'PT Sans Narrow';
-	font-weight: normal;
-	font-style: normal;
-	src: url('./fonts/ptn57f_w.eot');
-	src: url('./fonts/PTN57F_W.woff') format('woff'), url('./fonts/PTN57F_W.ttf') format('truetype'), url('./fonts/PTN57F_W.svg#PTSans-Narrow') format('svg');
-}
-
-@font-face {
-	font-family: 'PT Sans Narrow';
-	font-weight: bold; 
-	src: url('./fonts/ptn77f_w.eot');
-	src: url('./fonts/PTN77F_W.woff') format('woff'), url('./fonts/PTN77F_W.ttf') format('truetype'), url('./fonts/PTN77F_W.svg#PTSans-NarrowBold') format('svg');
-}
 
 @font-face {
 	font-family: 'DinComp';
@@ -138,50 +126,16 @@ iframe {
 	visibility: visible;
 } */
 
-.icon {
+.avatar {
 	display: inline-block;
-	font-style: normal;
-}
-
-.icon_comment {
-	color: #fff;
-	text-align: center;
-	line-height: 26px;
-	background: url(../i/icon-comment.png);
-	padding-left: 6px;
 	width: 24px;
-	height: 29px;
-	font-family: 'DinComp', sans-serif;
-	font-size: 13px;
-	-webkit-background-size: 30px 60px;
-	background-size: 30px 60px;
-	position: relative;
-	text-shadow: 0 1px 0 rgba(0,0,0,0.3);
+	height: 24px;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAsVBMVEUAAAAAAAAfHx9LS0udnZ2bm5uVlZV8fHyfn5+fn5+VlZWbm5uGhoaKioqMjIxvb2+Pj4+ampqSkpKJiYkQEBBXV1dpaWmBgYGYmJiYmJicnJyYmJgJCQmgoKCDg4OJiYmYmJhpaWl6enorKyudnZ2enp6ampqTk5OWlpYmJiaTk5Ofn594eHiZmZl/f3+enp6ZmZljY2OampqampqNjY2Ojo6GhoacnJycnJxtbW2goKA2H6u8AAAAOnRSTlMaMx8t38mbVfLsnsZrdnhFhtuRcB0ybV20scyrNfxjpNZAUyLZ5MSToz/B/VC8W+e2Or7BfoBo1NdC89OnSgAAAR5JREFUeF7d07WSxDAQANGxzLzMzEzH8/8fdlUXrNfS1EhOr/MXNlhKo850Vkesz6adkaUEFkgla3y2TkBKAaKHpXpCA/oo1efBJyolHGg5KnBaDDgh0YkBNQrUGOBRwGNAgwINBjQp0GTAggILBrQp0GYABCoIgAHvSPTBAJcCLgMGFBgwYEiBIQP8sQrGPgNgEsognPADZTLIgAdzGcw1AKSFHNCBtAxSLYDHK3gDPbDDAoS2AYCoABGYgG0BtkZgV4CdEfgqwLcJ+MGXcj0QpSdcoQP2GUudbR5crih1vTDAvyHRzafBMlshHa7SpQLuXoBMgXcvge4GtW26T5DHaFSc/wERoXGRsGAfY4XiPRywUgc4VgNHwIr9B/ALZKAC+smw6EoAAAAASUVORK5CYII=);
+	-webkit-background-size: 100% 100%;
+	background-size: 100% 100%;
 }
 
-.icon_comment_dark {
-	color: #000;
-	background-position: 0 -30px;
-}
-
-.icon_comment_add:before,
-.icon_comment_add:after {
-	display: inline-block;
-	background: #000;
-	content: '';
-	position: absolute;
-}
-
-.icon_comment_add:before {
-	width: 10px;
-	height: 2px;
-	left: 13px;
-	top: 11px;
-}
-
-.icon_comment_add:after {
-	width: 2px;
-	height: 10px;
-	left: 17px;
-	top: 7px;
+.avatar img {
+	width: 100%;
+	height: 100%;
 }

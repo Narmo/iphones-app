@@ -137,7 +137,7 @@ function program3(depth0,data) {
   foundHelper = helpers.id;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1) + "\">\n	<div class=\"comment__h\">\n		<span class=\"comment__avatar\">";
+  buffer += escapeExpression(stack1) + "\">\n	<div class=\"comment__h\">\n		<span class=\"avatar comment__avatar\">";
   stack1 = depth0.hash;
   stack2 = {};
   stack1 = helpers['if'].call(depth0, stack1, {hash:stack2,inverse:self.noop,fn:self.program(1, program1, data),data:data});
@@ -345,10 +345,20 @@ function program4(depth0,data) {
   foundHelper = helpers.classNames;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.classNames; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1) + "\">\n	<header class=\"tiles__header\"></header>\n	";
+  buffer += escapeExpression(stack1) + "\">\n	<header class=\"tiles__header\">\n		";
+  buffer += "\n		<div class=\"user-profile user-profile_no-auth\">\n			<span class=\"avatar user-profile__avatar\"></span>\n			<h4 class=\"user-profile__name\">Мой профиль</h4>\n			<i class=\"icon icon_profile user-profile__info\"></i>\n		</div>\n		";
+  buffer += "\n		<div class=\"user-profile user-profile_auth\">\n			<span class=\"avatar user-profile__avatar\"></span>\n			<h4 class=\"user-profile__name\"></h4>\n			<i class=\"icon icon_profile user-profile__info\"></i>\n		</div>\n	</header>\n	";
   stack1 = depth0.tiles;
   stack2 = {};
   stack1 = helpers.each.call(depth0, stack1, {hash:stack2,inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	<footer class=\"tiles__footer\"></footer>\n</section>";
+  buffer += "\n	<footer class=\"tiles__footer\">\n		<i class=\"icon icon_refresh tiles__refresh\"></i>\n		<div class=\"tiles__paging\">Стр. ";
+  foundHelper = helpers.pageNumber;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.pageNumber; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1) + " из ";
+  foundHelper = helpers.totalPages;
+  if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.totalPages; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1) + "</div>\n	</footer>\n</section>";
   return buffer;};

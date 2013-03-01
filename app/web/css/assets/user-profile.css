@@ -1,0 +1,43 @@
+.user-profile {
+	padding: 12px;
+	position: relative;
+}
+
+.user-profile__avatar {
+	margin-right: 3px;
+	vertical-align: middle;
+	top: -1px;
+	position: relative;
+}
+
+.user-profile__name {
+	display: inline-block;
+	max-width: 230px;
+	white-space: nowrap;
+	font-family: 'DinCond', sans-serif;
+	font-weight: bold;
+	font-size: 1.1em;
+	-ms-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	margin: 0;
+	position: relative;
+	top: 2px;
+}
+
+.user-profile__info {
+	position: absolute;
+	right: 12px;
+	top: 12px;
+}
+
+.user-profile_auth {
+	display: none;
+}
+
+.authorized .user-profile_auth {
+	display: block;
+}
+
+.authorized .user-profile_no-auth {
+	display: none;
+}

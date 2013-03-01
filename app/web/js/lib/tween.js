@@ -151,7 +151,10 @@
 		for (var i = 0; i < anims.length; i++) {
 			tween = anims[i];
 			opt = tween.options;
-			if (tween.pos === 1 || tween.endTime <= now) {
+			if (tween.infinite) {
+				opt.step.call(tween, 0);
+				filtered.push(tween);
+			} else if (tween.pos === 1 || tween.endTime <= now) {
 				tween.pos = 1;
 				opt.step.call(tween, opt.reverse ? 0 : 1);
 				tween.stop();
@@ -204,7 +207,8 @@
 			if (!this.animating) {
 				this.pos = 0;
 				this.startTime = +new Date;
-				this.endTime = this.startTime + this.options.duration;
+				this.infinite = this.options.duration === 'infinite';
+				this.endTime = this.infinite ? 0 : this.startTime + this.options.duration;
 				this.animating = true;
 				addToQueue(this);
 			}

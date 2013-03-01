@@ -60,19 +60,24 @@ define(['require', 'utils', 'image-preloader'], function(require, utils, imagePr
 		 */
 		create: function(feed) {
 			var reel = $('<div class="tiles-reel"></div>').appendTo(document.body);
-
-			reel.append(renderFeed(getMainTiles(feed), {
-				classNames: 'tiles_main'
-			}));
-
+			var mainPayload = getMainTiles(feed);
 			var restPayload = feed.slice(3);
 			var itemsPerPage = 6;
-			for (var i = 0; i < restPayload.length; i += itemsPerPage) {
-				reel.append(renderFeed(restPayload.slice(i, i + itemsPerPage)));
-			}
 
-			var emptySection = '<div class="tiles swype-empty"></div>';
-			reel.prepend(emptySection).append(emptySection);
+			var totalPages = 1 + Math.ceil(restPayload.length / itemsPerPage);
+
+			reel.append(renderFeed(mainPayload, {
+				classNames: 'tiles_main',
+				pageNumber: 1,
+				totalPages: totalPages
+			}));
+			
+			for (var i = 0; i < restPayload.length; i += itemsPerPage) {
+				reel.append(renderFeed(restPayload.slice(i, i + itemsPerPage), {
+					pageNumber: 2 + i,
+					totalPages: totalPages
+				}));
+			}
 
 			return reel[0];
 		}
