@@ -8,16 +8,25 @@ define(function() {
 			var group = null;
 
 			container = $(container);
+			options = options || {};
+
+			var createSwypeGroup = function() {
+				if (!group) {
+					var elems = _.isString(items) ? container.find(items) : items;
+					group = swype.setup(_.toArray(elems), _.extend({
+						viewport: container[0],
+						tapzone: 0
+					}, options || {}));
+				}
+			}
+
+			if (options.swypeOnInit) {
+				createSwypeGroup();
+			}
+
 			return container
 				.on('history:attach', function() {
-					if (!group) {
-						var elems = _.isString(items) ? container.find(items) : items;
-						group = swype.setup(_.toArray(elems), _.extend({
-							viewport: container[0],
-							tapzone: 0
-						}, options || {}));
-					}
-
+					createSwypeGroup();
 					group.locked(false);
 				})
 				.on('history:detach', function() {

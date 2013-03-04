@@ -352,7 +352,7 @@ function program4(depth0,data) {
   stack2 = {};
   stack1 = helpers.each.call(depth0, stack1, {hash:stack2,inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\n	<footer class=\"tiles__footer\">\n		<i class=\"icon icon_refresh tiles__refresh\"></i>\n		<div class=\"tiles__paging\">Стр. ";
+  buffer += "\n	<footer class=\"tiles__footer\">\n		<i class=\"icon icon_refresh tiles__refresh\" data-trigger=\"reload_splash\"></i>\n		<div class=\"tiles__paging\">Стр. ";
   foundHelper = helpers.pageNumber;
   if (foundHelper) { stack1 = foundHelper.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.pageNumber; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }

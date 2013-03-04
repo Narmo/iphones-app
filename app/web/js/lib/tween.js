@@ -150,6 +150,11 @@
 		// newly created animation
 		for (var i = 0; i < anims.length; i++) {
 			tween = anims[i];
+
+			if (!tween.animating) {
+				continue;
+			}
+
 			opt = tween.options;
 			if (tween.infinite) {
 				opt.step.call(tween, 0);

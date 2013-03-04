@@ -15,7 +15,12 @@ define(['require', 'utils', 'image-preloader'], function(require, utils, imagePr
 		var tileLookup = {};
 		var images = feed.find('.tiles__item').map(function(i, tile) {
 			var img = $(tile).attr('data-image');
-			tileLookup[img] = tile;
+			if (!tileLookup[img]) {
+				tileLookup[img] = [];
+			}
+
+			tileLookup[img].push(tile);
+			// tileLookup[img] = tile;
 			return img;
 		});
 
@@ -26,9 +31,13 @@ define(['require', 'utils', 'image-preloader'], function(require, utils, imagePr
 				}
 			} else {
 				var parent = tileLookup[src];
-				utils.centerImage(image, size, parent);
-				image.className = 'tiles__image';
-				parent.appendChild(image);
+				_.each(tileLookup[src], function(parent) {
+					var img = image.cloneNode(true);
+					utils.centerImage(img, size, parent);
+					img.className = 'tiles__image';
+					parent.appendChild(img);
+				});
+				
 			}
 		});
 

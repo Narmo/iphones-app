@@ -64,6 +64,12 @@ define(['utils'], function(utils) {
 					delete params.nocache;
 				}
 
+				// хотим получить данные с задержкой, чтобы показать анимацию
+				var withDelay = 0;
+				if (params.withDelay) {
+					withDelay = params.withDelay;
+					delete params.withDelay;
+				}
 
 				var cacheKey = createCacheKey(url, params);
 
@@ -71,9 +77,10 @@ define(['utils'], function(utils) {
 					return callback(cache[cacheKey]);
 				}
 
-				return $.ajax({
+				return $.delayedAjax({
 					url: url,
 					data: params,
+					delayTimeout: withDelay,
 					dataType: 'jsonp',
 					success: function(data) {
 						if (data && data.status == 'ok' && data.posts) {

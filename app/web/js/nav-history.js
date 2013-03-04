@@ -126,6 +126,7 @@ define(['utils'], function(utils) {
 		 * @param  {Element} elem Элемент, который нужно показать
 		 */
 		go: function(elem) {
+			elem = $(elem)[0];
 			var prev = _.last(history);
 			history.push(elem);
 			if (prev && elem) {
@@ -153,6 +154,16 @@ define(['utils'], function(utils) {
 			}
 
 			return cur;
+		},
+
+		replace: function(oldElem, newElem) {
+			_.each(history, function(item, i) {
+				if (item === oldElem) {
+					detach(oldElem);
+					$(oldElem).trigger('history:remove');
+					history[i] = newElem;
+				}
+			})
 		},
 
 		/**

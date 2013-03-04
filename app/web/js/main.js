@@ -29,6 +29,7 @@ require(
 			case 'show_comments':
 				commentsList.showForPost(params);
 				break;
+
 			case 'show_category_for_post':
 				var post = feed.getPost(params);
 				var cat = utils.getKnownCategory(post) || post.categories[0];
@@ -43,9 +44,20 @@ require(
 					}
 				});
 				break;
+
 			case 'show_post':
 				var post = feed.getPost(params);
 				nav.go(article.create(post));
+				break;
+
+			case 'reload_splash':
+				var oldReel = $('.tiles-reel');
+				splash.reload($('.tiles-reel'), function(newReel) {
+					if (newReel) {
+						// лента обновилась, заменим её в истории
+						nav.replace(oldReel[0], newReel[0]);
+					}
+				});
 				break;
 		}
 	});
