@@ -2,7 +2,15 @@
  * Модуль для работы с листами: рисует страницу с указанными данными
  * и возвращает DOM-элемент, который можно поместить на страницу
  */
-define(['require', 'utils', 'nav-history'], function(require, utils, nav) {
+define(
+['utils', 'nav-history'],
+/**
+ * @memberOf __sheetModule
+ * @constructor
+ * @param {utilsModule} utils
+ * @param {navModule} nav
+ */
+function(utils, nav) {
 	var defaultOptions = {
 		/**
 		 * Функция, вызываемая по тапу на ссылку «Назад»
@@ -22,7 +30,7 @@ define(['require', 'utils', 'nav-history'], function(require, utils, nav) {
 		/**
 		 * Функция, вызываемая по тапу на секцию с опциями.
 		 * Сам обработчик не проверяет, на что именно в секции тапнули,
-		 * этим должен заниматься делегатю
+		 * этим должен заниматься делегат
 		 * @param  {Event} evt
 		 */
 		onOptionTap: function(evt) {
@@ -33,11 +41,18 @@ define(['require', 'utils', 'nav-history'], function(require, utils, nav) {
 	};
 
 	return {
+		/**
+		 * Создаёт стандартный вид с заголовком и данными
+		 * @memberOf sheetModule
+		 * @param {Object} data
+		 * @param {Object} options
+		 * @returns {Zepto}
+		 */
 		create: function(data, options) {
 			options = _.extend({}, defaultOptions, options || {});
 			var sheet = $(utils.render('sheet', data));
-			if (data.features) {
-				var classNames = _.map(data.features, function(f) {
+			if (options.features) {
+				var classNames = _.map(options.features, function(f) {
 					return 'sheet_' + f;
 				}).join(' ');
 

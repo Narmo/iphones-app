@@ -1,6 +1,9 @@
 require(
-	['article', 'utils', 'feed', 'splash', 'comments-list', 'nav-history', 'article-reel'], 
-	function(article, utils, feed, splash, commentsList, nav, articleReel) {
+['article', 'utils', 'feed', 'splash', 'comments-list', 'nav-history', 'article-reel', 'auth'],
+/**
+ * @param {authModule} auth
+ */
+function(article, utils, feed, splash, commentsList, nav, articleReel, auth) {
 
 	splash.create(function(tiles) {
 		// фиксируем плитки как страницу приложения,
@@ -58,6 +61,10 @@ require(
 						nav.replace(oldReel[0], newReel[0]);
 					}
 				});
+				break;
+				
+			case 'authorize':
+				auth.show();
 				break;
 		}
 	});

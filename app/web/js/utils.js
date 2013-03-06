@@ -1,5 +1,7 @@
 /**
  * Вспомогательные утилиты
+ * @memberOf __utilsModule
+ * @constructor
  */
 define(function() {
 	var module = null;
@@ -31,6 +33,7 @@ define(function() {
 	return module = {
 		/**
 		 * Возвращает шаблон с указанным названием
+		 * @memberOf utilsModule
 		 * @param  {String} name Название шаблона
 		 * @return {Object}
 		 */

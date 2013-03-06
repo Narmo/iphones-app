@@ -89,3 +89,8 @@
 	height: 100%;
 	overflow: hidden;
 }
+
+.sheet_auth .sheet__content {
+	background: #ebebeb;
+	padding: 63px 40px 0;
+}

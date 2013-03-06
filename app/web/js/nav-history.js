@@ -2,7 +2,14 @@
  * Простой навигационный контроллер с историей переходов.
  * Переходом считается отображение указанного блока на странице.
  */
-define(['utils'], function(utils) {
+define(
+['utils'],
+/**
+ * @constructor
+ * @memberOf __navModule
+ * @param {utilsModule} utils 
+ */
+function(utils) {
 	var history = [];
 	var target = 'body';
 
@@ -13,7 +20,7 @@ define(['utils'], function(utils) {
 	};
 
 	var outOpacity = .7;
-	var outScale = .8
+	var outScale = .8;
 
 	function detach(elem) {
 		if (!elem) {
@@ -72,6 +79,7 @@ define(['utils'], function(utils) {
 				// prevEl.style[transformCSS] = curEl.style[transformCSS] = '';
 				detach(cur);
 				cur.trigger('history:remove');
+				cur.trigger('history:anim-backward');
 				cur.trigger('history:anim-complete');
 			}
 		}));
@@ -114,6 +122,7 @@ define(['utils'], function(utils) {
 				// prevEl.style[transformCSS] = curEl.style[transformCSS] = '';
 				detach(prev);
 
+				cur.trigger('history:anim-forward');
 				cur.trigger('history:anim-complete');
 			}
 		}));
@@ -121,6 +130,7 @@ define(['utils'], function(utils) {
 
 	return {
 		/**
+		 * @memberOf navModule
 		 * Переходм «вперёд»: показываем переданный элемент
 		 * на странице
 		 * @param  {Element} elem Элемент, который нужно показать
@@ -146,7 +156,7 @@ define(['utils'], function(utils) {
 			var prev = _.last(history);
 			
 			if (cur && prev) {
-				animateBackward(prev, cur)
+				animateBackward(prev, cur);
 			} else {
 				attach(target, prev);
 				detach(cur);
@@ -163,7 +173,7 @@ define(['utils'], function(utils) {
 					$(oldElem).trigger('history:remove');
 					history[i] = newElem;
 				}
-			})
+			});
 		},
 
 		/**
@@ -173,5 +183,5 @@ define(['utils'], function(utils) {
 			_.each(history, detach);
 			history.length = 0;
 		}
-	}
+	};
 });
