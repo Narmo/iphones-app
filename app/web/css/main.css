@@ -145,3 +145,26 @@ iframe {
 	width: 100%;
 	height: 100%;
 }
+
+.comment-form {
+	padding-top: 10px;
+}
+
+.comment-form textarea {
+	font-size: 12px;
+	height: 140px;
+}
+
+.comment-form__title {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #000;
+	margin-bottom: 10px;
+	
+}
+
+.post-comment-btn {
+	font-size: 1em;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}

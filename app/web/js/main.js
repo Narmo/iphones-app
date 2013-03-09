@@ -1,15 +1,24 @@
 require(
-['article', 'utils', 'feed', 'splash', 'comments-list', 'nav-history', 'article-reel', 'auth'],
+['article', 'utils', 'feed', 'splash', 'comments', 'nav-history', 'article-reel', 'auth'],
 /**
  * @param {authModule} auth
+ * @param {commentsModule} comments
  */
-function(article, utils, feed, splash, commentsList, nav, articleReel, auth) {
+function(article, utils, feed, splash, comments, nav, articleReel, auth) {
 
 	splash.create(function(tiles) {
 		// фиксируем плитки как страницу приложения,
 		// на которую можно вернуться
 		nav.go(tiles);	
 	});
+	
+	// после авторизации обновляем все данные на странице
+	auth.on('authorized', function() {
+		auth.updateUserInfo();
+	});
+	
+	// попробуем залогинить пользователя
+	auth.check();
 
 	/**
 	 * Универсальный хэндлер событий, который позволяет выполнять стандартные 
@@ -30,7 +39,7 @@ function(article, utils, feed, splash, commentsList, nav, articleReel, auth) {
 		// console.log('handle trigger', command, params);
 		switch (command) {
 			case 'show_comments':
-				commentsList.showForPost(params);
+				comments.showForPost(params);
 				break;
 
 			case 'show_category_for_post':
@@ -65,6 +74,11 @@ function(article, utils, feed, splash, commentsList, nav, articleReel, auth) {
 				
 			case 'authorize':
 				auth.show();
+				break;
+				
+			case 'add_comment':
+				// TODO добавить данные о посте
+				comments.showForm();
 				break;
 		}
 	});

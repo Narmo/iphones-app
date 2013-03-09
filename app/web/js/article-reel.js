@@ -2,8 +2,8 @@
  * Модуль для вывода ленты статей
  */
 define(
-['utils', 'sheet', 'image-preloader', 'nav-history', 'comments-list', 'article', 'flipper'], 
-function(utils, sheet, imagePreloader, nav, commentsList, article, flipper) {
+['utils', 'sheet', 'image-preloader', 'nav-history', 'article', 'flipper'], 
+function(utils, sheet, imagePreloader, nav, article, flipper) {
 	return {
 		create: function(title, posts, options) {
 			var reel = $('<div class="article__preview-container"></div>')

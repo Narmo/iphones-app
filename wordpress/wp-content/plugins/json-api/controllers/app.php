@@ -12,10 +12,6 @@ class JSON_API_App_Controller {
 		
 	}
 
-	public function hello_world() {
-		return array('message' => 'Hello, world!');
-	}
-
 	/**
 	 * Выводим список последних постов
 	 * @return array

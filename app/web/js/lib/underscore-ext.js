@@ -2,10 +2,6 @@
  * Расширения для Underscore
  */
 (function(){
-	var trim = String.prototype.trim || function() {
-		return this.replace(/^\s+/, '').replace(/\s+$/, '');
-	};
-	
 	// Regular expression used to split event strings
 	var eventSplitter = /\s+/;
 	
@@ -125,88 +121,4 @@
 			return this;
 		}
 	};
-	
-	_.mixin({
-		/**
-		 * Копирование свойств объекта.
-		 * @param {Object} obj Объект, который нужно скопировать
-		 * @param {Object} names Названия полей, которые нужно скопировать.
-		 * Если это массив, то копируются поля с указанными именами,
-		 * если это объект, то копируются поля с указанными ключами и 
-		 * переименовываются в соответствии со значениями ключей
-		 * @returns {Object}
-		 * @memberOf Underscore
-		 */
-		copyObj: function(obj, names) {
-			var result = {};
-			if (_.isArray(names))
-				_.each(names, function(name) {
-					if (name in obj)
-						result[name] = obj[name];
-				});
-			else if (names)
-				_.each(names, function(name, key) {
-					if (key in obj)
-						result[name] = obj[key];
-				});
-			else
-				result = _.clone(obj);
-			
-			return result;
-		},
-		
-		/**
-		 * Восстанавливает объект, полученный из <code>copyObj</code>: 
-		 * переименовывает сокращённые названия полей в полные
-		 * @param {Object} obj
-		 * @param {Object} names
-		 * @returns {Object}
-		 */
-		restoreObj: function(obj, names) {
-			if (names && _.isObject(names)) {
-				var revNames = {};
-				_.each(names, function(v, k) {
-					revNames[v] = k;
-				});
-				
-				var result = {};
-				_.each(obj, function(value, key) {
-					if (key in revNames) {
-						result[revNames[key]] = value;
-					} else {
-						result[key] = value;
-					}
-				});
-				
-				return result;
-			}
-			
-			return obj;
-		},
-		
-		/**
-		 * Обрезает пробелы в начале и в конце строки
-		 * @param {String} str
-		 * @returns {String}
-		 */
-		trim: function(str) {
-			return trim.call(str);
-		},
-		
-		/**
-		 * Проверяет, есть ли свойство <code>property</code> у объекта 
-		 * <code>obj</code>. Если его нет, то создаёт его со значением 
-		 * <code>defaultValue</code>
-		 * @param {Object} obj
-		 * @param {String} property
-		 * @param {Object} defaultValue
-		 * @returns {Object} Значение свойства <code>propery</code>
-		 */
-		supplyWith: function(obj, property, defaultValue) {
-			if (!(property in obj))
-				obj[property] = defaultValue;
-			
-			return obj[property];
-		}
-	});
 })();

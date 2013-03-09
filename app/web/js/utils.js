@@ -159,7 +159,7 @@ define(function() {
 				targetSize = {
 					width: targetSize.offsetWidth,
 					height: targetSize.offsetHeight
-				}
+				};
 			}
 
 			var coeff = this.getScaleCoeff(targetSize, imageSize);

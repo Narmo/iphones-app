@@ -175,6 +175,24 @@ function(utils) {
 				}
 			});
 		},
+		
+		/**
+		 * Вставляет указанный элемент в указанную позицию истории. Этот метод
+		 * не вызывает никакие события и просто модифицирует массив элементов
+		 * истории
+		 */
+		insertAt: function(elem, ix) {
+			if (ix == 'last') {
+				ix = history.length;
+			}
+			
+			if (ix < 0) {
+				ix = history.length + ix;
+			}
+			
+			ix = Math.min(history.length, Math.max(0, ix));
+			history.splice(ix, 0, elem);
+		},
 
 		/**
 		 * Очищает всю историю
