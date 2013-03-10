@@ -1,12 +1,15 @@
 /**
  * Модуль для вывода данных в виде плиток
  */
-define(['require', 'utils', 'image-preloader'], function(require, utils, imagePreloader) {
+define(
+['require', 'utils', 'image-preloader', 'auth'], 
+function(require, utils, imagePreloader, auth) {
 	function renderFeed(data, options) {
 		options = _.extend({
 			waitImages: false,
 			classNames: '',
-			tiles: data
+			tiles: data,
+			user: auth.getUserInfo()
 		}, options || {});
 
 		var feed = $(utils.render('tiles', options))
@@ -30,14 +33,12 @@ define(['require', 'utils', 'image-preloader'], function(require, utils, imagePr
 					options.callback(feed);
 				}
 			} else {
-				var parent = tileLookup[src];
 				_.each(tileLookup[src], function(parent) {
 					var img = image.cloneNode(true);
 					utils.centerImage(img, size, parent);
 					img.className = 'tiles__image';
 					parent.appendChild(img);
 				});
-				
 			}
 		});
 

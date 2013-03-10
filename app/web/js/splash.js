@@ -73,7 +73,7 @@ define(
 				});
 
 				// XXX debug
-				// isUpdated = true;
+//				 isUpdated = true;
 
 				spinnerTween.stop();
 				spinnerTween = null;

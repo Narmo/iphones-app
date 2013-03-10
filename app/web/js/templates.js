@@ -300,6 +300,21 @@ helpers = helpers || Handlebars.helpers; data = data || {};
 function program1(depth0,data) {
   
   var buffer = "", stack1;
+  buffer += "<img src=\"http://www.gravatar.com/avatar/"
+    + escapeExpression(((stack1 = ((stack1 = depth0.user),stack1 == null || stack1 === false ? stack1 : stack1.hash)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "?s=50\" />";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  var stack1;
+  return escapeExpression(((stack1 = ((stack1 = depth0.user),stack1 == null || stack1 === false ? stack1 : stack1.displayname)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1));
+  }
+
+function program5(depth0,data) {
+  
+  var buffer = "", stack1;
   buffer += "\n		<div class=\"tiles__item\" data-feed-id=\"";
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -313,10 +328,10 @@ function program1(depth0,data) {
   else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "</h2>\n			";
-  stack1 = helpers['if'].call(depth0, depth0.subtitle, {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.subtitle, {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n			";
-  stack1 = helpers['if'].call(depth0, depth0.allowComments, {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.allowComments, {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n			";
   if (stack1 = helpers.tileAddon) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -325,7 +340,7 @@ function program1(depth0,data) {
   buffer += "\n		</div>\n	";
   return buffer;
   }
-function program2(depth0,data) {
+function program6(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n			<h3 class=\"tiles__subtitle\">";
@@ -336,7 +351,7 @@ function program2(depth0,data) {
   return buffer;
   }
 
-function program4(depth0,data) {
+function program8(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n			<i class=\"icon icon_comment\" data-trigger=\"show_comments:";
@@ -357,8 +372,15 @@ function program4(depth0,data) {
   buffer += escapeExpression(stack1)
     + "\">\n	<header class=\"tiles__header\">\n		"
     + "\n		<div class=\"user-profile user-profile_no-auth\">\n			<span class=\"avatar user-profile__avatar\"></span>\n			<h4 class=\"user-profile__name\">Мой профиль</h4>\n			<i class=\"icon icon_profile user-profile__info\" data-trigger=\"authorize\"></i>\n		</div>\n		"
-    + "\n		<div class=\"user-profile user-profile_auth\">\n			<span class=\"avatar user-profile__avatar\"></span>\n			<h4 class=\"user-profile__name\"></h4>\n			<i class=\"icon icon_profile user-profile__info\"></i>\n		</div>\n	</header>\n	";
-  stack1 = helpers.each.call(depth0, depth0.tiles, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+    + "\n		<div class=\"user-profile user-profile_auth\">\n			<span class=\"avatar user-profile__avatar\">";
+  stack1 = helpers['if'].call(depth0, depth0.user, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</span>\n			<h4 class=\"user-profile__name\">";
+  stack1 = helpers['if'].call(depth0, depth0.user, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "</h4>\n			"
+    + "\n		</div>\n	</header>\n	";
+  stack1 = helpers.each.call(depth0, depth0.tiles, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n	<footer class=\"tiles__footer\">\n		<i class=\"icon icon_refresh tiles__refresh\" data-trigger=\"reload_splash\"></i>\n		<div class=\"tiles__paging\">Стр. ";
   if (stack1 = helpers.pageNumber) { stack1 = stack1.call(depth0, {hash:{},data:data}); }

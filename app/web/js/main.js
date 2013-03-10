@@ -13,9 +13,14 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth) {
 	});
 	
 	// после авторизации обновляем все данные на странице
-	auth.on('authorized', function() {
-		auth.updateUserInfo();
-	});
+	auth
+		.on('authorized', function() {
+			auth.updateUserInfo();
+			$(document.body).addClass('authorized');
+		})
+		.on('logout', function() {
+			$(document.body).removeClass('authorized');
+		});
 	
 	// попробуем залогинить пользователя
 	auth.check();

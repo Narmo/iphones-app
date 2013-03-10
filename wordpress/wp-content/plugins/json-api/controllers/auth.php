@@ -96,6 +96,7 @@ class JSON_API_Auth_Controller {
 				"nickname" => $user->nickname,
 				"description" => $user->user_description,
 				"capabilities" => $user->wp_capabilities,
+				"hash" => md5(strtolower(trim($user->user_email)))
 			)
 		);
 	}	

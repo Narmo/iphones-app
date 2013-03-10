@@ -72,7 +72,7 @@ function(sheet, utils, feed, nav, auth, notifier, api) {
 			
 			return sheet.create({
 				back_label: 'Назад',
-				options: '<i class="icon icon_comment icon_comment_dark icon_comment_add" data-trigger="add_comment:' + (1 || data.id) + '">&nbsp;</i>',
+				options: '<i class="icon icon_comment icon_comment_dark icon_comment_add" data-trigger="add_comment:' + data.id + '">&nbsp;</i>',
 				content: utils.render('comments-list', data)
 			});
 		},

@@ -11,9 +11,9 @@ define(['notifier'], function(notifier) {
 	function transformUrl(url) {
 		if (!/^https?:/.test(url)) {
 			var _domain = domain;
-			if (/submit_comment|get_nonce|generate_auth_cookie|get_currentuserinfo/.test(url)) {
-				_domain = 'http://localhost:8104';
-			}
+//			if (/submit_comment|get_nonce|generate_auth_cookie|get_currentuserinfo/.test(url)) {
+//				_domain = 'http://localhost:8104';
+//			}
 			
 			url = _domain + url;
 		}

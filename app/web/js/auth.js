@@ -30,7 +30,7 @@ function(sheet, utils, nav, notifier, storage, api) {
 	};
 	
 	/**
-	 * Информация о текущем пользователе. Если <code>null</code>, занчит,
+	 * Информация о текущем пользователе. Если <code>null</code>, значит,
 	 * пользователь не авторизирован
 	 */
 	var userInfo = null;
@@ -164,7 +164,7 @@ function(sheet, utils, nav, notifier, storage, api) {
 				section = $(section);
 				
 				section.find('.user-profile__avatar').html('<img src="http://www.gravatar.com/avatar/' + user.hash + '?s=50" />');
-				section.find('.user-profile__name').text(user.nicename || user.username);
+				section.find('.user-profile__name').text(user.displayname || user.username);
 			});
 		},
 		
@@ -182,10 +182,10 @@ function(sheet, utils, nav, notifier, storage, api) {
 						if (status) {
 							authInfo = _authInfo;
 							userInfo = response.user;
-							console.log('session restored');
 							callback(true, userInfo);
 							that.trigger('authorized');
 						} else {
+							storage.remove('authInfo');
 							callback(false);
 						}
 					});

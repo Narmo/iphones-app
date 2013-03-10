@@ -8,9 +8,9 @@
 		</div>
 		{{! Авторизированный пользователь }}
 		<div class="user-profile user-profile_auth">
-			<span class="avatar user-profile__avatar"></span>
-			<h4 class="user-profile__name"></h4>
-			<i class="icon icon_profile user-profile__info"></i>
+			<span class="avatar user-profile__avatar">{{#if user}}<img src="http://www.gravatar.com/avatar/{{ user.hash }}?s=50" />{{/if}}</span>
+			<h4 class="user-profile__name">{{#if user}}{{ user.displayname}}{{/if}}</h4>
+			{{! <i class="icon icon_profile user-profile__info"></i> }}
 		</div>
 	</header>
 	{{#each tiles}}
