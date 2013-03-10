@@ -2,18 +2,44 @@
  * Модуль для работы с комментариями
  */
 define(
-['sheet', 'utils', 'feed', 'nav-history', 'auth'],
+['sheet', 'utils', 'feed', 'nav-history', 'auth', 'notifier', 'api'],
 /**
  * @param {sheetModule} sheet
  * @param {utilsModule} utils
  * @param {feedModule} feed
  * @param {navModule} nav
  * @param {authModule} auth
+ * @param {notifierModule} notifier
+ * @param {apiModule} api
  */
-function(sheet, utils, feed, nav, auth) {
+function(sheet, utils, feed, nav, auth, notifier, api) {
 	Handlebars.registerHelper('renderComment', function(ctx) {
 		return new Handlebars.SafeString(utils.render('comment', ctx));
 	});
+	
+	/**
+	 * Инициирует постинг комментария
+	 * @param {Element} form
+	 * @param {Function} callback
+	 */
+	function postComment(form, callback) {
+		var payload = {};
+		_.each($(form).serializeArray(), function(item) {
+			payload[item.name] = item.value;
+		});
+		
+		var userData = auth.getUserInfo();
+		payload.email = userData.email;
+		payload.name = userData.nicename || userData.username;
+		
+		api.request('/api/respond/submit_comment/', payload, function(success, data) {
+			if (!success) {
+				notifier.error('Не удалось сохранить комментарий:\n' + (data || 'ошибка подключения'));
+			}
+			
+			callback(success, data);
+		});
+	}
 
 	return {
 		/**
@@ -43,10 +69,10 @@ function(sheet, utils, feed, nav, auth) {
 			data.comments = _.filter(comments, function(c) {
 				return c.parent == 0;
 			});
-
+			
 			return sheet.create({
 				back_label: 'Назад',
-				options: '<i class="icon icon_comment icon_comment_dark icon_comment_add" data-trigger="add_comment">&nbsp;</i>',
+				options: '<i class="icon icon_comment icon_comment_dark icon_comment_add" data-trigger="add_comment:' + (1 || data.id) + '">&nbsp;</i>',
 				content: utils.render('comments-list', data)
 			});
 		},
@@ -65,7 +91,8 @@ function(sheet, utils, feed, nav, auth) {
 			var that = this;
 			feed.get('comments', {id: post.id}, function(comments) {
 				var page = that.create({
-					title: post ? post.title : '',
+					id: post.id,
+					title: post.title,
 					comments: comments
 				});
 
@@ -78,10 +105,12 @@ function(sheet, utils, feed, nav, auth) {
 		 * @returns
 		 */
 		showForm: function(data) {
+			data = _.extend({parent: 0, post_id: 0}, data || {});
+			
 			var page = sheet.create({
 				back_label: 'Назад',
 				options: '<button class="post-comment-btn">Отправить</button>',
-				content: utils.render('comment-form', data || {})
+				content: utils.render('comment-form', data)
 			}, {
 				features: ['comment-form', 'no-scroll']
 			});
@@ -89,7 +118,11 @@ function(sheet, utils, feed, nav, auth) {
 			
 			var form = page.find('form').on('submit', function(evt) {
 				evt.preventDefault();
-				console.log('sending comment');
+				postComment(this, function(success) {
+					if (success) {
+						nav.back();
+					}
+				});
 			});
 			
 			page

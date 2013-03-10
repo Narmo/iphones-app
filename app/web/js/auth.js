@@ -2,7 +2,7 @@
  * @memberOf __authModule
  */
 define(
-['sheet', 'utils', 'nav-history', 'notifier', 'storage'], 
+['sheet', 'utils', 'nav-history', 'notifier', 'storage', 'api'], 
 /**
  * @memberOf __authModule
  * @constructor 
@@ -11,14 +11,14 @@ define(
  * @param {navModule} nav
  * @param {notifierModule} notifier
  * @param {storageModule} storage
+ * @param {apiModule} api
  */
-function(sheet, utils, nav, notifier, storage) {
+function(sheet, utils, nav, notifier, storage, api) {
 
-	var domain = 'http://localhost:8104';
 	var urls = {
-		nonce: domain + '/api/core/get_nonce/?controller=auth&method=generate_auth_cookie',
-		auth: domain + '/api/auth/generate_auth_cookie/',
-		validate: domain + '/api/auth/get_currentuserinfo/'
+		nonce:    '/api/core/get_nonce/?controller=auth&method=generate_auth_cookie',
+		auth:     '/api/auth/generate_auth_cookie/',
+		validate: '/api/auth/get_currentuserinfo/'
 	};
 	
 	/**
@@ -34,29 +34,6 @@ function(sheet, utils, nav, notifier, storage) {
 	 * пользователь не авторизирован
 	 */
 	var userInfo = null;
-	
-	function request(url, callback) {
-		var args = _.toArray(arguments);
-		callback = _.last(args);
-		args = _.initial(args);
-		var data = args.length > 1 ? args[1] : null;
-		
-		$.ajax({
-			url: url,
-			dataType: 'jsonp',
-			data: data,
-			success: function(response) {
-				if (response && response.status == 'ok') {
-					callback(true, response);
-				} else {
-					callback(false, response.error);
-				}
-			},
-			error: function() {
-				callback(false);
-			}
-		});
-	}
 	
 	var module = {
 		
@@ -102,7 +79,7 @@ function(sheet, utils, nav, notifier, storage) {
 			// авторизация происходит в два шага:
 			// 1. Сначала получаем nonce
 			// 2. Затем непосредственно авторизируем пользователя
-			request(urls.nonce, function(success, response) {
+			api.request(urls.nonce, function(success, response) {
 				if (!success) {
 					var errorMessage = response || 'Unable to obtain nonce token';
 					notifier.error(errorMessage);
@@ -111,7 +88,7 @@ function(sheet, utils, nav, notifier, storage) {
 				
 				authInfo.nonce = response.nonce;
 				
-				request(urls.auth, {
+				api.request(urls.auth, {
 					nonce: authInfo.nonce,
 					username: username,
 					password: password
@@ -201,7 +178,7 @@ function(sheet, utils, nav, notifier, storage) {
 				var _authInfo = storage.get('authInfo');
 				if (_authInfo) {
 					_authInfo = JSON.parse(_authInfo);
-					request(urls.validate, _authInfo, function(status, response) {
+					api.request(urls.validate, _authInfo, function(status, response) {
 						if (status) {
 							authInfo = _authInfo;
 							userInfo = response.user;

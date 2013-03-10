@@ -1,6 +1,8 @@
 <form class="comment-form">
 	<h2 class="comment-form__title">Новый комментарий</h2>
+	<input type="hidden" name="post_id" value="{{ post_id }}" />
+	<input type="hidden" name="parent" value="{{ parent }}" />
 	<fieldset>
-		<textarea name="comment"></textarea>
+		<textarea name="content"></textarea>
 	</fieldset>
 </form>

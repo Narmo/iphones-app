@@ -77,8 +77,7 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth) {
 				break;
 				
 			case 'add_comment':
-				// TODO добавить данные о посте
-				comments.showForm();
+				comments.showForm(_.isObject(params) ? params : {post_id: params});
 				break;
 		}
 	});

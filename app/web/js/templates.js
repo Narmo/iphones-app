@@ -113,10 +113,19 @@ helpers = helpers || Handlebars.helpers; data = data || {};
 this["Handlebars"]["_templates"]["templates/comment-form.hbs"] = function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [2,'>= 1.0.0-rc.3'];
 helpers = helpers || Handlebars.helpers; data = data || {};
-  
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  return "<form class=\"comment-form\">\n	<h2 class=\"comment-form__title\">Новый комментарий</h2>\n	<fieldset>\n		<textarea name=\"comment\"></textarea>\n	</fieldset>\n</form>";
+  buffer += "<form class=\"comment-form\">\n	<h2 class=\"comment-form__title\">Новый комментарий</h2>\n	<input type=\"hidden\" name=\"post_id\" value=\"";
+  if (stack1 = helpers.post_id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.post_id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\" />\n	<input type=\"hidden\" name=\"parent\" value=\"";
+  if (stack1 = helpers.parent) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.parent; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\" />\n	<fieldset>\n		<textarea name=\"content\"></textarea>\n	</fieldset>\n</form>";
+  return buffer;
   };
 
 this["Handlebars"]["_templates"]["templates/comment.hbs"] = function (Handlebars,depth0,helpers,partials,data) {
