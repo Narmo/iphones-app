@@ -1,7 +1,14 @@
 /**
  * Модуль для взаимодействия с сайтом: шлёт запросы на сайт и разбирает ответ
  */
-define(['notifier'], function(notifier) {
+define(
+['notifier'], 
+/**
+ * @constructor
+ * @memberOf __apiModule
+ * @param {notifierModule} notifier
+ */
+function(notifier) {
 	var domain = 'http://www.iphones.ru';
 	
 	/**
@@ -44,7 +51,11 @@ define(['notifier'], function(notifier) {
 				options = {};
 			}
 			
-			$.ajax({
+			if (!options.delayTimeout) {
+				options.delayTimeout = 0;
+			}
+			
+			return $.delayedAjax(_.extend({}, options, {
 				url: transformUrl(url),
 				dataType: 'jsonp',
 				data: data,
@@ -58,7 +69,7 @@ define(['notifier'], function(notifier) {
 				error: function() {
 					callback(false);
 				}
-			});
+			}));
 		}
 	};
 });

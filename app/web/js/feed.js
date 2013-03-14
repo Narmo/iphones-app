@@ -1,13 +1,19 @@
 /**
  * Модуль для получения списка JSON-данных с сервера
  */
-define(['utils'], function(utils) {
-	// var domain = 'http://localhost:8104';
-	var domain = 'http://www.iphones.ru';
+define(
+['utils', 'api'], 
+/**
+ * @constructor
+ * @memberOf __feedModule
+ * @param {utilsModule} utils
+ * @param {apiModule} api
+ */
+function(utils, api) {
 	var urls = {
-		'splash':         domain + '/api/app/splash/',
-		'category_posts': {url: domain + '/api/core/get_category_posts/', params: {count: 10}},
-		'comments':       domain + '/api/app/comments/'
+		'splash':         '/api/app/splash/',
+		'category_posts': {url: '/api/core/get_category_posts/', params: {count: 10}},
+		'comments':       '/api/app/comments/'
 	};
 
 	var cacheEnabled = true;
@@ -16,7 +22,7 @@ define(['utils'], function(utils) {
 	 * Кэш всех полученных постов с сервера. Ключом является ID поста
 	 * @type {Object}
 	 */
-	var posts = {};
+	var cachedPosts = {};
 
 	var cache = {};
 
@@ -37,6 +43,7 @@ define(['utils'], function(utils) {
 		/**
 		 * Получает указанный поток с сервера и возвращает его 
 		 * в функцию <code>callback</code>
+		 * @memberOf feedModule
 		 * @param  {String}   name     Название потока
 		 * @param {Object} params Дополнительные параметры для запроса
 		 * @param  {Function} callback Функция, в которую вернётся результат
@@ -76,27 +83,26 @@ define(['utils'], function(utils) {
 				if (useCache && cacheKey in cache) {
 					return callback(cache[cacheKey]);
 				}
-
-				return $.delayedAjax({
-					url: url,
-					data: params,
-					delayTimeout: withDelay,
-					dataType: 'jsonp',
-					success: function(data) {
-						if (data && data.status == 'ok' && data.posts) {
-							// сохраняем все посты в кэш
-							_.each(data.posts, function(item) {
-								posts[item.id] = utils.transformPost(item);
-							});
-
-							if (cacheEnabled) {
-								cache[cacheKey] = data;
-							}
+				
+				return api.request(url, params, function(status, data) {
+					if (status) {
+						var posts = data.posts || [];
+						if (data.post) {
+							posts.push(data.post);
 						}
+						
+						// сохраняем посты в кэш
+						_.each(posts, function(item) {
+							cachedPosts[item.id] = utils.transformPost(item);
+						});
 
-						callback(data);
+						if (cacheEnabled) {
+							cache[cacheKey] = data;
+						}
 					}
-				});
+
+					callback(data);
+				}, {delayTimeout: withDelay});
 			} else {
 				throw 'Unknown feed "' + name + '"';
 			}
@@ -108,7 +114,7 @@ define(['utils'], function(utils) {
 		 * @return {Object}
 		 */
 		getPost: function(id) {
-			return posts[id];
+			return cachedPosts[id];
 		}
 	};
 });
