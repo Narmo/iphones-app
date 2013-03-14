@@ -115,6 +115,6 @@ function(utils, api) {
 		 */
 		getPost: function(id) {
 			return cachedPosts[id];
-		}
+		},
 	};
 });

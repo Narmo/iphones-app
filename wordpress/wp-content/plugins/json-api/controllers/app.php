@@ -82,7 +82,9 @@ class JSON_API_App_Controller {
 			$json_api->error("You should provide 'id' query parameter");
 		}
 
-		return $json_api->introspector->get_comments($json_api->query->id);
+		$comments = $json_api->introspector->get_comments($json_api->query->id);
+
+		return array('comments' => $comments);
 	}
 
 	public function create_comment() {
@@ -110,6 +112,30 @@ class JSON_API_App_Controller {
 		} else if (empty($_REQUEST['content'])) {
 			$json_api->error("Please include all required arguments (name, email, content).");
 		}
+		$pending = new JSON_API_Comment();
+		return $pending->handle_submission();
+	}
+
+	function submit_comment() {
+		global $json_api;
+		nocache_headers();
+		if (empty($_REQUEST['post_id'])) {
+			$json_api->error("No post specified. Include 'post_id' var in your request.");
+		} else if (empty($_REQUEST['name']) ||
+	               empty($_REQUEST['email']) ||
+	               empty($_REQUEST['content'])) {
+			$json_api->error("Please include all required arguments (name, email, content).");
+		} else if (!is_email($_REQUEST['email'])) {
+			$json_api->error("Please enter a valid email address.");
+		}
+
+		if (!empty($_REQUEST['cookie'])) {
+			$user_id = wp_validate_auth_cookie($_REQUEST['cookie'], 'logged_in');
+			if ($user_id) {
+				wp_set_current_user($user_id);
+			}
+		}
+
 		$pending = new JSON_API_Comment();
 		return $pending->handle_submission();
 	}

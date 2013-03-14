@@ -11,7 +11,7 @@ define(
 		// вешаем триггеры на плитку
 		result.find('.tiles__item').each(function() {
 			var tile = $(this);
-			var itemId = $(this).attr('data-feed-id');
+			var itemId = $(this).attr('data-post-id');
 			var post = feed.getPost(itemId);
 			var trigger = (post.type == 'page' ? 'show_post:' : 'show_category_for_post:') + itemId;
 			tile.attr('data-trigger', trigger);
@@ -62,7 +62,7 @@ define(
 			// получаем идентификаторы последних новостей
 			elem = $(elem);
 			var curIds = elem.find('.tiles__item').map(function(i, tile) {
-				return $(tile).attr('data-feed-id');
+				return $(tile).attr('data-post-id');
 			});
 
 			var spinnerTween = animateSpinner(elem.find('.swype-item_current .tiles__refresh')[0]);
@@ -111,7 +111,7 @@ define(
 					// комментариев
 					elem.find('.tiles__item').each(function(i, tile) {
 						tile = $(tile);
-						var post = feed.getPost(tile.attr('data-feed-id'));
+						var post = feed.getPost(tile.attr('data-post-id'));
 						tile.find('.icon_comment').text(post.comment_count);
 					});
 					callback();

@@ -73,6 +73,15 @@ function(utils, nav) {
 			});
 
 			return sheet;
+		},
+		
+		/**
+		 * Обновляет содержимое листа
+		 * @param {Element} sheet
+		 * @param {String} content
+		 */
+		updateContent: function(sheet, content) {
+			$(sheet).find('.sheet__content').empty().append(content);
 		}
 	};
 });

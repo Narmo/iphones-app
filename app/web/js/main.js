@@ -24,6 +24,20 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth) {
 	
 	// попробуем залогинить пользователя
 	auth.check();
+	
+	nav.on('willAttach', function(page) {
+		// автоматическое обновление количества комментариев
+		$(page).find('.icon_comment').not('.icon_comment_add').each(function(i) {
+			var item = $(this);
+			var m = ($(this).attr('data-trigger') || '').match(/:(\d+)$/);
+			if (m) {
+				var post = feed.getPost(m[1]);
+				if (post) {
+					item.text(post.comment_count);
+				}
+			}
+		});
+	});
 
 	/**
 	 * Универсальный хэндлер событий, который позволяет выполнять стандартные 

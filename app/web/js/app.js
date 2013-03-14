@@ -151,7 +151,7 @@ $(function() {
 		};
 
 		_.each(data, function(item) {
-			var tile = $('<div class="tiles__item" data-feed-id="' + item.id + '"><h2 class="tiles__title">' + item.title + '</h2>' + (item.tileAddon || '') + '</div>');
+			var tile = $('<div class="tiles__item" data-post-id="' + item.id + '"><h2 class="tiles__title">' + item.title + '</h2>' + (item.tileAddon || '') + '</div>');
 			feed.append(tile);
 
 			if (item.image) {
@@ -214,7 +214,7 @@ $(function() {
 				return;
 			}
 
-			var feedId = $(this).attr('data-feed-id');
+			var feedId = $(this).attr('data-post-id');
 			var feedData = _.find(feed, function(item) {
 				return item.id == feedId;
 			});

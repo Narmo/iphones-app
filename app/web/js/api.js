@@ -63,7 +63,7 @@ function(notifier) {
 					if (response && response.status != 'error') {
 						callback(true, response);
 					} else {
-						callback(false, response.error);
+						callback(false, response && response.error);
 					}
 				},
 				error: function() {

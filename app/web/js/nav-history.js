@@ -21,6 +21,12 @@ function(utils) {
 
 	var outOpacity = .7;
 	var outScale = .8;
+	var module = null;
+	
+	function trigger(event, elem) {
+		$(elem).trigger('history:' + event);
+		module.trigger(event, elem);
+	}
 
 	function detach(elem) {
 		if (!elem) {
@@ -31,14 +37,14 @@ function(utils) {
 		var el = elem[0];
 		if (el && el.parentNode) {
 			el.parentNode.removeChild(el);
-			elem.trigger('history:detach');
+			trigger('detach', elem);
 		}
 	}
 
 	function attach(target, item) {
 		if (item && target) {
 			$(target).append(item);
-			$(item).trigger('history:attach');
+			trigger('attach', item);
 		}
 	}
 
@@ -78,9 +84,9 @@ function(utils) {
 				cur.css('zIndex', '');
 				// prevEl.style[transformCSS] = curEl.style[transformCSS] = '';
 				detach(cur);
-				cur.trigger('history:remove');
-				cur.trigger('history:anim-backward');
-				cur.trigger('history:anim-complete');
+				trigger('remove', cur);
+				trigger('anim-backward', cur);
+				trigger('anim-complete', cur);
 			}
 		}));
 	}
@@ -122,16 +128,16 @@ function(utils) {
 				// prevEl.style[transformCSS] = curEl.style[transformCSS] = '';
 				detach(prev);
 
-				cur.trigger('history:anim-forward');
-				cur.trigger('history:anim-complete');
+				trigger('anim-forward', cur);
+				trigger('anim-complete', cur);
 			}
 		}));
 	}
 
-	return {
+	module = {
 		/**
 		 * @memberOf navModule
-		 * Переходм «вперёд»: показываем переданный элемент
+		 * Переходмм «вперёд»: показываем переданный элемент
 		 * на странице
 		 * @param  {Element} elem Элемент, который нужно показать
 		 */
@@ -139,6 +145,8 @@ function(utils) {
 			elem = $(elem)[0];
 			var prev = _.last(history);
 			history.push(elem);
+			
+			trigger('willAttach', elem);
 			if (prev && elem) {
 				animateForward(prev, elem);
 			} else {
@@ -155,12 +163,14 @@ function(utils) {
 			var cur = history.pop();
 			var prev = _.last(history);
 			
+			trigger('willAttach', prev);
+			
 			if (cur && prev) {
 				animateBackward(prev, cur);
 			} else {
 				attach(target, prev);
 				detach(cur);
-				$(cur).trigger('history:remove');	
+				trigger('remove', cur);	
 			}
 
 			return cur;
@@ -170,7 +180,7 @@ function(utils) {
 			_.each(history, function(item, i) {
 				if (item === oldElem) {
 					detach(oldElem);
-					$(oldElem).trigger('history:remove');
+					trigger('remove', oldElem);
 					history[i] = newElem;
 				}
 			});
@@ -202,4 +212,6 @@ function(utils) {
 			history.length = 0;
 		}
 	};
+	
+	return _.extend(module, _.events);
 });
