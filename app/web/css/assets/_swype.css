@@ -90,3 +90,8 @@
  .swype-flip_v-prev .swype-item_next {
  	opacity: 0;
  }
+
+ .swype-flip_hidden {
+ 	opacity: 0;
+ 	pointer-events: none;
+ }

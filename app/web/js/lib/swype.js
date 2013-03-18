@@ -64,7 +64,7 @@ var swype = (function() {
 		
 		this._animating = false;
 		this._locked = false;
-		this.activateElement(options.active || 0);
+		this.activateElement(this.options.active || 0);
 	}
 	
 	TransitionGroup.prototype = {
@@ -154,12 +154,19 @@ var swype = (function() {
 		},
 		
 		activateElement: function(ix) {
+			if (this.activeElementIndex == ix) {
+				return;
+			}
+
 			this.releaseElements();
 			
 			this.activeElementIndex = ix;
 			$(this.nextElement()).addClass('swype-item swype-item_next');
 			$(this.prevElement()).addClass('swype-item swype-item_prev');
 			$(this.activeElement()).addClass('swype-item swype-item_current');
+
+			// this.cleanUp();
+			// this._flipData = this._setupFlipData();
 		},
 		
 		/**
@@ -208,8 +215,6 @@ var swype = (function() {
 				}
 				
 				return this.animate(start, end, function() {
-					this.activateElement(this.activeElementIndex + 1);
-					
 					this.trigger('next');
 					swype.trigger('next');
 					
@@ -218,6 +223,8 @@ var swype = (function() {
 					
 					if (callback)
 						callback.call(this);
+
+					this.activateElement(this.activeElementIndex + 1);
 				}, options);
 			}
 			
@@ -243,8 +250,6 @@ var swype = (function() {
 				}
 				
 				return this.animate(start, end, function() {
-					this.activateElement(this.activeElementIndex - 1);
-					
 					this.trigger('prev');
 					swype.trigger('prev');
 					
@@ -253,6 +258,8 @@ var swype = (function() {
 					
 					if (callback)
 						callback.call(this);
+
+					this.activateElement(this.activeElementIndex - 1);
 				}, options);
 			}
 			
@@ -302,23 +309,18 @@ var swype = (function() {
 		
 		cleanUp: function() {
 			if (this._flipData) {
-				_.each(this._flipData, function(el) {
-					if (el && el.nodeType) {
-						$(el).remove();
-					}
-				});
-//				$(this._flipData.wrap).remove();
-				
-				var elMain = this.activeElement();
-				$(elMain.parentNode)
+				$(this.activeElement())
+					.css('display', '')
+					.parent()
 					.removeClass('swype-flip_v-prev swype-flip_v-next');
 				
-				var elems = _.compact([elMain, this.prevElement(), this.nextElement()]);
-				_.each(elems, function(el) {
-					el.style.clip = 'auto';
-				});
-				
+				var wrap = this._flipData.wrap;
+				wrap.style.opacity = 0;
 				this._flipData = null;
+
+				setTimeout(function() {
+					$(wrap).remove();
+				}, 1);
 			}
 		},
 		
@@ -344,6 +346,47 @@ var swype = (function() {
 				});
 			}
 		},
+
+		_setupFlipData: function() {
+			var start = +new Date;
+			var next = this.nextElement();
+			var prev = this.prevElement();
+			var cur = this.activeElement();
+			
+			var wrapper = $('<div class="swype-flip"></div>');
+			var clone = function(el) {
+				return $(el).clone().appendTo(wrapper)[0];
+			};
+			
+			var elems = _.map([cur, next, prev], clone);
+			
+			var data = {
+				wrap: wrapper[0],
+				cur:   elems[0],
+				cur2:  clone(elems[0]),
+				next:  elems[1],
+				next2: clone(elems[1]),
+				prev:  elems[2],
+				prev2: clone(elems[2]),
+				dir:   null,
+				hidden: false
+			};
+			
+			_.each(['cur', 'next', 'prev'], function(key) {
+				if (data[key]) {
+					data[key + 'Shade'] = $('<div class="swype-flip__shade"></div>')
+						.appendTo(data[key])[0];
+				}
+			});
+			
+			wrapper.insertBefore(this.activeElement());
+			setTimeout(function() {
+				var end = +new Date;
+				// alert((end - start) + 'ms to create flip data');
+			}, 1);
+
+			return data;
+		},
 		
 		/**
 		 * Вертикальное перемещение страниц (переворачивание)
@@ -353,33 +396,12 @@ var swype = (function() {
 			var elMain = this.activeElement();
 			
 			if (!this._flipData) {
-				
-				var next = this.nextElement();
-				var prev = this.prevElement();
-				var cur = this.activeElement();
-				
-				var wrapper = $('<div class="swype-flip"></div>');
-				
-				var elems = _.map([cur, next, prev], function(el) {
-					return $(el).clone().appendTo(wrapper)[0];
-				});
-				
-				this._flipData = {
-					wrap: wrapper[0],
-					cur: elems[0],
-					next: elems[1],
-					prev: elems[2],
-					dir: null
-				};
-				
-				_.each(['cur', 'next', 'prev'], function(key) {
-					if (this._flipData[key]) {
-						this._flipData[key + 'Shade'] = $('<div class="swype-flip__shade"></div>')
-							.appendTo(this._flipData[key])[0];
-					}
-				}, this);
-				
-				wrapper.insertBefore(elMain);
+				this._flipData = this._setupFlipData();
+			}
+
+			if (this._flipData.hidden) {
+				$(this._flipData.wrap).removeClass('swype-flip_hidden');
+				this._flipData.hidden = false;
 			}
 			
 			this.distance.y = pos;
@@ -387,32 +409,36 @@ var swype = (function() {
 			var opt = this.options;
 			var angle = Math.min(Math.max(-90 * delta / opt.flipDistance, -180), 180);
 			var absAngle = Math.abs(angle);
+			var fd = this._flipData;
 //			var shadeOpacity = (absAngle % 90) / 90 * this.options.maxShadeOpacity;
 			
-			var elCur = this._flipData.cur;
-			var elNext = this._flipData.next;
-			var elPrev = this._flipData.prev;
+			var elCur = fd.cur;
+			var elNext = fd.next;
+			var elPrev = fd.prev;
 			
-			var shCur = this._flipData.curShade;
-			var shNext = this._flipData.nextShade;
-			var shPrev = this._flipData.prevShade;
+			var shCur = fd.curShade;
+			var shNext = fd.nextShade;
+			var shPrev = fd.prevShade;
 			
 			// важно лишний раз не дёргать offsetHeight, так как это свойство
 			// вызывает reflow. Поэтому переменную half получаем отдельно в 
 			// каждом условии
 			if (delta < 0) {
 				// перелистываем к следующей странице
-				if (this._flipData.dir !== 'next') {
+				if (fd.dir !== 'next') {
 					$(elMain.parentNode)
 						.removeClass('swype-flip_v-prev')
 						.addClass('swype-flip_v-next');
 					
 					var half = Math.round(elCur.offsetHeight / 2);
+
 					elCur.style.clip = 'rect(' + half + 'px, auto, auto, auto)';
 					
 					shCur.style.backgroundColor = '#fff';
 					
-					elMain.style.clip = 'rect(auto, auto, ' + half + 'px, auto)';
+					// elMain.style.clip = 'rect(auto, auto, ' + half + 'px, auto)';
+					elMain.style.display = 'none';
+					fd.cur2.style.clip = 'rect(auto, auto, ' + half + 'px, auto)';
 					
 					if (elNext) {
 						elNext.style.clip = 'rect(auto, auto, ' + half + 'px, auto)';
@@ -438,7 +464,10 @@ var swype = (function() {
 					var half = Math.round(elCur.offsetHeight / 2);
 					elCur.style.clip = 'rect(auto, auto, ' + half + 'px, auto)';
 					shCur.style.backgroundColor = '#000';
-					elMain.style.clip = 'rect(' + half + 'px, auto, auto, auto)';
+
+					// elMain.style.clip = 'rect(' + half + 'px, auto, auto, auto)';
+					elMain.style.display = 'none';
+					fd.cur2.style.clip = 'rect(' + half + 'px, auto, auto, auto)';
 
 					if (elPrev) {
 						elPrev.style.clip = 'rect(' + half + 'px, auto, auto, auto)';
@@ -592,6 +621,7 @@ var swype = (function() {
 		
 		destroy: function() {
 			groups = _.without(groups, this);
+			this.cleanUp();
 			this.trigger('destroy');
 			this.off();
 		}
@@ -633,6 +663,7 @@ var swype = (function() {
 	});
 	
 	addEvent('pointerend', function(evt) {
+		// return;
 		if (activeGroup) {
 			activeGroup.onPointerUp(evt);
 			if (evt.moved) {
