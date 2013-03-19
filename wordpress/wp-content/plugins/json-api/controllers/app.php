@@ -3,6 +3,8 @@
 Controller name: iOS App
 Controller description: iOS App API
 */
+include_once('core.php');
+
 class JSON_API_App_Controller {
 	var $splashCatgories = array('news', 'appstore', 'accessories');
 	var $splashPages = array('team', 'app-custom');
@@ -18,8 +20,19 @@ class JSON_API_App_Controller {
 	 */
 	public function posts() {
 		global $json_api;
+		$json_api->full_post = true;
 		$posts = $json_api->introspector->get_posts();
+		$json_api->full_post = false;
 		return $this->posts_result($posts);
+	}
+
+	public function get_category_posts() {
+		global $json_api;
+		$core = new JSON_API_Core_Controller();
+		$json_api->full_post = true;
+		$result = $core->get_category_posts();
+		$json_api->full_post = false;
+		return $result;
 	}
 
 	/**

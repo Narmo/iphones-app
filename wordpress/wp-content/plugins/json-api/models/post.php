@@ -161,11 +161,17 @@ class JSON_API_Post {
     
   function set_content_value() {
     global $json_api;
+    global $more;
     if ($json_api->include_value('content')) {
+      $old_more = $more;
+      if ($json_api->full_post) {
+        $more = 1;
+      }
       $content = get_the_content($json_api->query->read_more);
       $content = apply_filters('the_content', $content);
       $content = str_replace(']]>', ']]&gt;', $content);
       $this->content = $content;
+      $more = $old_more;
     } else {
       unset($this->content);
     }
