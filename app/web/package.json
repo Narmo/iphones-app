@@ -1,12 +1,15 @@
 {
-	"name": "iPhonesiOSApp",
-	"description": "iOS-приложение для сайта iphones.ru",
-	"version": "1.0.0",
-	"private": true,
-	"dependencies": {
-		"underscore": ">=1.4.0",
-		"grunt-contrib-copy": "~0.3",
-		"grunt-frontend": "~1",
-		"grunt-contrib-handlebars": "~0.3"
-	}
+  "name": "iPhonesiOSApp",
+  "description": "iOS-приложение для сайта iphones.ru",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "grunt": "~0.4",
+    "underscore": ">=1.4.0",
+    "grunt-contrib-copy": "~0.4",
+    "grunt-frontend": "~1.1",
+    "grunt-contrib-handlebars": "~0.5",
+    "grunt-contrib-requirejs": "~0.4.0",
+    "grunt-contrib-watch": "~0.3.1"
+  }
 }

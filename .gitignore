@@ -3,3 +3,5 @@
 /app/web/node_modules/
 /src/
 /wordpress/wp-content/uploads/
+.DS_Store
+/app/web/out/

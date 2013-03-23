@@ -5,6 +5,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-frontend');
 	grunt.loadNpmTasks('grunt-contrib-handlebars');
+	grunt.loadNpmTasks('grunt-contrib-requirejs');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	grunt.initConfig({
 		handlebars: {
@@ -13,13 +15,27 @@ module.exports = function(grunt) {
 					'js/templates.js': 'templates/*.hbs'
 				},
 				options: {
+					wrapped: false,
 					namespace: 'Handlebars._templates'
 				}
 			}
 		},
+
+		requirejs: {
+			compile: {
+				options: {
+					name: 'main',
+					optimize: 'uglify2',
+					baseUrl: './js',
+					out: './out/app.js'
+				}
+			}
+		},
 		watch: {
-			files: 'templates/*.*',
-			tasks: ['handlebars']
+			templates: {
+				files: 'templates/*.*',
+				tasks: ['handlebars']	
+			}
 		}
 	});
 

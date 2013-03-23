@@ -7,5 +7,9 @@
 		{
 			"path": "wordpress"
 		}
-	]
+	],
+	"ternjs": {
+		"exclude": ["wordpress/**", "node_modules/**", "out/**"],
+		"libs": ["browser"]
+	}
 }
