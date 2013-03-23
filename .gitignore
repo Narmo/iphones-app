@@ -5,3 +5,4 @@
 /wordpress/wp-content/uploads/
 .DS_Store
 /app/web/out/
+/app/web/.build-catalog.json

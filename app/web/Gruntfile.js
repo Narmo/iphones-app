@@ -31,6 +31,37 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+
+		frontend: {
+			main: {
+				options: {
+					webroot: './out',
+					srcWebroot: './'
+				},
+				'css-file': {
+					'./out/main.css': './css/main.css'
+				},
+				js: {
+					files: {
+						'out/libs.js': [
+							'./js/lib/Modernizr.js',
+							'./js/lib/zepto.js',
+							'./js/lib/underscore.js',
+							'./js/lib/underscore-ext.js',
+							'./js/lib/pointerEvents.js',
+							'./js/lib/swype.js',
+							'./js/lib/tween.js',
+							'./js/lib/handlebars.js',
+							'./js/lib/delayedAjax.js',
+							'./js/lib/require.js',
+							'./js/templates.js'
+						]
+					}
+					
+				}
+			}
+		},
+
 		watch: {
 			templates: {
 				files: 'templates/*.*',
