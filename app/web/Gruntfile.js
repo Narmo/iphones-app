@@ -32,6 +32,19 @@ module.exports = function(grunt) {
 			}
 		},
 
+		copy: {
+			fonts: {
+				files: [
+					{
+						src: './css/fonts/*', 
+						dest: './out/fonts/',
+						expand: true,
+						flatten: true
+					}
+				]
+			}
+		},
+
 		frontend: {
 			main: {
 				options: {
@@ -71,5 +84,5 @@ module.exports = function(grunt) {
 	});
 
 	// Default task.
-	grunt.registerTask('default', 'handlebars');
+	grunt.registerTask('default', ['handlebars', 'handlebars', 'requirejs', 'frontend', 'copy']);
 };
