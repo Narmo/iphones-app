@@ -1,0 +1,449 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A50F81F016FF105F00F68CF8 /* GMAppleDouble+ZKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81CC16FF105F00F68CF8 /* GMAppleDouble+ZKAdditions.m */; };
+		A50F81F116FF105F00F68CF8 /* GMAppleDouble.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81CF16FF105F00F68CF8 /* GMAppleDouble.m */; };
+		A50F81F216FF105F00F68CF8 /* NSData+ZKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81D116FF105F00F68CF8 /* NSData+ZKAdditions.m */; };
+		A50F81F316FF105F00F68CF8 /* NSDate+ZKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81D316FF105F00F68CF8 /* NSDate+ZKAdditions.m */; };
+		A50F81F416FF105F00F68CF8 /* NSDictionary+ZKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81D516FF105F00F68CF8 /* NSDictionary+ZKAdditions.m */; };
+		A50F81F516FF105F00F68CF8 /* NSFileHandle+ZKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81D716FF105F00F68CF8 /* NSFileHandle+ZKAdditions.m */; };
+		A50F81F616FF105F00F68CF8 /* NSFileManager+ZKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81D916FF105F00F68CF8 /* NSFileManager+ZKAdditions.m */; };
+		A50F81F716FF105F00F68CF8 /* NSString+ZKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81DB16FF105F00F68CF8 /* NSString+ZKAdditions.m */; };
+		A50F81F816FF105F00F68CF8 /* ZKArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81DD16FF105F00F68CF8 /* ZKArchive.m */; };
+		A50F81F916FF105F00F68CF8 /* ZKCDHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81DF16FF105F00F68CF8 /* ZKCDHeader.m */; };
+		A50F81FA16FF105F00F68CF8 /* ZKCDTrailer.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81E116FF105F00F68CF8 /* ZKCDTrailer.m */; };
+		A50F81FB16FF105F00F68CF8 /* ZKCDTrailer64.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81E316FF105F00F68CF8 /* ZKCDTrailer64.m */; };
+		A50F81FC16FF105F00F68CF8 /* ZKCDTrailer64Locator.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81E516FF105F00F68CF8 /* ZKCDTrailer64Locator.m */; };
+		A50F81FD16FF105F00F68CF8 /* ZKDataArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81E716FF105F00F68CF8 /* ZKDataArchive.m */; };
+		A50F81FE16FF105F00F68CF8 /* ZKDefs.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81E916FF105F00F68CF8 /* ZKDefs.m */; };
+		A50F81FF16FF105F00F68CF8 /* ZKFileArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81EB16FF105F00F68CF8 /* ZKFileArchive.m */; };
+		A50F820016FF105F00F68CF8 /* ZKLFHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81ED16FF105F00F68CF8 /* ZKLFHeader.m */; };
+		A50F820116FF105F00F68CF8 /* ZKLog.m in Sources */ = {isa = PBXBuildFile; fileRef = A50F81EF16FF105F00F68CF8 /* ZKLog.m */; };
+		A50F820F16FF211C00F68CF8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A50F820E16FF211C00F68CF8 /* libz.dylib */; };
+		A50F821116FF221F00F68CF8 /* app.zip in Resources */ = {isa = PBXBuildFile; fileRef = A50F821016FF221F00F68CF8 /* app.zip */; };
+		A5210F1B16F8E206008FC5DA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5210F1A16F8E206008FC5DA /* UIKit.framework */; };
+		A5210F1D16F8E206008FC5DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5210F1C16F8E206008FC5DA /* Foundation.framework */; };
+		A5210F1F16F8E206008FC5DA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5210F1E16F8E206008FC5DA /* CoreGraphics.framework */; };
+		A5210F2516F8E206008FC5DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5210F2316F8E206008FC5DA /* InfoPlist.strings */; };
+		A5210F2716F8E206008FC5DA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A5210F2616F8E206008FC5DA /* main.m */; };
+		A5210F2B16F8E206008FC5DA /* IPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A5210F2A16F8E206008FC5DA /* IPAppDelegate.m */; };
+		A5210F2D16F8E206008FC5DA /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A5210F2C16F8E206008FC5DA /* Default.png */; };
+		A5210F2F16F8E206008FC5DA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A5210F2E16F8E206008FC5DA /* Default@2x.png */; };
+		A5210F3116F8E206008FC5DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A5210F3016F8E206008FC5DA /* Default-568h@2x.png */; };
+		A5210F3416F8E206008FC5DA /* IPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5210F3316F8E206008FC5DA /* IPViewController.m */; };
+		A5210F3716F8E206008FC5DA /* IPViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5210F3516F8E206008FC5DA /* IPViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A50F81CB16FF105F00F68CF8 /* GMAppleDouble+ZKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GMAppleDouble+ZKAdditions.h"; sourceTree = "<group>"; };
+		A50F81CC16FF105F00F68CF8 /* GMAppleDouble+ZKAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GMAppleDouble+ZKAdditions.m"; sourceTree = "<group>"; };
+		A50F81CE16FF105F00F68CF8 /* GMAppleDouble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMAppleDouble.h; sourceTree = "<group>"; };
+		A50F81CF16FF105F00F68CF8 /* GMAppleDouble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMAppleDouble.m; sourceTree = "<group>"; };
+		A50F81D016FF105F00F68CF8 /* NSData+ZKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ZKAdditions.h"; sourceTree = "<group>"; };
+		A50F81D116FF105F00F68CF8 /* NSData+ZKAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+ZKAdditions.m"; sourceTree = "<group>"; };
+		A50F81D216FF105F00F68CF8 /* NSDate+ZKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+ZKAdditions.h"; sourceTree = "<group>"; };
+		A50F81D316FF105F00F68CF8 /* NSDate+ZKAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+ZKAdditions.m"; sourceTree = "<group>"; };
+		A50F81D416FF105F00F68CF8 /* NSDictionary+ZKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+ZKAdditions.h"; sourceTree = "<group>"; };
+		A50F81D516FF105F00F68CF8 /* NSDictionary+ZKAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+ZKAdditions.m"; sourceTree = "<group>"; };
+		A50F81D616FF105F00F68CF8 /* NSFileHandle+ZKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileHandle+ZKAdditions.h"; sourceTree = "<group>"; };
+		A50F81D716FF105F00F68CF8 /* NSFileHandle+ZKAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileHandle+ZKAdditions.m"; sourceTree = "<group>"; };
+		A50F81D816FF105F00F68CF8 /* NSFileManager+ZKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+ZKAdditions.h"; sourceTree = "<group>"; };
+		A50F81D916FF105F00F68CF8 /* NSFileManager+ZKAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+ZKAdditions.m"; sourceTree = "<group>"; };
+		A50F81DA16FF105F00F68CF8 /* NSString+ZKAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ZKAdditions.h"; sourceTree = "<group>"; };
+		A50F81DB16FF105F00F68CF8 /* NSString+ZKAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ZKAdditions.m"; sourceTree = "<group>"; };
+		A50F81DC16FF105F00F68CF8 /* ZKArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKArchive.h; sourceTree = "<group>"; };
+		A50F81DD16FF105F00F68CF8 /* ZKArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKArchive.m; sourceTree = "<group>"; };
+		A50F81DE16FF105F00F68CF8 /* ZKCDHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKCDHeader.h; sourceTree = "<group>"; };
+		A50F81DF16FF105F00F68CF8 /* ZKCDHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKCDHeader.m; sourceTree = "<group>"; };
+		A50F81E016FF105F00F68CF8 /* ZKCDTrailer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKCDTrailer.h; sourceTree = "<group>"; };
+		A50F81E116FF105F00F68CF8 /* ZKCDTrailer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKCDTrailer.m; sourceTree = "<group>"; };
+		A50F81E216FF105F00F68CF8 /* ZKCDTrailer64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKCDTrailer64.h; sourceTree = "<group>"; };
+		A50F81E316FF105F00F68CF8 /* ZKCDTrailer64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKCDTrailer64.m; sourceTree = "<group>"; };
+		A50F81E416FF105F00F68CF8 /* ZKCDTrailer64Locator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKCDTrailer64Locator.h; sourceTree = "<group>"; };
+		A50F81E516FF105F00F68CF8 /* ZKCDTrailer64Locator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKCDTrailer64Locator.m; sourceTree = "<group>"; };
+		A50F81E616FF105F00F68CF8 /* ZKDataArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKDataArchive.h; sourceTree = "<group>"; };
+		A50F81E716FF105F00F68CF8 /* ZKDataArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKDataArchive.m; sourceTree = "<group>"; };
+		A50F81E816FF105F00F68CF8 /* ZKDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKDefs.h; sourceTree = "<group>"; };
+		A50F81E916FF105F00F68CF8 /* ZKDefs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKDefs.m; sourceTree = "<group>"; };
+		A50F81EA16FF105F00F68CF8 /* ZKFileArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKFileArchive.h; sourceTree = "<group>"; };
+		A50F81EB16FF105F00F68CF8 /* ZKFileArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKFileArchive.m; sourceTree = "<group>"; };
+		A50F81EC16FF105F00F68CF8 /* ZKLFHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKLFHeader.h; sourceTree = "<group>"; };
+		A50F81ED16FF105F00F68CF8 /* ZKLFHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKLFHeader.m; sourceTree = "<group>"; };
+		A50F81EE16FF105F00F68CF8 /* ZKLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZKLog.h; sourceTree = "<group>"; };
+		A50F81EF16FF105F00F68CF8 /* ZKLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZKLog.m; sourceTree = "<group>"; };
+		A50F820E16FF211C00F68CF8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		A50F821016FF221F00F68CF8 /* app.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = app.zip; sourceTree = "<group>"; };
+		A5210F1716F8E206008FC5DA /* iPhones News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iPhones News.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5210F1A16F8E206008FC5DA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A5210F1C16F8E206008FC5DA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A5210F1E16F8E206008FC5DA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A5210F2216F8E206008FC5DA /* iPhones News-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iPhones News-Info.plist"; sourceTree = "<group>"; };
+		A5210F2416F8E206008FC5DA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A5210F2616F8E206008FC5DA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A5210F2816F8E206008FC5DA /* iPhones News-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iPhones News-Prefix.pch"; sourceTree = "<group>"; };
+		A5210F2916F8E206008FC5DA /* IPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPAppDelegate.h; sourceTree = "<group>"; };
+		A5210F2A16F8E206008FC5DA /* IPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPAppDelegate.m; sourceTree = "<group>"; };
+		A5210F2C16F8E206008FC5DA /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		A5210F2E16F8E206008FC5DA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		A5210F3016F8E206008FC5DA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		A5210F3216F8E206008FC5DA /* IPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPViewController.h; sourceTree = "<group>"; };
+		A5210F3316F8E206008FC5DA /* IPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPViewController.m; sourceTree = "<group>"; };
+		A5210F3616F8E206008FC5DA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/IPViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A5210F1416F8E206008FC5DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A50F820F16FF211C00F68CF8 /* libz.dylib in Frameworks */,
+				A5210F1B16F8E206008FC5DA /* UIKit.framework in Frameworks */,
+				A5210F1D16F8E206008FC5DA /* Foundation.framework in Frameworks */,
+				A5210F1F16F8E206008FC5DA /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A50F81C916FF103E00F68CF8 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				A50F81CA16FF105F00F68CF8 /* ZipKit */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		A50F81CA16FF105F00F68CF8 /* ZipKit */ = {
+			isa = PBXGroup;
+			children = (
+				A50F81CB16FF105F00F68CF8 /* GMAppleDouble+ZKAdditions.h */,
+				A50F81CC16FF105F00F68CF8 /* GMAppleDouble+ZKAdditions.m */,
+				A50F81CD16FF105F00F68CF8 /* MacFUSE */,
+				A50F81D016FF105F00F68CF8 /* NSData+ZKAdditions.h */,
+				A50F81D116FF105F00F68CF8 /* NSData+ZKAdditions.m */,
+				A50F81D216FF105F00F68CF8 /* NSDate+ZKAdditions.h */,
+				A50F81D316FF105F00F68CF8 /* NSDate+ZKAdditions.m */,
+				A50F81D416FF105F00F68CF8 /* NSDictionary+ZKAdditions.h */,
+				A50F81D516FF105F00F68CF8 /* NSDictionary+ZKAdditions.m */,
+				A50F81D616FF105F00F68CF8 /* NSFileHandle+ZKAdditions.h */,
+				A50F81D716FF105F00F68CF8 /* NSFileHandle+ZKAdditions.m */,
+				A50F81D816FF105F00F68CF8 /* NSFileManager+ZKAdditions.h */,
+				A50F81D916FF105F00F68CF8 /* NSFileManager+ZKAdditions.m */,
+				A50F81DA16FF105F00F68CF8 /* NSString+ZKAdditions.h */,
+				A50F81DB16FF105F00F68CF8 /* NSString+ZKAdditions.m */,
+				A50F81DC16FF105F00F68CF8 /* ZKArchive.h */,
+				A50F81DD16FF105F00F68CF8 /* ZKArchive.m */,
+				A50F81DE16FF105F00F68CF8 /* ZKCDHeader.h */,
+				A50F81DF16FF105F00F68CF8 /* ZKCDHeader.m */,
+				A50F81E016FF105F00F68CF8 /* ZKCDTrailer.h */,
+				A50F81E116FF105F00F68CF8 /* ZKCDTrailer.m */,
+				A50F81E216FF105F00F68CF8 /* ZKCDTrailer64.h */,
+				A50F81E316FF105F00F68CF8 /* ZKCDTrailer64.m */,
+				A50F81E416FF105F00F68CF8 /* ZKCDTrailer64Locator.h */,
+				A50F81E516FF105F00F68CF8 /* ZKCDTrailer64Locator.m */,
+				A50F81E616FF105F00F68CF8 /* ZKDataArchive.h */,
+				A50F81E716FF105F00F68CF8 /* ZKDataArchive.m */,
+				A50F81E816FF105F00F68CF8 /* ZKDefs.h */,
+				A50F81E916FF105F00F68CF8 /* ZKDefs.m */,
+				A50F81EA16FF105F00F68CF8 /* ZKFileArchive.h */,
+				A50F81EB16FF105F00F68CF8 /* ZKFileArchive.m */,
+				A50F81EC16FF105F00F68CF8 /* ZKLFHeader.h */,
+				A50F81ED16FF105F00F68CF8 /* ZKLFHeader.m */,
+				A50F81EE16FF105F00F68CF8 /* ZKLog.h */,
+				A50F81EF16FF105F00F68CF8 /* ZKLog.m */,
+			);
+			path = ZipKit;
+			sourceTree = "<group>";
+		};
+		A50F81CD16FF105F00F68CF8 /* MacFUSE */ = {
+			isa = PBXGroup;
+			children = (
+				A50F81CE16FF105F00F68CF8 /* GMAppleDouble.h */,
+				A50F81CF16FF105F00F68CF8 /* GMAppleDouble.m */,
+			);
+			path = MacFUSE;
+			sourceTree = "<group>";
+		};
+		A5210F0E16F8E206008FC5DA = {
+			isa = PBXGroup;
+			children = (
+				A50F81C916FF103E00F68CF8 /* Libraries */,
+				A5210F2016F8E206008FC5DA /* iPhones News */,
+				A5210F1916F8E206008FC5DA /* Frameworks */,
+				A5210F1816F8E206008FC5DA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A5210F1816F8E206008FC5DA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A5210F1716F8E206008FC5DA /* iPhones News.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A5210F1916F8E206008FC5DA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A50F820E16FF211C00F68CF8 /* libz.dylib */,
+				A5210F1A16F8E206008FC5DA /* UIKit.framework */,
+				A5210F1C16F8E206008FC5DA /* Foundation.framework */,
+				A5210F1E16F8E206008FC5DA /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A5210F2016F8E206008FC5DA /* iPhones News */ = {
+			isa = PBXGroup;
+			children = (
+				A5210F2916F8E206008FC5DA /* IPAppDelegate.h */,
+				A5210F2A16F8E206008FC5DA /* IPAppDelegate.m */,
+				A5210F3216F8E206008FC5DA /* IPViewController.h */,
+				A5210F3316F8E206008FC5DA /* IPViewController.m */,
+				A5210F3516F8E206008FC5DA /* IPViewController.xib */,
+				A5210F2116F8E206008FC5DA /* Supporting Files */,
+			);
+			path = "iPhones News";
+			sourceTree = "<group>";
+		};
+		A5210F2116F8E206008FC5DA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A50F821016FF221F00F68CF8 /* app.zip */,
+				A5210F2216F8E206008FC5DA /* iPhones News-Info.plist */,
+				A5210F2316F8E206008FC5DA /* InfoPlist.strings */,
+				A5210F2616F8E206008FC5DA /* main.m */,
+				A5210F2816F8E206008FC5DA /* iPhones News-Prefix.pch */,
+				A5210F2C16F8E206008FC5DA /* Default.png */,
+				A5210F2E16F8E206008FC5DA /* Default@2x.png */,
+				A5210F3016F8E206008FC5DA /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A5210F1616F8E206008FC5DA /* iPhones News */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5210F3A16F8E206008FC5DA /* Build configuration list for PBXNativeTarget "iPhones News" */;
+			buildPhases = (
+				A5210F1316F8E206008FC5DA /* Sources */,
+				A5210F1416F8E206008FC5DA /* Frameworks */,
+				A5210F1516F8E206008FC5DA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "iPhones News";
+			productName = "iPhones News";
+			productReference = A5210F1716F8E206008FC5DA /* iPhones News.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A5210F0F16F8E206008FC5DA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = IP;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Sergey Chikuyonok";
+			};
+			buildConfigurationList = A5210F1216F8E206008FC5DA /* Build configuration list for PBXProject "iPhones News" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A5210F0E16F8E206008FC5DA;
+			productRefGroup = A5210F1816F8E206008FC5DA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A5210F1616F8E206008FC5DA /* iPhones News */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A5210F1516F8E206008FC5DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5210F2516F8E206008FC5DA /* InfoPlist.strings in Resources */,
+				A5210F2D16F8E206008FC5DA /* Default.png in Resources */,
+				A5210F2F16F8E206008FC5DA /* Default@2x.png in Resources */,
+				A5210F3116F8E206008FC5DA /* Default-568h@2x.png in Resources */,
+				A5210F3716F8E206008FC5DA /* IPViewController.xib in Resources */,
+				A50F821116FF221F00F68CF8 /* app.zip in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A5210F1316F8E206008FC5DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5210F2716F8E206008FC5DA /* main.m in Sources */,
+				A5210F2B16F8E206008FC5DA /* IPAppDelegate.m in Sources */,
+				A5210F3416F8E206008FC5DA /* IPViewController.m in Sources */,
+				A50F81F016FF105F00F68CF8 /* GMAppleDouble+ZKAdditions.m in Sources */,
+				A50F81F116FF105F00F68CF8 /* GMAppleDouble.m in Sources */,
+				A50F81F216FF105F00F68CF8 /* NSData+ZKAdditions.m in Sources */,
+				A50F81F316FF105F00F68CF8 /* NSDate+ZKAdditions.m in Sources */,
+				A50F81F416FF105F00F68CF8 /* NSDictionary+ZKAdditions.m in Sources */,
+				A50F81F516FF105F00F68CF8 /* NSFileHandle+ZKAdditions.m in Sources */,
+				A50F81F616FF105F00F68CF8 /* NSFileManager+ZKAdditions.m in Sources */,
+				A50F81F716FF105F00F68CF8 /* NSString+ZKAdditions.m in Sources */,
+				A50F81F816FF105F00F68CF8 /* ZKArchive.m in Sources */,
+				A50F81F916FF105F00F68CF8 /* ZKCDHeader.m in Sources */,
+				A50F81FA16FF105F00F68CF8 /* ZKCDTrailer.m in Sources */,
+				A50F81FB16FF105F00F68CF8 /* ZKCDTrailer64.m in Sources */,
+				A50F81FC16FF105F00F68CF8 /* ZKCDTrailer64Locator.m in Sources */,
+				A50F81FD16FF105F00F68CF8 /* ZKDataArchive.m in Sources */,
+				A50F81FE16FF105F00F68CF8 /* ZKDefs.m in Sources */,
+				A50F81FF16FF105F00F68CF8 /* ZKFileArchive.m in Sources */,
+				A50F820016FF105F00F68CF8 /* ZKLFHeader.m in Sources */,
+				A50F820116FF105F00F68CF8 /* ZKLog.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A5210F2316F8E206008FC5DA /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5210F2416F8E206008FC5DA /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A5210F3516F8E206008FC5DA /* IPViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5210F3616F8E206008FC5DA /* en */,
+			);
+			name = IPViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A5210F3816F8E206008FC5DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		A5210F3916F8E206008FC5DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A5210F3B16F8E206008FC5DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iPhones News/iPhones News-Prefix.pch";
+				INFOPLIST_FILE = "iPhones News/iPhones News-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		A5210F3C16F8E206008FC5DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iPhones News/iPhones News-Prefix.pch";
+				INFOPLIST_FILE = "iPhones News/iPhones News-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A5210F1216F8E206008FC5DA /* Build configuration list for PBXProject "iPhones News" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5210F3816F8E206008FC5DA /* Debug */,
+				A5210F3916F8E206008FC5DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A5210F3A16F8E206008FC5DA /* Build configuration list for PBXNativeTarget "iPhones News" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5210F3B16F8E206008FC5DA /* Debug */,
+				A5210F3C16F8E206008FC5DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A5210F0F16F8E206008FC5DA /* Project object */;
+}
