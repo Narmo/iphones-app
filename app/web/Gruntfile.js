@@ -7,6 +7,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-handlebars');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-zipstream');
+
+	grunt.registerMultiTask('touch', 'Toches (creates or modifies) file', function() {
+		var content = this.data.content;
+		var f = this.data.file;
+		grunt.file.write(f, (typeof content == 'function') ? content(f) : content);
+	});
 
 	grunt.initConfig({
 		handlebars: {
@@ -75,6 +82,28 @@ module.exports = function(grunt) {
 			}
 		},
 
+		touch: {
+			main: {
+				file: './out/version.txt',
+				content: function() {
+					return Date.now();
+				}
+			}
+		},
+
+		zip: {
+			main: {
+				src: [
+					'out/**/*',
+					'!out/*.zip'
+				],
+				dest: path.join('out', 'app.zip'),
+				options: {
+					base: 'out/'
+				}
+			}
+		},
+
 		watch: {
 			templates: {
 				files: 'templates/*.*',
@@ -84,5 +113,5 @@ module.exports = function(grunt) {
 	});
 
 	// Default task.
-	grunt.registerTask('default', ['handlebars', 'handlebars', 'requirejs', 'frontend', 'copy']);
+	grunt.registerTask('default', ['handlebars', 'requirejs', 'frontend', 'copy', 'touch', 'zip']);
 };
