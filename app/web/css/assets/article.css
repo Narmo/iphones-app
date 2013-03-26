@@ -25,9 +25,10 @@
 	position: relative;
 	height: 174px;
 	overflow: hidden;
+	background: red;
 }
 
-.article__image-holder:before {
+/* .article__image-holder:before {
 	content: '';
 	display: block;
 	position: absolute;
@@ -37,7 +38,7 @@
 	bottom: 0;
 	z-index: 1;
 	border: 1px solid rgba(0,0,0,0.1);
-}
+} */
 
 .article__image-holder img {
 	display: block;

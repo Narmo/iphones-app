@@ -15,7 +15,9 @@ define(function() {
 					var elems = _.isString(items) ? container.find(items) : items;
 					group = swype.setup(_.toArray(elems), _.extend({
 						viewport: container[0],
-						tapzone: 0
+						tapzone: 0,
+						// active: 1,
+						optimizeLayout: true
 					}, options || {}));
 				}
 			}

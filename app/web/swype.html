@@ -35,6 +35,15 @@
 		.sw2 {
 			background: green;
 		}
+
+		.swype-flip {
+			background: #000;
+		}
+
+		.swype-flip .swype-item_prev {
+			right: 0;
+			z-index: 2;
+		}
 	</style>
 </head>
 <body>
@@ -42,7 +51,7 @@
 	<div class="sw sw2">2</div>
 	<div class="sw sw3">3</div>
 	<script>
-		swype.setup(_.toArray($('.sw')), {active: 0});
+		swype.setup(_.toArray($('.sw')), {active: 1});
 	</script>
 </body>
 </html>

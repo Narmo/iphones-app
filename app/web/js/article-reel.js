@@ -28,13 +28,38 @@ function(utils, sheet, imagePreloader, nav, article, flipper) {
 				return img;
 			});
 
+			var loadedImages = 0, completed = false;
+			var cachedSize = null;
+			var complete = function() {
+				if (completed) return;
+				if (options.complete) {
+					options.complete(reel);
+				}
+				completed = true;
+			};
+
 			imagePreloader.getSize(images, function(src, size, image) {
 				if (src !== 'complete') {
+					console.log('Loaded', src);
+					loadedImages++;
 					var holder = $(lookup[src]).find('.article__image-holder');
-					utils.centerImage(image, size, holder[0]);
+
+					if (!cachedSize) {
+						cachedSize = {
+							width: holder[0].offsetWidth,
+							height: holder[0].offsetHeight
+						};
+					}
+
+					utils.centerImage(image, size, cachedSize);
 					holder.append(image);
-				} else if (options.complete) {
-					options.complete(reel);
+
+					if (loadedImages == 2) {
+						complete();
+						console.log('Pre-complete');
+					}
+				} else {
+					complete();
 				}
 			});
 

@@ -21,7 +21,7 @@ define(['utils'], function(utils) {
 		 * @param  {Array}   images   Список картинок, которые нужно загрузить
 		 * @param  {Function} callback 
 		 */
-		getSize: function(images, callback) {
+		getSizeOld: function(images, callback) {
 			if (!_.isArray(images)) {
 				images = [images];
 			}
@@ -60,6 +60,55 @@ define(['utils'], function(utils) {
 					image._src = image.src = img;
 				}
 			});
+		},
+
+		getSize: function(images, callback) {
+			if (!_.isArray(images)) {
+				images = [images];
+			}
+
+			images = _.flatten(images);
+
+			var next = function() {
+				if (!images.length) {
+					return callback('complete');
+				}
+
+				var img = images.shift();
+				if (!img) {
+					return next();
+				}
+
+				if (img in cache) {
+					imageLoaded(img, cache[img]);
+				} else {
+					var image = new Image;
+					image.onload = onLoad;
+					image._src = image.src = img;
+				}
+			};
+
+			var onLoad = function() {
+				var src = this._src;
+				cache[src] = {
+					width: this.naturalWidth,
+					height: this.naturalHeight
+				};
+
+				imageLoaded(src, cache[src], this);
+			};
+
+			var imageLoaded = function(src, size, image) {
+				if (!image) {
+					image = new Image;
+					image.src = src;
+				}
+
+				callback(src, size, image);
+				next();
+			}
+
+			next();
 		},
 
 		resetCache: function() {

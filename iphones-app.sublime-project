@@ -9,7 +9,12 @@
 		}
 	],
 	"ternjs": {
-		"exclude": ["wordpress/**", "node_modules/**", "out/**"],
-		"libs": ["browser"]
+		"exclude": ["wordpress/**", "node_modules/**", "out/**", "underscore.js"],
+		"libs": ["browser", "jquery"],
+		"plugins": {
+			"requirejs": {
+				"baseURL": "./app/web/js"
+			}
+		}
 	}
 }

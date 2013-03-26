@@ -7,6 +7,7 @@
 	left: 0;
 	right: 0;
 	z-index: 1004;
+	background: #ebebeb;
 	
 	-webkit-transform-style: preserve-3d;
 	-webkit-perspective: 1000px;
@@ -17,6 +18,11 @@
 	-moz-backface-visibility: hidden;
 	-ms-backface-visibility: hidden;
 	backface-visibility: hidden;
+}
+
+.swype-flip .swype-item_prev {
+	right: 0;
+	z-index: 2;
 }
 
 /* Стадии для вертикального перелистывания */
