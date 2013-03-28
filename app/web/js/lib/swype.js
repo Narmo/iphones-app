@@ -374,13 +374,13 @@ var swype = (function() {
 			var prev = this.prevElement();
 			var cur = this.activeElement();
 			
-			var wrapper = $('<div class="swype-flip" style="opacity: 0;"></div>');
+			var wrapper = $('<div class="swype-flip"></div>');
 			/**
 			 * @return {Element}
 			 */
 			var clone = function(el, className) {
 				var clone = el ? $(el).clone().appendTo(wrapper)[0] : null;
-				if (clone && className) {
+				if (clone && _.isString(className)) {
 					clone.className += ' ' + className;
 				}
 				return clone;
@@ -392,16 +392,18 @@ var swype = (function() {
 			var data = {
 				wrap: wrapper[0],
 				cur:   elems[0],
-				cur2:  clone(elems[0]),
+				cur2:  clone(elems[0], 'swype-dupe'),
 				next:  elems[1],
 				next2: clone(elems[1], 'swype-dupe'),
 				prev:  elems[2],
 				prev2: clone(elems[2], 'swype-dupe'),
 				dir:   null,
-				hidden: true
+				hidden: false
 			};
 
 			var half = Math.round(cur.offsetHeight / 2);
+			// data.wrap.style.webkitTransformOrigin = '0 ' + half + 'px';
+
 
 			var leaveTop = 'rect(auto, auto, ' + half + 'px, auto)';
 			var leaveBottom = 'rect(' + half + 'px, auto, auto, auto)';
@@ -412,6 +414,7 @@ var swype = (function() {
 			if (data.next) {
 				data.next.style.clip = leaveBottom;
 				data.next2.style.clip = leaveTop;
+				// data.next2.style.clip = 'rect(auto, auto, ' + (half + 1) + 'px, auto)';
 			}
 
 			if (data.prev) {
@@ -419,18 +422,8 @@ var swype = (function() {
 				data.prev2.style.clip = leaveBottom;
 			}
 			
-			// _.each(['cur', 'next', 'prev'], function(key) {
-			// 	if (data[key]) {
-			// 		data[key + 'Shade'] = $('<div class="swype-flip__shade"></div>')
-			// 			.appendTo(data[key])[0];
-			// 	}
-			// });
-			
 			wrapper.insertBefore(this.activeElement());
-			// setTimeout(function() {
-			// 	var end = +new Date;
-			// 	// alert((end - start) + 'ms to create flip data');
-			// }, 1);
+
 
 			return data;
 		},
@@ -444,14 +437,6 @@ var swype = (function() {
 			
 			if (!this._flipData) {
 				this._flipData = this._setupFlipData();
-			}
-
-			// return;
-
-			if (this._flipData.hidden) {
-				// $(this._flipData.wrap).removeClass('swype-flip_hidden');
-				this._flipData.wrap.style.opacity = 1;
-				this._flipData.hidden = false;
 			}
 			
 			this.distance.y = pos;
@@ -686,6 +671,7 @@ var swype = (function() {
 	});
 	
 	addEvent('pointerend', function(evt) {
+		// return;
 		if (activeGroup) {
 			activeGroup.onPointerUp(evt);
 			if (evt.moved) {

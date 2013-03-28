@@ -28,6 +28,14 @@
 	z-index: 2;
 }
 
+.swype-flip .swype-item_next {
+	z-index: 5;
+}
+
+.swype-flip .swype-item_current.swype-dupe {
+	z-index: 6;
+}
+
 .swype-flip .swype-item_prev.swype-dupe {
 	z-index: 8;
 }
