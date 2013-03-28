@@ -169,7 +169,8 @@ var swype = (function() {
 
 			if (this.options.optimizeLayout) {
 				var elParent = null;
-				var elems = [this.prevElement(), this.activeElement(), this.nextElement()];
+				// var elems = [this.prevElement(), this.activeElement(), this.nextElement()];
+				var elems = [this.activeElement()];
 
 				// remove all elements from tree
 				_.each(this.elems, function(el, i) {
@@ -318,6 +319,11 @@ var swype = (function() {
 					
 					if (callback)
 						callback.call(that);
+
+					// that._animating = false;
+					// setTimeout(function() {
+					// 	that.cleanUp();
+					// }, 500);
 				}
 			}, options));
 		},
@@ -325,32 +331,17 @@ var swype = (function() {
 		resetPos: function() {
 			this.cleanUp();
 			
-			this.activeElement().style[transformCSS] = '';
-			var p = this.prevElement();
-			if (p) {
-				p.style[transformCSS] = '';
-			}
+			// this.activeElement().style[transformCSS] = '';
+			// var p = this.prevElement();
+			// if (p) {
+			// 	p.style[transformCSS] = '';
+			// }
 		},
 		
 		cleanUp: function() {
 			if (this._flipData) {
-				// $(this.activeElement())
-				// 	.css('display', '')
-				// 	.parent()
-				// 	.removeClass('swype-flip_v-prev swype-flip_v-next');
-				// alert(1);
-				var wrap = this._flipData.wrap;
-				// $(wrap).remove();
-				// this._flipData = null;
-				// alert(2);
-				// return;
-
-				wrap.style.opacity = 0;
+				$(this._flipData.wrap).remove();
 				this._flipData = null;
-
-				setTimeout(function() {
-					$(wrap).remove();
-				}, 1);
 			}
 		},
 		
@@ -387,8 +378,12 @@ var swype = (function() {
 			/**
 			 * @return {Element}
 			 */
-			var clone = function(el) {
-				return el ? $(el).clone().appendTo(wrapper)[0] : null;
+			var clone = function(el, className) {
+				var clone = el ? $(el).clone().appendTo(wrapper)[0] : null;
+				if (clone && className) {
+					clone.className += ' ' + className;
+				}
+				return clone;
 			};
 			
 			// var elems = _.map([cur, next], clone);
@@ -399,9 +394,9 @@ var swype = (function() {
 				cur:   elems[0],
 				cur2:  clone(elems[0]),
 				next:  elems[1],
-				next2: clone(elems[1]),
+				next2: clone(elems[1], 'swype-dupe'),
 				prev:  elems[2],
-				prev2: clone(elems[2]),
+				prev2: clone(elems[2], 'swype-dupe'),
 				dir:   null,
 				hidden: true
 			};
@@ -660,7 +655,7 @@ var swype = (function() {
 	
 	function locateActiveGroup(evt) {
 		return _.find(groups, function(item) {
-			return item.isPointInViewport(evt.pageX, evt.pageY);
+			return !item._animating && item.isPointInViewport(evt.pageX, evt.pageY);
 		});
 	}
 	

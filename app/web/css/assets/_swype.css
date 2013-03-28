@@ -18,6 +18,9 @@
 	-moz-backface-visibility: hidden;
 	-ms-backface-visibility: hidden;
 	backface-visibility: hidden;
+
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
 }
 
 .swype-flip .swype-item_prev {
@@ -25,23 +28,16 @@
 	z-index: 2;
 }
 
+.swype-flip .swype-item_prev.swype-dupe {
+	z-index: 8;
+}
+
+.swype-flip .swype-item_next.swype-dupe {
+	z-index: 9;
+}
+
 /* Стадии для вертикального перелистывания */
-.swype-flip_v-prev .swype-item_next {
-	visibility: hidden;
-}
 
-.swype-flip_v-prev .swype-item_prev {
-	z-index: 2;
-	right: auto;
-}
-
-.swype-flip_v-prev .swype-item_flip.swype-item_prev {
-	z-index: 11;
-}
-
-.swype-flip_v-next .swype-item_flip.swype-item_prev {
-	visibility: hidden;
-}
 
 .swype-item_next {
 	z-index: 3;
@@ -79,8 +75,8 @@
 
 .swype-item {
 	visibility: visible !important;
-	-webkit-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
+	/* -webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0); */
 }
 
 .swype-item_current {

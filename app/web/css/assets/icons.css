@@ -22,6 +22,7 @@
 .icon_comment_dark {
 	color: #000;
 	background-position: 0 -30px;
+	text-shadow: none;
 }
 
 .icon_comment_add:before,

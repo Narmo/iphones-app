@@ -40,7 +40,6 @@ function(utils, sheet, imagePreloader, nav, article, flipper) {
 
 			imagePreloader.getSize(images, function(src, size, image) {
 				if (src !== 'complete') {
-					console.log('Loaded', src);
 					loadedImages++;
 					var holder = $(lookup[src]).find('.article__image-holder');
 

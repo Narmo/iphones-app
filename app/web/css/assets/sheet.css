@@ -82,6 +82,11 @@
 	right: 12px;
 }
 
+.sheet_no-scroll .sheet__scroller {
+	overflow: hidden;
+	-webkit-overflow-scrolling: none;
+}
+
 .sheet_no-scroll .sheet__content {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
