@@ -401,11 +401,15 @@
 		A5210F3B16F8E206008FC5DA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vassily Chykuyonak (2FCY4B9354)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vassily Chykuyonak (2FCY4B9354)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhones News/iPhones News-Prefix.pch";
 				INFOPLIST_FILE = "iPhones News/iPhones News-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "0C6FDF05-DBF8-44D9-8310-5199522FC8BB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0C6FDF05-DBF8-44D9-8310-5199522FC8BB";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -413,11 +417,15 @@
 		A5210F3C16F8E206008FC5DA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Vassily Chykuyonak (2FCY4B9354)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vassily Chykuyonak (2FCY4B9354)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhones News/iPhones News-Prefix.pch";
 				INFOPLIST_FILE = "iPhones News/iPhones News-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "0C6FDF05-DBF8-44D9-8310-5199522FC8BB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0C6FDF05-DBF8-44D9-8310-5199522FC8BB";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

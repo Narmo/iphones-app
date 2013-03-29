@@ -55,7 +55,6 @@ function(utils, sheet, imagePreloader, nav, article, flipper) {
 
 					if (loadedImages == 2) {
 						complete();
-						console.log('Pre-complete');
 					}
 				} else {
 					complete();

@@ -125,7 +125,7 @@ function(utils) {
 				});
 
 				cur.css('zIndex', '');
-				// prevEl.style[transformCSS] = curEl.style[transformCSS] = '';
+				prevEl.style[transformCSS] = curEl.style[transformCSS] = '';
 				detach(prev);
 
 				trigger('anim-forward', cur);

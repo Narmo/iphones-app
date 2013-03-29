@@ -164,7 +164,7 @@ define(function() {
 
 			var coeff = this.getScaleCoeff(targetSize, imageSize);
 			var transformCSS = Modernizr.prefixed('transform');
-			image.style[transformCSS] = 'translate3d(-50%, -50%, 0) scale(' + coeff + ')';
+			image.style[transformCSS] = 'translate(-50%, -50%) scale(' + coeff + ')';
 		}
 	};
 });

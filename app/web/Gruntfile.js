@@ -49,6 +49,14 @@ module.exports = function(grunt) {
 						flatten: true
 					}
 				]
+			},
+			app: {
+				files: [{
+					src: './out/app.zip',
+					dest: '../iPhones News/iPhones News/',
+					expand: true,
+					flatten: true
+				}]
 			}
 		},
 
@@ -113,5 +121,6 @@ module.exports = function(grunt) {
 	});
 
 	// Default task.
-	grunt.registerTask('default', ['handlebars', 'requirejs', 'frontend', 'copy', 'touch', 'zip']);
+	grunt.registerTask('default', ['handlebars', 'requirejs', 'frontend', 'copy:fonts', 'touch', 'zip']);
+	grunt.registerTask('app', ['default', 'copy:app']);
 };

@@ -85,7 +85,7 @@ body {
 h1 {
 	font-family: 'DinCond', sans-serif;
 	margin-top: 0;
-	line-height: 1;
+	line-height: 0.95;
 	margin-bottom: 0.2em;
 	padding-top: 10px;
 	font-size: 1.7em;

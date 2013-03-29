@@ -4,12 +4,13 @@
 var swype = (function() {
 	var defaultOptions = {
 		flipDistance: 200,
-		tapzone: 0.3,
+		tapzone: 0,
 		xCoeff: 0.4,
 		yCoeff: 0.4,
 		maxShadeOpacity: 0.7,
 		shadeOpacityOffset: 0.2,
-		optimizeLayout: false,
+		optimizeLayout: true,
+		shade: true,
 
 		viewportTest: function(viewport, x, y) {
 			return viewport.left <= x && viewport.right >= x
@@ -47,6 +48,22 @@ var swype = (function() {
 		return name.replace(/[A-Z]/g, function(ch) {
 			return '-' + ch.toLowerCase();
 		});
+	}
+
+	function _rotate(key, deg) {
+		var degKey = key + 'Deg';
+		if (this[key] && this[degKey] !== deg) {
+			this[key].style[transformCSS] = 'rotateX(' + deg + 'deg)';
+			this[degKey] = deg;
+		}
+	}
+
+	function _opacity(key, val) {
+		var opKey = key + 'Op';
+		if (this[key] && this[opKey] !== val) {
+			this[key].style.opacity = val;
+			this[opKey] = val;
+		}
 	}
 	
 	/**
@@ -390,20 +407,15 @@ var swype = (function() {
 			var elems = _.map([cur, next, prev], clone);
 			
 			var data = {
-				wrap: wrapper[0],
 				cur:   elems[0],
 				cur2:  clone(elems[0], 'swype-dupe'),
 				next:  elems[1],
 				next2: clone(elems[1], 'swype-dupe'),
 				prev:  elems[2],
-				prev2: clone(elems[2], 'swype-dupe'),
-				dir:   null,
-				hidden: false
+				prev2: clone(elems[2], 'swype-dupe')
 			};
 
 			var half = Math.round(cur.offsetHeight / 2);
-			// data.wrap.style.webkitTransformOrigin = '0 ' + half + 'px';
-
 
 			var leaveTop = 'rect(auto, auto, ' + half + 'px, auto)';
 			var leaveBottom = 'rect(' + half + 'px, auto, auto, auto)';
@@ -414,15 +426,29 @@ var swype = (function() {
 			if (data.next) {
 				data.next.style.clip = leaveBottom;
 				data.next2.style.clip = leaveTop;
-				// data.next2.style.clip = 'rect(auto, auto, ' + (half + 1) + 'px, auto)';
 			}
 
 			if (data.prev) {
 				data.prev.style.clip = leaveTop;
 				data.prev2.style.clip = leaveBottom;
 			}
+
+			// create shadows
+			if (this.options.shade) {
+				var shade = $('<div class="swype__shade"></div>')[0];
+				Object.keys(data).forEach(function(key) {
+					if (data[key]) {
+						var sh = shade.cloneNode(true);
+						data[key].appendChild(sh);
+						data[key + 'Shade'] = sh;
+					}
+				});
+				data.opacity = _opacity;
+			}
 			
 			wrapper.insertBefore(this.activeElement());
+			data.wrap = wrapper[0];
+			data.rotate = _rotate;
 
 
 			return data;
@@ -440,62 +466,76 @@ var swype = (function() {
 			}
 			
 			this.distance.y = pos;
-			var delta = pos;
 			var opt = this.options;
-			var angle = Math.min(Math.max(-90 * delta / opt.flipDistance, -180), 180);
+			var angle = Math.min(Math.max(-90 * pos / opt.flipDistance, -180), 180);
+			var fd = this._flipData;
+
+			fd.rotate('cur', Math.min(0, angle));
+			fd.rotate('cur2', Math.max(0, angle));
+			fd.rotate('next2', angle - 180);
+			fd.rotate('prev2', 180 + angle);
+
+			if (opt.shade) {
+				this.shadeFlipTo(pos);
+			}
+
+			this.trigger('flipTo', pos, angle);
+		},
+
+		shadeFlipTo: function(pos) {
+			var opt = this.options;
+			var angle = Math.min(Math.max(-90 * pos / opt.flipDistance, -180), 180);
 			var absAngle = Math.abs(angle);
 			var fd = this._flipData;
-//			var shadeOpacity = (absAngle % 90) / 90 * this.options.maxShadeOpacity;
-			
-			var elCur = fd.cur;
-			var elNext = fd.next;
-			var elPrev = fd.prev;
 
+			var mso =  opt.maxShadeOpacity;
+			var soo = opt.shadeOpacityOffset;
 
-			fd.cur.style[transformCSS] = flipTmpl({angle: Math.min(0, angle)});
-			fd.cur2.style[transformCSS] = flipTmpl({angle: Math.max(0, angle)});
+			var isNext = angle > 0;
 
-			if (fd.next2) {
-				fd.next2.style[transformCSS] = flipTmpl({angle: angle - 180});
+			if (isNext && fd.shDir != 'next') {
+				fd.cur2Shade.style.backgroundColor = '#fff';
 			}
 
-			if (fd.prev2) {
-				fd.prev2.style[transformCSS] = flipTmpl({angle: 180 + angle});
+			if (!isNext && fd.shDir != 'prev') {
+				fd.cur2Shade.style.backgroundColor = '#000';
 			}
 
-			return;
-			
-			// var shCur = fd.curShade;
-			// var shNext = fd.nextShade;
-			// var shPrev = fd.prevShade;
-			
-			// важно лишний раз не дёргать offsetHeight, так как это свойство
-			// вызывает reflow. Поэтому переменную half получаем отдельно в 
-			// каждом условии
-			if (delta < 0) {
-				// перелистываем к следующей странице
-				if (elNext) {
-					elNext.style[transformCSS] = flipTmpl({angle: angle - 180});
-					// if (absAngle > 90) {
-					// 	shNext.style.opacity = (1 - (absAngle % 90) / 90) * opt.maxShadeOpacity - opt.shadeOpacityOffset;
-					// }
-				}
-			} else if (delta > 0) {
-				// перелистываем к предыдущей странице
-				if (elPrev) {
-					elPrev.style[transformCSS] = flipTmpl({angle: 180 + angle});
-					// if (absAngle > 90) {
-					// 	shPrev.style.opacity = (1 - (absAngle % 90) / 90) * opt.maxShadeOpacity - opt.shadeOpacityOffset;
-					// }	
-				}
+			fd.shDir = isNext ? 'next' : 'prev';
+
+
+			fd.opacity('curShade', angle < 0 && angle > -90 
+				? absAngle / 90 * mso - soo
+				: 0);
+
+			var op = 0;
+			if (fd.shDir == 'prev' && angle < -60) {
+				op = (absAngle - 60) / 80 * mso - soo;
+			} else if (fd.shDir == 'next' && angle > 0) {
+				op = absAngle / 90 * mso - soo;
 			}
-			
-			// if (absAngle < 90) {
-			// 	shCur.style.opacity = absAngle / 90 * opt.maxShadeOpacity - opt.shadeOpacityOffset; 
-			// }
-			elCur.style[transformCSS] = flipTmpl({angle: angle});
-			
-			this.trigger('flipTo', delta, angle);
+
+			fd.opacity('cur2Shade', op);
+
+			if (fd.next) {
+				fd.opacity('nextShade', angle > 0 && angle < 90
+					? (1 - Math.max(absAngle - 50, 0) / 40) * mso - soo
+					: 0);
+
+				fd.opacity('next2Shade', angle > 90 
+					? (180 - absAngle) / 90 * mso - soo 
+					: 0);
+			}
+
+			if (fd.prev) {
+				fd.opacity('prev2Shade', angle < -90 
+					? (180 - absAngle) / 90 * mso - soo
+					: 0);
+
+				fd.opacity('prevShade', angle < 0 && angle > -90 
+					? 1 - Math.max(absAngle - 50, 0) / 40 * mso - soo
+					: 0);
+			}
 		},
 		
 		/**

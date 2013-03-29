@@ -31,7 +31,7 @@
 	
 	NSInteger result = [archive inflateToDirectory:CACHEPATH usingResourceFork:NO];
 	if (result != zkSucceeded) {
-		TRACE(@"ERROR UNPACKING READER ENGINE!!!");
+		TRACE(@"ERROR UNPACKING ENGINE!!!");
 	}
 }
 
@@ -67,6 +67,8 @@
 - (BOOL)           webView:(UIWebView *)webView
 shouldStartLoadWithRequest:(NSURLRequest *)request
 			navigationType:(UIWebViewNavigationType)navigationType {
+	
+	return YES;
 	
 	NSURL *url = [request URL];
 	if ([url isFileURL]) {
