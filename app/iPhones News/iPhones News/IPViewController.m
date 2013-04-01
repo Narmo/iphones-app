@@ -68,18 +68,16 @@
 shouldStartLoadWithRequest:(NSURLRequest *)request
 			navigationType:(UIWebViewNavigationType)navigationType {
 	
-	return YES;
-	
 	NSURL *url = [request URL];
-	if ([url isFileURL]) {
-		return YES;
+	if (![url isFileURL] && navigationType == UIWebViewNavigationTypeLinkClicked) {
+		if (![[UIApplication sharedApplication] openURL:url]) {
+			TRACE(@"%@%@",@"Failed to open url:",[url description]);
+		}
+		
+		return NO;
 	}
 	
-	if (![[UIApplication sharedApplication] openURL:url]) {
-		TRACE(@"%@%@",@"Failed to open url:",[url description]);
-	}
-	
-	return NO;
+	return YES;
 }
 
 @end
