@@ -3,13 +3,13 @@
  * Переходом считается отображение указанного блока на странице.
  */
 define(
-['utils'],
+['utils', 'locker'],
 /**
  * @constructor
  * @memberOf __navModule
  * @param {utilsModule} utils 
  */
-function(utils) {
+function(utils, locker) {
 	var history = [];
 	var target = 'body';
 
@@ -68,6 +68,7 @@ function(utils) {
 		curEl.style[transformCSS] = 'translate3d(0, 0, 0)';
 		attach(target, prevEl);
 
+		locker.lock('nav-backward');
 		return new Tween(_.extend({}, animDefaults, {
 			step: function(pos) {
 				prevEl.style.opacity = outOpacity + (1 - outOpacity) * pos;
@@ -84,6 +85,8 @@ function(utils) {
 				cur.css('zIndex', '');
 				// prevEl.style[transformCSS] = curEl.style[transformCSS] = '';
 				detach(cur);
+				locker.unlock('nav-backward');
+
 				trigger('remove', cur);
 				trigger('anim-backward', cur);
 				trigger('anim-complete', cur);
@@ -111,6 +114,7 @@ function(utils) {
 		
 		curEl.style[transformCSS] = 'translate3d(' + distance + 'px, 0, 0)';
 
+		locker.lock('nav-forward');
 		return new Tween(_.extend({}, animDefaults, {
 			step: function(pos) {
 				prevEl.style.opacity = 1 - (1 - outOpacity) * pos;
@@ -127,6 +131,8 @@ function(utils) {
 				cur.css('zIndex', '');
 				prevEl.style[transformCSS] = curEl.style[transformCSS] = '';
 				detach(prev);
+
+				locker.unlock('nav-forward');
 
 				trigger('anim-forward', cur);
 				trigger('anim-complete', cur);

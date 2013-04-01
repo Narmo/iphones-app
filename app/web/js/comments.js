@@ -2,7 +2,7 @@
  * Модуль для работы с комментариями
  */
 define(
-['sheet', 'utils', 'feed', 'nav-history', 'auth', 'notifier', 'api'],
+['sheet', 'utils', 'feed', 'nav-history', 'auth', 'notifier', 'api', 'locker'],
 /**
  * @param {sheetModule} sheet
  * @param {utilsModule} utils
@@ -12,7 +12,7 @@ define(
  * @param {notifierModule} notifier
  * @param {apiModule} api
  */
-function(sheet, utils, feed, nav, auth, notifier, api) {
+function(sheet, utils, feed, nav, auth, notifier, api, locker) {
 	Handlebars.registerHelper('renderComment', function(ctx) {
 		return new Handlebars.SafeString(utils.render('comment', ctx));
 	});
@@ -139,13 +139,14 @@ function(sheet, utils, feed, nav, auth, notifier, api) {
 			}
 
 			var that = this;
+			locker.lock('comments');
 			loadComments({id: post.id}, function(comments) {
 				var page = that.create({
 					id: post.id,
 					title: post.title,
 					comments: comments
 				});
-
+				locker.unlock('comments');
 				nav.go(page);
 			});
 		},

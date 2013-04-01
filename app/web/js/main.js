@@ -1,11 +1,10 @@
 require(
-['article', 'utils', 'feed', 'splash', 'comments', 'nav-history', 'article-reel', 'auth'],
+['article', 'utils', 'feed', 'splash', 'comments', 'nav-history', 'article-reel', 'auth', 'preloader', 'locker'],
 /**
  * @param {authModule} auth
  * @param {commentsModule} comments
  */
-function(article, utils, feed, splash, comments, nav, articleReel, auth) {
-
+function(article, utils, feed, splash, comments, nav, articleReel, auth, preloader, locker) {
 	splash.create(function(tiles) {
 		// фиксируем плитки как страницу приложения,
 		// на которую можно вернуться
@@ -39,6 +38,11 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth) {
 		});
 	});
 
+	// блокируем перелистывания
+	swype.addPointerTest(function() {
+		return !locker.locked();
+	});
+
 	/**
 	 * Универсальный хэндлер событий, который позволяет выполнять стандартные 
 	 * действия для большинства контролов, вроде отображения комментариев или
@@ -47,6 +51,10 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth) {
 	$(document).on('pointertap', '[data-trigger]', function(evt) {
 		evt.preventDefault();
 		evt.stopImmediatePropagation();
+
+		if (locker.locked()) {
+			return;
+		}
 
 		var parts = $(this).attr('data-trigger').split(':');
 		var command = parts.shift();
@@ -64,10 +72,17 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth) {
 			case 'show_category_for_post':
 				var post = feed.getPost(params);
 				var cat = utils.getKnownCategory(post) || post.categories[0];
+				var pl = preloader.createForBlock(this);
+				locker.lock('category_posts');
 				feed.get('category_posts', {slug: cat.slug}, function(data) {
 					if (data && data.posts) {
 						articleReel.create(cat.title, data.posts, {
 							complete: function(reel) {
+								if (pl) {
+									pl.stop();
+									$(pl.getContainer()).remove();
+									locker.unlock('category_posts');
+								}
 								nav.go(reel);
 							}
 						});
@@ -83,16 +98,22 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth) {
 
 			case 'reload_splash':
 				var oldReel = $('.tiles-reel');
+				locker.lock('reload');
 				splash.reload($('.tiles-reel'), function(newReel) {
 					if (newReel) {
 						// лента обновилась, заменим её в истории
+						locker.unlock('reload');
 						nav.replace(oldReel[0], newReel[0]);
 					}
 				});
 				break;
 				
 			case 'authorize':
-				auth.show();
+				auth.show(function(status) {
+					if (status) {
+						nav.back();
+					}
+				});
 				break;
 				
 			case 'add_comment':

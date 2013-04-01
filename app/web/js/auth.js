@@ -50,7 +50,7 @@ function(sheet, utils, nav, notifier, storage, api) {
 			}, {
 				features: ['no-scroll', 'auth']
 			});
-			
+
 			var that = this;
 			form
 				.on('history:anim-forward', function() {
@@ -58,6 +58,7 @@ function(sheet, utils, nav, notifier, storage, api) {
 				})
 				.on('submit', function(evt) {
 					evt.preventDefault();
+
 					var username = form.find('input[name="username"]').val();
 					var password = form.find('input[name="password"]').val();
 					that.authorize(username, password, callback || _.identity);

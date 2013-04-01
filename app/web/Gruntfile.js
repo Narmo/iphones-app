@@ -81,6 +81,7 @@ module.exports = function(grunt) {
 							'./js/lib/tween.js',
 							'./js/lib/handlebars.js',
 							'./js/lib/delayedAjax.js',
+							'./js/lib/leaf-preloader.js',
 							'./js/lib/require.js',
 							'./js/templates.js'
 						]

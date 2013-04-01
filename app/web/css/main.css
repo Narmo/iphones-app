@@ -165,3 +165,11 @@ iframe {
 	padding-top: 6px;
 	padding-bottom: 6px;
 }
+
+.preloader-target {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	margin-bottom: -2px;
+	/* background: red; */
+}
