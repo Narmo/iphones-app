@@ -40,6 +40,10 @@ define(function() {
 		 */
 		locked: function() {
 			return !!_.keys(locks).length;
+		},
+
+		lockNames: function() {
+			return _.keys(locks);
 		}
 	};
 });

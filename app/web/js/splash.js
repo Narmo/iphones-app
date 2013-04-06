@@ -2,11 +2,12 @@
  * Контроллер для работы со сплэш-страницей
  */
 define(
-	['feed', 'tiles', 'utils', 'flipper'], 
-	function(feed, tiles, utils, flipper) {
+	['feed', 'tiles', 'utils', 'flipper', 'locker'], 
+	function(feed, tiles, utils, flipper, locker) {
 
 	function renderTiles(data) {
 		var result = $(tiles.create(data));
+		result.attr('data-post-ids', _.pluck(data, 'id').join(','))
 
 		// вешаем триггеры на плитку
 		result.find('.tiles__item').each(function() {
@@ -17,11 +18,14 @@ define(
 			tile.attr('data-trigger', trigger);
 		});
 
+		// добавляем pull to refresh
+		result.append('<div class="pull-to-refresh"><i class="icon icon_refresh"></i>Потяните, чтобы обновить</div>');
+
 		return result;
 	}
 
-	function animateSpinner(spinner) {
-		var deg = 0;
+	function animateSpinner(spinner, deg) {
+		deg = deg || 0;
 		var degStep = 4;
 		var transformCSS = Modernizr.prefixed('transform');
 		return new Tween({
@@ -29,10 +33,108 @@ define(
 			autostart: true,
 			step: function() {
 				deg = (deg + degStep) % 360;
-				spinner.style[transformCSS] = 'rotate(' + deg + 'deg) translate3d(0,0,0)';
+				spinner.style[transformCSS] = 'rotate(' + deg + 'deg)';
 			},
 			complete: function() {
 				spinner.style[transformCSS] = 'none';
+			}
+		});
+	}
+
+	function setupFlipper(elem, options) {
+		var spinner = $(elem).find('.pull-to-refresh .icon')[0];
+		var transformCSS = Modernizr.prefixed('transform');
+		var spinnerDeg = 0;
+
+		var rotateSpinner = function(delta) {
+			if (delta) {
+				spinnerDeg = (spinnerDeg + delta) % 360;
+			}
+
+			spinner.style[transformCSS] = 'rotate(' + spinnerDeg + 'deg)';
+		}
+
+		return flipper.attach(elem, '.tiles', _.extend({
+			prevConstrain: 110,
+			swypeOnInit: true
+		}, options || {}))
+		.on('willSnapPrevConstrain', function() {
+			locker.lock('pull-to-refresh');
+		})
+		.on('prevConstrainSnapped', function() {
+			var that = this;
+			var spinnerTween = animateSpinner(spinner, spinnerDeg);
+			requestNewFeeds(elem, function(isUpdated, data) {
+				spinnerTween.stop();
+				that.animate(that.options.prevConstrain, 0, function() {
+					if (isUpdated) {
+						showNewFeed(elem, data.posts, function() {
+							locker.unlock('pull-to-refresh');
+						});
+					} else {
+						updateCommentCount(elem);
+						locker.unlock('pull-to-refresh');
+					}
+				}, {axis: 'y'});
+			});
+		})
+		.on('flipTo', function(pos, deg) {
+			if (!this.hasPrev() && spinner) {
+				spinnerDeg = -2 * deg;
+				rotateSpinner();
+			}
+		});
+	}
+
+	function requestNewFeeds(elem, callback) {
+		// получаем идентификаторы последних новостей
+		elem = $(elem);
+		var curIds = elem.attr('data-post-ids').split(',');
+
+		feed.get('splash', {nocache: true, withDelay: 2000}, function(data) {
+			var isUpdated = !!_.find(data.posts, function(post, i) {
+				return post.id != curIds[i];
+			});
+
+			callback(isUpdated, data);
+		});
+	}
+
+	function updateCommentCount(elem) {
+		$(elem).find('.tiles__item').each(function(i, tile) {
+			tile = $(tile);
+			var post = feed.getPost(tile.attr('data-post-id'));
+			tile.find('.icon_comment').text(post.comment_count);
+		});
+	}
+
+	function showNewFeed(oldFeed, posts, callback) {
+		oldFeed = $(oldFeed)[0];
+
+		var newTiles = renderTiles(posts);
+		setupFlipper(newTiles, {
+			swypeOnInit: true
+		});
+
+		var transformCSS = Modernizr.prefixed('transform');
+		
+		newTiles[0].style[transformCSS] = 'rotateY(-180deg)'
+		newTiles.css({
+			zIndex: 100
+		}).after(oldFeed);
+
+		new Tween({
+			duration: 1300,
+			easing: 'easeInOutCubic',
+			autostart: true,
+			step: function(pos) {
+				var deg = pos * 180;
+				var scale = 1 - Math.sin(pos * Math.PI) * 0.3;
+				newTiles[0].style[transformCSS] = 'rotateY(' + (deg - 180) + 'deg) scale(' + scale +')';
+				oldFeed.style[transformCSS] = 'rotateY(' + (deg) + 'deg) scale(' + scale +')';
+			},
+			complete: function() {
+				callback(newTiles);
 			}
 		});
 	}
@@ -45,7 +147,8 @@ define(
 		create: function(callback) {
 			feed.get('splash', function(data) {
 				var mainTiles = renderTiles(data.posts);
-				flipper.attach(mainTiles, '.tiles');
+				setupFlipper(mainTiles);
+
 				if (callback) {
 					callback(mainTiles);
 				}
@@ -59,61 +162,23 @@ define(
 		 * @param {Function} callback
 		 */
 		reload: function(elem, callback) {
-			// получаем идентификаторы последних новостей
-			elem = $(elem);
-			var curIds = elem.find('.tiles__item').map(function(i, tile) {
-				return $(tile).attr('data-post-id');
-			});
+			var spinner = elem.find('.swype-item_current .tiles__refresh')[0];
+			var spinnerTween = animateSpinner(spinner);
 
-			var spinnerTween = animateSpinner(elem.find('.swype-item_current .tiles__refresh')[0]);
+			locker.lock('reload_splash');
 
-			feed.get('splash', {nocache: true, withDelay: 2000}, function(data) {
-				var isUpdated = !!_.find(data.posts, function(post, i) {
-					return post.id != curIds[i];
-				});
-
-				// XXX debug
-//				 isUpdated = true;
-
+			requestNewFeeds(elem, function(isUpdated, data) {
 				spinnerTween.stop();
 				spinnerTween = null;
 
 				if (isUpdated) {
-					var newTiles = renderTiles(data.posts);
-
-					flipper.attach(newTiles, '.tiles', {
-						swypeOnInit: true
-					});
-
-					var transformCSS = Modernizr.prefixed('transform');
-					
-					newTiles[0].style[transformCSS] = 'rotateY(-180deg)'
-					newTiles.css({
-						zIndex: 100
-					}).after(elem);
-
-					new Tween({
-						duration: 1300,
-						easing: 'easeInOutCubic',
-						autostart: true,
-						step: function(pos) {
-							var deg = pos * 180;
-							var scale = 1 - Math.sin(pos * Math.PI) * 0.3;
-							newTiles[0].style[transformCSS] = 'rotateY(' + (deg - 180) + 'deg) scale(' + scale +')';
-							elem[0].style[transformCSS] = 'rotateY(' + (deg) + 'deg) scale(' + scale +')';
-						},
-						complete: function() {
-							callback(newTiles);
-						}
+					showNewFeed(elem, data.posts, function(newFeed) {
+						locker.unlock('reload_splash');
+						callback(newFeed);
 					});
 				} else {
-					// ничего не поменялось: на всякий случай обновим количество
-					// комментариев
-					elem.find('.tiles__item').each(function(i, tile) {
-						tile = $(tile);
-						var post = feed.getPost(tile.attr('data-post-id'));
-						tile.find('.icon_comment').text(post.comment_count);
-					});
+					updateCommentCount(elem);
+					locker.unlock('reload_splash');
 					callback();
 				}
 			});

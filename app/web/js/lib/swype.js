@@ -11,6 +11,8 @@ var swype = (function() {
 		shadeOpacityOffset: 0.2,
 		optimizeLayout: true,
 		shade: true,
+		prevConstrain: null,
+		nextConstrain: null,
 
 		viewportTest: function(viewport, x, y) {
 			return viewport.left <= x && viewport.right >= x
@@ -325,38 +327,26 @@ var swype = (function() {
 				},
 				complete: function() {
 					that._animating = false;
-					that.cleanUp();
+					if (!options.noCleanup) {
+						that.cleanUp();
+					}
 
-					if (!that.options.noAutoReset)
-						that.resetPos();
 					swype.trigger('animationComplete');
 					
-					if (that.options.animationComplete)
+					if (that.options.animationComplete) {
 						that.options.animationComplete.call(that);
+					}
 					
-					if (callback)
+					if (callback) {
 						callback.call(that);
-
-					// that._animating = false;
-					// setTimeout(function() {
-					// 	that.cleanUp();
-					// }, 500);
+					}
 				}
 			}, options));
 		},
 		
-		resetPos: function() {
-			this.cleanUp();
-			
-			// this.activeElement().style[transformCSS] = '';
-			// var p = this.prevElement();
-			// if (p) {
-			// 	p.style[transformCSS] = '';
-			// }
-		},
-		
 		cleanUp: function() {
 			if (this._flipData) {
+				$(this.activeElement()).show();
 				$(this._flipData.wrap).remove();
 				this._flipData = null;
 			}
@@ -450,6 +440,7 @@ var swype = (function() {
 			data.wrap = wrapper[0];
 			data.rotate = _rotate;
 
+			$(this.activeElement()).hide();
 
 			return data;
 		},
@@ -564,7 +555,6 @@ var swype = (function() {
 						delta = this.distance.y;
 						coeff = this.options.yCoeff;
 						maxDistance = this.options.flipDistance;
-						
 					} else {
 						delta = this.distance.x;
 						coeff = this.options.xCoeff;
@@ -575,9 +565,21 @@ var swype = (function() {
 					// если оно достаточно для перемещения к следующему/предыдущему
 					// элементу — перемещаемся, иначе — возвращаемся в исходную точку
 					if ( !(delta < -maxDistance * coeff && this.next()) && !(delta > maxDistance * coeff && this.prev()) ) {
-						this.animate(delta, 0, null, {
-							axis: this.pointerMoved
-						});
+						var pc = this.options.prevConstrain;
+						if (pc !== null && delta >= pc) {
+							var that = this;
+							that.trigger('willSnapPrevConstrain');
+							this.animate(delta, pc, function() {
+								that.trigger('prevConstrainSnapped');
+							}, {
+								axis: this.pointerMoved,
+								noCleanup: true
+							});
+						} else {
+							this.animate(delta, 0, null, {
+								axis: this.pointerMoved
+							});
+						}
 					}
 				}
 				
@@ -625,6 +627,7 @@ var swype = (function() {
 				// var fn = isX ? 'moveTo' : 'flipTo';
 				// var coeff = this.options[this.pointerMoved + 'Coeff'];
 				var delta = dy;
+				// console.log('Move delta', delta);
 				var fn = 'flipTo';
 				var coeff = this.options['yCoeff'];
 				

@@ -217,6 +217,8 @@
 				this.animating = true;
 				addToQueue(this);
 			}
+
+			return this;
 		},
 		
 		/**
@@ -227,6 +229,7 @@
 				this.animating = false;
 				this.options.complete();
 			}
+			return this;
 		}
 	};
 

@@ -26,7 +26,7 @@ define(function() {
 				createSwypeGroup();
 			}
 
-			return container
+			container
 				.on('history:attach', function() {
 					createSwypeGroup();
 					group.locked(false);
@@ -42,6 +42,8 @@ define(function() {
 						group = null;
 					}
 				});
+
+			return group;
 		}
 	};
 });

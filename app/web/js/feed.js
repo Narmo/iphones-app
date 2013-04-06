@@ -49,7 +49,7 @@ function(utils, api) {
 		 * @param  {Function} callback Функция, в которую вернётся результат
 		 */
 		get: function(name) {
-			callback = _.last(arguments);
+			var callback = _.last(arguments);
 			var params = arguments.length > 2 ? arguments[1] : {};
 
 			if (name in urls) {

@@ -7,7 +7,7 @@
 	left: 0;
 	right: 0;
 	z-index: 1004;
-	background: #ebebeb;
+	/* background: #ebebeb; */
 	
 	-webkit-transform-style: preserve-3d;
 	-webkit-perspective: 1000px;

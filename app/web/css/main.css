@@ -173,3 +173,18 @@ iframe {
 	margin-bottom: -2px;
 	/* background: red; */
 }
+
+.pull-to-refresh {
+	position: absolute;
+	width: 100%;
+	top: 13px;
+	color: #a0a0a0;
+	text-align: center;
+	font-size: 0.85em;
+	font-family: DinCond, sans-serif;
+}
+
+.pull-to-refresh .icon {
+	margin-right: 5px;
+	margin-bottom: -8px;
+}

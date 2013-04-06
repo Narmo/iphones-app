@@ -98,11 +98,9 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 
 			case 'reload_splash':
 				var oldReel = $('.tiles-reel');
-				locker.lock('reload');
 				splash.reload($('.tiles-reel'), function(newReel) {
 					if (newReel) {
 						// лента обновилась, заменим её в истории
-						locker.unlock('reload');
 						nav.replace(oldReel[0], newReel[0]);
 					}
 				});
