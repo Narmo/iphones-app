@@ -135,6 +135,12 @@ helpers = helpers || Handlebars.helpers; data = data || {};
 
 function program1(depth0,data) {
   
+  
+  return " comment_deep";
+  }
+
+function program3(depth0,data) {
+  
   var buffer = "", stack1;
   buffer += "<img src=\"http://www.gravatar.com/avatar/";
   if (stack1 = helpers.hash) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -144,7 +150,7 @@ function program1(depth0,data) {
   return buffer;
   }
 
-function program3(depth0,data) {
+function program5(depth0,data) {
   
   var buffer = "", stack1, options;
   buffer += "\n		";
@@ -154,12 +160,15 @@ function program3(depth0,data) {
   return buffer;
   }
 
-  buffer += "<div class=\"comment\" data-comment-id=\"";
+  buffer += "<div class=\"comment";
+  stack1 = helpers['if'].call(depth0, depth0.isDeep, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\" data-comment-id=\"";
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "\">\n	<div class=\"comment__h\">\n		<span class=\"avatar comment__avatar\">";
-  stack1 = helpers['if'].call(depth0, depth0.hash, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.hash, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</span>\n		<h3 class=\"comment__author\">"
     + escapeExpression(((stack1 = ((stack1 = depth0.author),stack1 == null || stack1 === false ? stack1 : stack1.name)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
@@ -172,7 +181,7 @@ function program3(depth0,data) {
   else { stack2 = depth0.content; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "</div>\n	";
-  stack2 = helpers.each.call(depth0, depth0.children, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  stack2 = helpers.each.call(depth0, depth0.children, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\n</div>";
   return buffer;

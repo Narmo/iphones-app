@@ -13,6 +13,9 @@ define(
  * @param {apiModule} api
  */
 function(sheet, utils, feed, nav, auth, notifier, api, locker) {
+
+	var MAX_DEPTH_LEVEL = 3;
+
 	Handlebars.registerHelper('renderComment', function(ctx) {
 		return new Handlebars.SafeString(utils.render('comment', ctx));
 	});
@@ -75,6 +78,22 @@ function(sheet, utils, feed, nav, auth, notifier, api, locker) {
 		data.comments = _.filter(comments, function(c) {
 			return c.parent == 0;
 		});
+
+		// проставляем уровень вложенности у комментариев
+		var setLevel = function(ar, level) {
+			if (!ar) {
+				return;
+			}
+
+			level = level || 0;
+			_.each(ar, function(comment) {
+				comment.level = level;
+				comment.isDeep = level > MAX_DEPTH_LEVEL;
+				setLevel(comment.children, level + 1);
+			});
+		}
+
+		setLevel(data.comments, 0);
 		
 		return utils.render('comments-list', data);
 	}
