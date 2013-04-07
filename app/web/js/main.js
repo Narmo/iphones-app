@@ -117,6 +117,10 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 			case 'add_comment':
 				comments.showForm(_.isObject(params) ? params : {post_id: params});
 				break;
+
+			case 'reply':
+				comments.showReplyWidget(this);
+				break;
 		}
 	});
 });

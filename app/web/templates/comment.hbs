@@ -1,4 +1,4 @@
-<div class="comment{{#if isDeep}} comment_deep{{/if}}" data-comment-id="{{ id }}">
+<div class="comment{{#if isDeep}} comment_deep{{/if}}" data-comment-id="{{ id }}" data-trigger="reply:{{ id }}">
 	<div class="comment__h">
 		<span class="avatar comment__avatar">{{#if hash}}<img src="http://www.gravatar.com/avatar/{{ hash }}?s=50" class="comment__avatar-img" />{{/if}}</span>
 		<h3 class="comment__author">{{ author.name }}</h3>

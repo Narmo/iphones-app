@@ -13,8 +13,8 @@ define(
  * @param {apiModule} api
  */
 function(sheet, utils, feed, nav, auth, notifier, api, locker) {
-
 	var MAX_DEPTH_LEVEL = 3;
+	var module = null;
 
 	Handlebars.registerHelper('renderComment', function(ctx) {
 		return new Handlebars.SafeString(utils.render('comment', ctx));
@@ -114,6 +114,34 @@ function(sheet, utils, feed, nav, auth, notifier, api, locker) {
 			}
 		});
 	}
+
+	function handleReplyUIEvent(evt) {
+		var target = $(evt.target);
+		if (target.hasClass('comment__reply')) {
+			// TODO добавить рельаные данные
+			module.showForm({
+				parent: target.attr('data-comment-id'),
+				post_id: target.attr('data-post-id')
+			});
+		}
+
+		hideReplyWidget(target.closest('.comment__reply-overlay'));
+	}
+
+	function hideReplyWidget(widget) {
+		widget = $(widget)[0];
+		new Tween({
+			reverse: true,
+			autostart: true,
+			duration: 100,
+			step: function(pos) {
+				widget.style.opacity = pos;
+			},
+			complete: function() {
+				$(widget).remove();
+			}
+		});
+	}
 	
 	nav.on('willAttach', function(page) {
 		page = $(page);	
@@ -131,7 +159,7 @@ function(sheet, utils, feed, nav, auth, notifier, api, locker) {
 		}
 	});
 
-	return {
+	return module = {
 		/**
 		 * Создаёт страницу со списком комментариев
 		 * @memberOf commentsModule
@@ -209,6 +237,40 @@ function(sheet, utils, feed, nav, auth, notifier, api, locker) {
 				});
 			
 			auth.showAuthorizedView(page);
+		},
+
+		/**
+		 * Показывает слой для ответа на комментарий
+		 * @param  {HTMLElement} ctx Элемент с комментарием, на который нужно ответить
+		 */
+		showReplyWidget: function(ctx) {
+			ctx = $(ctx);
+			var box = ctx.find('.comment__content')[0].getBoundingClientRect();
+			var overlay = $('<div class="comment__reply-overlay"><div class="comment__reply"></div></div>')
+				.on('pointertap', handleReplyUIEvent)
+				.appendTo(document.body);
+
+			var btn = overlay.find('.comment__reply')
+				.attr('data-comment-id', ctx.attr('data-comment-id'))
+				.attr('data-post-id', ctx.closest('.comments__list').attr('data-post-id'));
+
+			var style = btn[0].style;
+			var transformCSS = Modernizr.prefixed('transform');
+
+			// совмещаем центры и готовим к анимации
+			var btnHeight = btn[0].offsetHeight;
+			var yOffset = Math.min(document.body.offsetHeight - btnHeight, box.top + (box.bottom - box.top - btnHeight) / 2);
+			style.top = yOffset + 'px';
+			style[transformCSS] = 'scale(0)';
+			
+			new Tween({
+				easing: 'easeOutBack',
+				duration: 250,
+				autostart: true,
+				step: function(pos) {
+					style[transformCSS] = 'scale(' + pos +')';
+				}
+			});
 		}
 	};
 });
