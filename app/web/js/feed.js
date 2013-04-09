@@ -12,7 +12,7 @@ define(
 function(utils, api) {
 	var urls = {
 		'splash':         '/api/app/splash/',
-		'category_posts': {url: '/api/app/get_category_posts/', params: {count: 40}},
+		'category_posts': {url: '/api/app/get_category_posts/', params: {count: 40, exclude: 'comments,attachments'}},
 		'comments':       '/api/app/comments/'
 	};
 
