@@ -44,6 +44,12 @@
 	self.webview.delegate = self;
 	self.webview.dataDetectorTypes = UIDataDetectorTypeNone;
 	self.webview.scrollView.scrollEnabled = NO;
+	
+	
+	[[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+		self.webview.scrollView.contentInset = UIEdgeInsetsZero;
+		[self performSelector:@selector(removeBar) withObject:nil afterDelay:0];
+	}];
 
 
 	NSString *mainFile = [CACHEPATH stringByAppendingPathComponent:@"index.html"];
@@ -51,6 +57,34 @@
 		NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:mainFile]];
 		[self.webview loadRequest:req];
 	}
+}
+
+- (void)removeBar {
+	// Locate non-UIWindow.
+	UIWindow *keyboardWindow = nil;
+	for (UIWindow *testWindow in [[UIApplication sharedApplication] windows]) {
+		if (![[testWindow class] isEqual:[UIWindow class]]) {
+			keyboardWindow = testWindow;
+			break;
+		}
+	}
+	
+	// Locate UIWebFormView.
+	for (UIView *formView in [keyboardWindow subviews]) {
+		// iOS 5 sticks the UIWebFormView inside a UIPeripheralHostView.
+		if ([[formView description] rangeOfString:@"UIPeripheralHostView"].location != NSNotFound) {
+			for (UIView *subView in [formView subviews]) {
+				if ([[subView description] rangeOfString:@"UIWebFormAccessory"].location != NSNotFound) {
+					// remove the input accessory view
+					[subView removeFromSuperview];
+				}
+				else if([[subView description] rangeOfString:@"UIImageView"].location != NSNotFound){
+					// remove the line above the input accessory view (changing the frame)
+					[subView setFrame:CGRectZero];
+				}
+			}
+		}
+    }
 }
 
 - (void)didReceiveMemoryWarning
