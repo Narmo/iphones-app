@@ -2,7 +2,7 @@
  * @memberOf __authModule
  */
 define(
-['sheet', 'utils', 'nav-history', 'notifier', 'storage', 'api'], 
+['sheet', 'utils', 'nav-history', 'notifier', 'storage', 'api', 'locker'], 
 /**
  * @memberOf __authModule
  * @constructor 
@@ -13,7 +13,7 @@ define(
  * @param {storageModule} storage
  * @param {apiModule} api
  */
-function(sheet, utils, nav, notifier, storage, api) {
+function(sheet, utils, nav, notifier, storage, api, locker) {
 
 	var urls = {
 		nonce:    '/api/core/get_nonce/?controller=auth&method=generate_auth_cookie',
@@ -58,10 +58,28 @@ function(sheet, utils, nav, notifier, storage, api) {
 				})
 				.on('submit', function(evt) {
 					evt.preventDefault();
+					locker.lock('auth');
+
+					var btn = form.find('button');
+					var pl = leaf_preloader(btn[0], {
+						start_color: 'rgba(30, 30, 30, 0.7)',
+						end_color: 'rgba(30, 20, 30, 0.2)',
+						round: 1,
+						width: 2,
+						height: 5,
+						offset: 4
+					}).start();
 
 					var username = form.find('input[name="username"]').val();
 					var password = form.find('input[name="password"]').val();
-					that.authorize(username, password, callback || _.identity);
+					that.authorize(username, password, function() {
+						pl.destroy();
+						locker.unlock('auth');
+
+						if (callback) {
+							callback();
+						}
+					});
 				});
 			
 			nav.go(form);

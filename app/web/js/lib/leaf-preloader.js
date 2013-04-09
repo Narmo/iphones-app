@@ -475,10 +475,13 @@ var leaf_preloader = (/** @constructor */ function(/* Document */ document){
 					is_active = true;
 					_tick();
 				}
+
+				return this;
 			},
 			
 			stop: function() {
 				is_active = false;
+				return this;
 			},
 			
 			toggle: function() {
@@ -486,10 +489,20 @@ var leaf_preloader = (/** @constructor */ function(/* Document */ document){
 					this.stop();
 				else
 					this.start();
+
+				return this;
 			},
 			
 			isActive: function() {
 				return is_active;
+			},
+
+			destroy: function() {
+				this.stop();
+				var c = this.getContainer();
+				if (c && c.parentNode) {
+					c.parentNode.removeChild(c);
+				}
 			},
 			
 			getContainer: engine.container

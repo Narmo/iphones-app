@@ -43,11 +43,13 @@ function(sheet, utils, feed, nav, auth, notifier, api, locker) {
 		payload.name = userData.displayname || userData.username;
 		payload.cookie = authData.cookie;
 		
+		locker.lock('post_comment');
 		api.request('/api/app/submit_comment/', payload, function(success, data) {
 			if (!success) {
 				notifier.error('Не удалось сохранить комментарий:\n' + (data || 'ошибка подключения'));
 			}
 			
+			locker.unlock('post_comment');
 			callback(success, data);
 		});
 	}
@@ -223,14 +225,28 @@ function(sheet, utils, feed, nav, auth, notifier, api, locker) {
 			
 			var form = page.find('form').on('submit', function(evt) {
 				evt.preventDefault();
+
+				var btn = $(this).find('button');
+				var pl = leaf_preloader(btn[0], {
+					start_color: 'rgba(30, 30, 30, 0.7)',
+					end_color: 'rgba(30, 20, 30, 0.2)',
+					round: 1,
+					width: 2,
+					height: 5,
+					offset: 4
+				}).start();
+
 				postComment(this, function(success) {
 					if (success) {
 						// загружаем и инвалидируем данные
 						var postId = data.post_id;
 						loadComments({id: postId, nocache: true}, function(comments) {
 							shouldInvalidate['' + postId] = comments;
+							pl.destroy();
 							nav.back();
 						});
+					} else {
+						pl.destroy();
 					}
 				});
 			});

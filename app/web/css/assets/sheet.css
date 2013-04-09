@@ -59,6 +59,13 @@
 	background-size: 100% 100%;
 }
 
+.sheet__h-opt button .js-preloader {
+	left: auto;
+	right: 100%;
+	margin-left: 0;
+	margin-right: 10px;
+}
+
 .sheet__scroller {
 	position: absolute;
 	top: 0;

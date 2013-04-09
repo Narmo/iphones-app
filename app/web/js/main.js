@@ -84,20 +84,13 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 					if (data && data.posts) {
 						articleReel.create(cat.title, data.posts, {
 							complete: function(reel) {
-								if (pl) {
-									pl.stop();
-									$(pl.getContainer()).remove();
-								}
-
+								pl && pl.destroy();
 								locker.unlock('category_posts');
 								nav.go(reel);
 							}
 						});
 					} else {
-						if (pl) {
-							pl.stop();
-							$(pl.getContainer()).remove();
-						}
+						pl && pl.destroy();
 						locker.unlock('category_posts');
 					}
 				});

@@ -17,7 +17,7 @@ define(function() {
 			round: 1,
 			width: Math.round(size * 0.2),
 			height: leafHeight,
-			offset: size - leafHeight	
+			offset: size - leafHeight
 		};
 	}
 
