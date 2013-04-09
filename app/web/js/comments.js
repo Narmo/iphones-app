@@ -48,7 +48,7 @@ function(sheet, utils, feed, nav, auth, notifier, api, locker) {
 			if (!success) {
 				notifier.error('Не удалось сохранить комментарий:\n' + (data || 'ошибка подключения'));
 			}
-			
+
 			locker.unlock('post_comment');
 			callback(success, data);
 		});
@@ -226,7 +226,7 @@ function(sheet, utils, feed, nav, auth, notifier, api, locker) {
 			var form = page.find('form').on('submit', function(evt) {
 				evt.preventDefault();
 
-				var btn = $(this).find('button');
+				var btn = $('.post-comment-btn');
 				var pl = leaf_preloader(btn[0], {
 					start_color: 'rgba(30, 30, 30, 0.7)',
 					end_color: 'rgba(30, 20, 30, 0.2)',

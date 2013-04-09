@@ -72,12 +72,12 @@ function(sheet, utils, nav, notifier, storage, api, locker) {
 
 					var username = form.find('input[name="username"]').val();
 					var password = form.find('input[name="password"]').val();
-					that.authorize(username, password, function() {
+					that.authorize(username, password, function(success, userData) {
 						pl.destroy();
 						locker.unlock('auth');
 
 						if (callback) {
-							callback();
+							callback(success, userData);
 						}
 					});
 				});

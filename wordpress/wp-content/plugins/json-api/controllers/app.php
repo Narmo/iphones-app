@@ -82,7 +82,7 @@ class JSON_API_App_Controller {
 			}
 		}
 
-		return $this->posts_result($posts);
+		return $this->posts_result(array_filter($posts));
 	}
 
 	/**
