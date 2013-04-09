@@ -102,6 +102,10 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 				break;
 
 			case 'reload_splash':
+				if (!network.ensureOnline()) {
+					return;
+				}
+				
 				var oldReel = $('.tiles-reel');
 				splash.reload($('.tiles-reel'), function(newReel) {
 					if (newReel) {

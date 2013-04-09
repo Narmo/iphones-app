@@ -237,7 +237,7 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<section class=\"sheet\">\n	<header class=\"sheet__h\">\n		<span class=\"sheet__h-back\">";
+  buffer += "<section class=\"sheet with-shadow\">\n	<header class=\"sheet__h\">\n		<span class=\"sheet__h-back\">";
   if (stack1 = helpers.back_label) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.back_label; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }

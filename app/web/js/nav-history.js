@@ -22,6 +22,15 @@ function(utils, locker) {
 	var outOpacity = .7;
 	var outScale = .8;
 	var module = null;
+
+	var transEndEventNames = {
+		'WebkitTransition' : 'webkitTransitionEnd',
+		'MozTransition'    : 'transitionend',
+		'OTransition'      : 'oTransitionEnd',
+		'msTransition'     : 'MSTransitionEnd',
+		'transition'       : 'transitionend'
+	},
+	transEndEventName = transEndEventNames[Modernizr.prefixed('transition')];
 	
 	function trigger(event, elem) {
 		$(elem).trigger('history:' + event);
@@ -46,6 +55,62 @@ function(utils, locker) {
 			$(target).append(item);
 			trigger('attach', item);
 		}
+	}
+
+	/**
+	 * Анимация перехода по истории назад
+	 * @param  {Element} prev
+	 * @param  {Element} cur
+	 */
+	function animateBackwardTransition(prev, cur) {
+		prev = $(prev);
+		cur = $(cur);
+
+		var prevEl = prev[0], curEl = cur[0];
+
+		var transformCSS = Modernizr.prefixed('transform');
+		var distance = curEl.offsetWidth + 63;
+
+		prev.css('zIndex', 99);
+		cur.css('zIndex', 100);
+		
+		curEl.style[transformCSS] = 'translate3d(0, 0, 0)';
+		prevEl.style[transformCSS] = 'scale(' + outScale + ')';
+		prevEl.style.opacity = outOpacity;
+		attach(target, prevEl);
+
+		locker.lock('nav-backward');
+
+		cur.one(transEndEventName, function() {
+			locker.unlock('nav-backward');
+
+			cur.css('zIndex', '').removeClass('nav-animate');
+			curEl.style[transformCSS] = '';
+
+			detach(cur);
+
+			trigger('remove', cur);
+			trigger('anim-backward', cur);
+			trigger('anim-complete', cur);
+		});
+
+		prev.one(transEndEventName, function() {
+			prev.css({
+				zIndex: '',
+				opacity: ''
+			}).removeClass('nav-animate');
+			prevEl.style[transformCSS] = '';
+		});
+
+		setTimeout(function() {
+			prev.addClass('nav-animate');
+			cur.addClass('nav-animate');
+
+			prevEl.style.opacity = 1;
+			prevEl.style[transformCSS] = 'scale(1)';
+
+			curEl.style[transformCSS] = 'translate3d(' + distance + 'px, 0, 0)';
+		}, 1);
 	}
 
 	/**
@@ -92,6 +157,52 @@ function(utils, locker) {
 				trigger('anim-complete', cur);
 			}
 		}));
+	}
+
+	function animateForwardTransition(prev, cur) {
+		prev = $(prev);
+		cur = $(cur);
+
+		attach(target, cur);
+
+		var prevEl = prev[0], curEl = cur[0];
+		var transformCSS = Modernizr.prefixed('transform');
+
+		var distance = curEl.offsetWidth + 63;
+
+		prev.css('zIndex', 99);
+		cur.css('zIndex', 100);
+
+		curEl.style[transformCSS] = 'translate3d(' + distance + 'px, 0, 0)';
+
+		locker.lock('nav-forward');
+		cur.one(transEndEventName, function() {
+			cur.css('zIndex', '').removeClass('nav-animate');
+			curEl.style[transformCSS] = '';
+			locker.unlock('nav-forward');
+
+			trigger('anim-forward', cur);
+			trigger('anim-complete', cur);
+		});
+
+		prev.one(transEndEventName, function() {
+			prev.css({
+				zIndex: '',
+				opacity: ''
+			}).removeClass('nav-animate');
+			prevEl.style[transformCSS] = '';
+			detach(prev);
+		});
+
+		setTimeout(function() {
+			prev.addClass('nav-animate');
+			cur.addClass('nav-animate');
+
+			prevEl.style.opacity = outOpacity;
+			prevEl.style[transformCSS] = 'scale(' + outScale + ')';
+
+			curEl.style[transformCSS] = 'translate3d(0,0,0)';
+		}, 1);
 	}
 
 	/**
@@ -154,7 +265,7 @@ function(utils, locker) {
 			
 			trigger('willAttach', elem);
 			if (prev && elem) {
-				animateForward(prev, elem);
+				animateForwardTransition(prev, elem);
 			} else {
 				attach(target, elem);
 				detach(prev);
@@ -172,7 +283,7 @@ function(utils, locker) {
 			trigger('willAttach', prev);
 			
 			if (cur && prev) {
-				animateBackward(prev, cur);
+				animateBackwardTransition(prev, cur);
 			} else {
 				attach(target, prev);
 				detach(cur);
