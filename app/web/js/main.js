@@ -1,15 +1,24 @@
 require(
-['article', 'utils', 'feed', 'splash', 'comments', 'nav-history', 'article-reel', 'auth', 'preloader', 'locker'],
-/**
- * @param {authModule} auth
- * @param {commentsModule} comments
- */
-function(article, utils, feed, splash, comments, nav, articleReel, auth, preloader, locker) {
-	splash.create(function(tiles) {
-		// фиксируем плитки как страницу приложения,
-		// на которую можно вернуться
-		nav.go(tiles);	
-	});
+['article', 'utils', 'feed', 'splash', 'comments', 'nav-history', 'article-reel', 'auth', 'preloader', 'locker', 'network'],
+function(article, utils, feed, splash, comments, nav, articleReel, auth, preloader, locker, network) {
+	/**
+	 * Инициализация первого экрана страницы
+	 */
+	function init(callback) {
+		splash.create(function(tiles) {
+			// фиксируем плитки как страницу приложения,
+			// на которую можно вернуться
+			if (tiles) {
+				nav.go(tiles);
+				callback && callback(true);
+			} else {
+				callback && callback(false);
+			}
+		});
+
+		// попробуем залогинить пользователя
+		auth.check();
+	}
 	
 	// после авторизации обновляем все данные на странице
 	auth
@@ -20,9 +29,6 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 		.on('logout', function() {
 			$(document.body).removeClass('authorized');
 		});
-	
-	// попробуем залогинить пользователя
-	auth.check();
 	
 	nav.on('willAttach', function(page) {
 		// автоматическое обновление количества комментариев
@@ -38,7 +44,7 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 		});
 	});
 
-	// блокируем перелистывания
+	// блокируем перелистывания если существуют блокировки
 	swype.addPointerTest(function() {
 		return !locker.locked();
 	});
@@ -81,12 +87,18 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 								if (pl) {
 									pl.stop();
 									$(pl.getContainer()).remove();
-									locker.unlock('category_posts');
 								}
+
+								locker.unlock('category_posts');
 								nav.go(reel);
 							}
 						});
-						// nav.go(reel);
+					} else {
+						if (pl) {
+							pl.stop();
+							$(pl.getContainer()).remove();
+						}
+						locker.unlock('category_posts');
 					}
 				});
 				break;
@@ -123,4 +135,53 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 				break;
 		}
 	});
+
+	// XXX пробуем инициализировать приложение
+	if (network.available()) {
+		init();
+	} else {
+		// нет сети, покажем виджет
+		var widget = $('<div class="w-notify"><div class="w-notify__message">Для работы приложения требуется активное подключение к интернету</div><button>Попробовать ещё</button></div>')
+			.appendTo(document.body);
+		var blinkTimer = null;
+		var blink = function(elem, color) {
+			elem = $(elem).data('blink-count', 5);
+
+			if (!blinkTimer) {
+				blinkTimer = setInterval(function() {
+					var curIx = parseInt(elem.data('blink-count'));
+					if (!curIx || curIx < 0) {
+						clearInterval(blinkTimer);
+						blinkTimer = null;
+						elem.css('color', '');
+					} else {
+						elem
+							.css('color', curIx % 2 ? color : '')
+							.data('blink-count', curIx - 1);
+					}
+				}, 100);
+			}
+		};
+
+		widget.find('button').on('click', function() {
+			if (locker.locked('init')) {
+				return;
+			}
+			
+			var msg = widget.find('.w-notify__message');
+			if (!network.available()) {
+				blink(msg, 'red');
+			} else {
+				locker.lock('init');
+				init(function(status) {
+					locker.unlock('init');
+					if (!status) {
+						blink(msg, 'red');
+					} else {
+						widget.remove();
+					}
+				});
+			}
+		});
+	}
 });

@@ -2,13 +2,13 @@
  * Модуль для взаимодействия с сайтом: шлёт запросы на сайт и разбирает ответ
  */
 define(
-['notifier'], 
+['notifier', 'network'], 
 /**
  * @constructor
  * @memberOf __apiModule
  * @param {notifierModule} notifier
  */
-function(notifier) {
+function(notifier, network) {
 	var domain = 'http://www.iphones.ru';
 	
 	/**
@@ -53,6 +53,10 @@ function(notifier) {
 			
 			if (!options.delayTimeout) {
 				options.delayTimeout = 0;
+			}
+
+			if (!network.ensureOnline()) {
+				return callback(false);
 			}
 			
 			return $.delayedAjax(_.extend({}, options, {

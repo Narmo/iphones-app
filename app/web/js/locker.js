@@ -38,7 +38,11 @@ define(function() {
 		/**
 		 * Проверяет, существуют ли активные блокировки
 		 */
-		locked: function() {
+		locked: function(name) {
+			if (name) {
+				return name in locks;
+			}
+			
 			return !!_.keys(locks).length;
 		},
 

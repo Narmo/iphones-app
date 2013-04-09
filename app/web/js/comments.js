@@ -105,6 +105,10 @@ function(sheet, utils, feed, nav, auth, notifier, api, locker) {
 	 */
 	function loadComments(params, callback) {
 		feed.get('comments', params, function(data) {
+			if (!data) {
+				return callback();
+			}
+
 			var comments = data.comments || data;
 			callback(comments);
 			// обновляем количество комментариев в родительском посте
@@ -118,7 +122,6 @@ function(sheet, utils, feed, nav, auth, notifier, api, locker) {
 	function handleReplyUIEvent(evt) {
 		var target = $(evt.target);
 		if (target.hasClass('comment__reply')) {
-			// TODO добавить рельаные данные
 			module.showForm({
 				parent: target.attr('data-comment-id'),
 				post_id: target.attr('data-post-id')
@@ -188,13 +191,17 @@ function(sheet, utils, feed, nav, auth, notifier, api, locker) {
 			var that = this;
 			locker.lock('comments');
 			loadComments({id: post.id}, function(comments) {
-				var page = that.create({
-					id: post.id,
-					title: post.title,
-					comments: comments
-				});
 				locker.unlock('comments');
-				nav.go(page);
+
+				if (comments) {
+					var page = that.create({
+						id: post.id,
+						title: post.title,
+						comments: comments
+					});
+					
+					nav.go(page);
+				}
 			});
 		},
 		
