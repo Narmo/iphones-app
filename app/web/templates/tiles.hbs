@@ -15,7 +15,7 @@
 	</header>
 	{{#each tiles}}
 		<div class="tiles__item" data-post-id="{{ id }}" data-image="{{ image }}">
-			<h2 class="tiles__title">{{ title }} <span class="preloader-target"></span></h2>
+			<h2 class="tiles__title" data-subtitle="{{#if subtitle}}{{subtitle}}{{ else }}Последнее{{/if}}">{{ title }} <span class="preloader-target"></span></h2>
 			{{#if subtitle }}
 			<h3 class="tiles__subtitle">{{ subtitle }}</h3>
 			{{/if}}

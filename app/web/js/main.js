@@ -23,7 +23,6 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 	// после авторизации обновляем все данные на странице
 	auth
 		.on('authorized', function() {
-			auth.updateUserInfo();
 			$(document.body).addClass('authorized');
 		})
 		.on('logout', function() {
@@ -97,8 +96,16 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 				break;
 
 			case 'show_post':
-				var post = feed.getPost(params);
-				nav.go(article.create(post));
+				locker.lock('post');
+				var pl = preloader.createForBlock(this);
+				feed.get('post', {id: params}, function(data) {
+					if (data && data.post) {
+						nav.go(article.create(data.post));
+					}
+
+					pl && pl.destroy();
+					locker.unlock('post');
+				});
 				break;
 
 			case 'reload_splash':

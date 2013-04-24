@@ -11,9 +11,10 @@ define(
  */
 function(utils, api) {
 	var urls = {
-		'splash':         '/api/app/splash/',
+		'splash':         '/api/app/splash_simple/',
 		'category_posts': {url: '/api/app/get_category_posts/', params: {count: 40, exclude: 'comments,attachments'}},
-		'comments':       '/api/app/comments/'
+		'comments':       '/api/app/comments/',
+		'post':           {url: '/api/core/get_post/', params: {exclude: 'comments,attachments'}}
 	};
 
 	var cacheEnabled = true;
@@ -95,6 +96,10 @@ function(utils, api) {
 						_.each(posts, function(item) {
 							cachedPosts[item.id] = utils.transformPost(item);
 						});
+
+						if (data.app) {
+							cachedPosts[data.app.id] = utils.transformPost(data.app);
+						}
 
 						if (cacheEnabled) {
 							cache[cacheKey] = data;

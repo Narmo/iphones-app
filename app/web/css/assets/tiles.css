@@ -164,7 +164,7 @@
 
 .tiles_main .tiles__item:nth-of-type(1) .tiles__title:before {
 	display: block;
-	content: 'Последнее';
+	content: attr(data-subtitle);
 	font-size: 33px;
 	margin-bottom: 0.2em;
 }

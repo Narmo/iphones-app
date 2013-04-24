@@ -2,20 +2,26 @@
  * Контроллер для работы со сплэш-страницей
  */
 define(
-	['feed', 'tiles', 'utils', 'flipper', 'locker'], 
-	function(feed, tiles, utils, flipper, locker) {
+	['feed', 'tiles', 'utils', 'flipper', 'locker', 'auth'], 
+	function(feed, tiles, utils, flipper, locker, auth) {
+
+	var mainTiles = null;
 
 	function renderTiles(data) {
-		var result = $(tiles.create(data));
-		result.attr('data-post-ids', _.pluck(data, 'id').join(','))
+		var posts = _.clone(data.posts);
+		if (data.app) {
+			posts.unshift(data.app);
+		}
+
+		var result = $(tiles.create(posts));
+		result.attr('data-post-ids', _.pluck(posts, 'id').join(','))
 
 		// вешаем триггеры на плитку
 		result.find('.tiles__item').each(function() {
 			var tile = $(this);
 			var itemId = $(this).attr('data-post-id');
 			var post = feed.getPost(itemId);
-			var trigger = (post.type == 'page' ? 'show_post:' : 'show_category_for_post:') + itemId;
-			tile.attr('data-trigger', trigger);
+			tile.attr('data-trigger', 'show_post:' + itemId);
 		});
 
 		// добавляем pull to refresh
@@ -111,17 +117,19 @@ define(
 	function showNewFeed(oldFeed, posts, callback) {
 		oldFeed = $(oldFeed)[0];
 
-		var newTiles = renderTiles(posts);
-		setupFlipper(newTiles, {
+		mainTiles = renderTiles(posts);
+		setupFlipper(mainTiles, {
 			swypeOnInit: true
 		});
 
 		var transformCSS = Modernizr.prefixed('transform');
 		
-		newTiles[0].style[transformCSS] = 'rotateY(-180deg)'
-		newTiles.css({
+		mainTiles[0].style[transformCSS] = 'rotateY(-180deg)'
+		mainTiles.css({
 			zIndex: 100
 		}).after(oldFeed);
+
+		updateAuthData();
 
 		new Tween({
 			duration: 1300,
@@ -130,14 +138,25 @@ define(
 			step: function(pos) {
 				var deg = pos * 180;
 				var scale = 1 - Math.sin(pos * Math.PI) * 0.3;
-				newTiles[0].style[transformCSS] = 'rotateY(' + (deg - 180) + 'deg) scale(' + scale +')';
+				mainTiles[0].style[transformCSS] = 'rotateY(' + (deg - 180) + 'deg) scale(' + scale +')';
 				oldFeed.style[transformCSS] = 'rotateY(' + (deg) + 'deg) scale(' + scale +')';
 			},
 			complete: function() {
-				callback(newTiles);
+				$(oldFeed).remove();
+				callback(mainTiles);
 			}
 		});
 	}
+
+	function updateAuthData() {
+		if (mainTiles) {
+			mainTiles.find('.tiles').each(function() {
+				auth.updateUserInfo(this);
+			});
+		}
+	};
+
+	auth.on('authorized', updateAuthData);
 
 	return {
 		/**
@@ -146,8 +165,9 @@ define(
 		 */
 		create: function(callback) {
 			feed.get('splash', function(data) {
-				var mainTiles = renderTiles(data.posts);
+				mainTiles = renderTiles(data);
 				setupFlipper(mainTiles);
+				updateAuthData();
 
 				if (callback) {
 					callback(mainTiles);
@@ -172,7 +192,7 @@ define(
 				spinnerTween = null;
 
 				if (isUpdated) {
-					showNewFeed(elem, data.posts, function(newFeed) {
+					showNewFeed(elem, data, function(newFeed) {
 						locker.unlock('reload_splash');
 						callback(newFeed);
 					});

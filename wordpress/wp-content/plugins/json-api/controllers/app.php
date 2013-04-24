@@ -39,6 +39,63 @@ class JSON_API_App_Controller {
 	 * Выводим данные для основной страницы приложения
 	 * @return array
 	 */
+	public function splash_simple() {
+		global $json_api, $wpdb;
+
+		// получаем страницу «Приложение дня»
+		$app_day = $json_api->introspector->get_posts(array(
+			'pagename' => 'app-of-the-day'
+		));
+
+		$app_day = get_posts(array(
+			'pagename' => 'app-of-the-day',
+			'posts_per_page' => 1,
+			'post_type' => 'page'
+		));
+
+		if (count($app_day)) {
+			$p = $app_day[0];
+			$app_day = array(
+				'id' => $p->ID,
+				'title' => $p->post_title,
+				'content' => $p->post_content,
+				'comment_count' => $p->comment_count,
+				'date' => $p->post_date_gmt
+			);
+		} else {
+			$app_day = null;
+		}
+
+		// получаем последние посты
+		$recent_posts = get_posts(array(
+			'posts_per_page' => $app_day ? 38 : 39
+		));
+
+		$recent_posts = array_map(function($item) {
+			$image = null;
+			if (preg_match('/<img\s+[^>]*src=[\'"](.+?)[\'"].*?>/', $item->post_content, $images)) {
+				$image = $images[1];
+			}
+
+			return array(
+				'id' => $item->ID,
+				'title' => $item->post_title,
+				'image' => $image,
+				'comment_count' => $item->comment_count,
+				'date' => $item->post_date_gmt
+			);
+		}, $recent_posts);
+
+		return array(
+			'app' => empty($app_day) ? null : $app_day, 
+			'posts' => $recent_posts
+		);
+	}
+
+	/**
+	 * Предыдущий вариант сплэш-страницы
+	 * @return array
+	 */
 	public function splash() {
 		global $json_api, $wpdb;
 		// получаем ID всех категорий

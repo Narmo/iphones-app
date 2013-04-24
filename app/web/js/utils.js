@@ -20,7 +20,7 @@ define(function() {
 	 * @param {Object} post
 	 */
 	function setImage(post) {
-		if (!post.image) {
+		if (!post.image && post.content) {
 			post.content = post.content.replace(/<img\s+[^>]*src=['"](.+?)['"].*?>/i, function(img, src) {
 				post.image = src;
 				return '';
@@ -129,7 +129,8 @@ define(function() {
 		},
 
 		transformPost: function(post) {
-			post.allowComments = post.comment_status == 'open';
+			// post.allowComments = post.comment_status == 'open';
+			post.allowComments = 'comment_count' in post;
 
 			setImage(post);
 
@@ -156,10 +157,19 @@ define(function() {
 
 		centerImage: function(image, imageSize, targetSize) {
 			if (_.isElement(targetSize)) {
-				targetSize = {
-					width: targetSize.offsetWidth,
-					height: targetSize.offsetHeight
-				};
+				var sizeAttr = $(targetSize).attr('data-size');
+				if (sizeAttr) {
+					sizeAttr = sizeAttr.split('x');
+					targetSize = {
+						width: +sizeAttr[0],
+						height: +sizeAttr[1]
+					};
+				} else {
+					targetSize = {
+						width: targetSize.offsetWidth,
+						height: targetSize.offsetHeight
+					};
+				}
 			}
 
 			var coeff = this.getScaleCoeff(targetSize, imageSize);

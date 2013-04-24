@@ -17,11 +17,13 @@ function(require, utils, imagePreloader, auth) {
 
 		var tileLookup = {};
 		var images = feed.find('.tiles__item').map(function(i, tile) {
-			var img = $(tile).attr('data-image');
+			var t = $(tile);
+			var img = t.attr('data-image');
 			if (!tileLookup[img]) {
 				tileLookup[img] = [];
 			}
 
+			t.attr('data-size', tile.offsetWidth + 'x' + tile.offsetHeight);
 			tileLookup[img].push(tile);
 			// tileLookup[img] = tile;
 			return img;
@@ -70,11 +72,12 @@ function(require, utils, imagePreloader, auth) {
 		 */
 		create: function(feed) {
 			var reel = $('<div class="tiles-reel"></div>').appendTo(document.body);
-			var mainPayload = getMainTiles(feed);
+			var mainPayload = feed.slice(0, 3);
 			var restPayload = feed.slice(3);
 			var itemsPerPage = 6;
 
 			var totalPages = 1 + Math.ceil(restPayload.length / itemsPerPage);
+			var pageCount = 1;
 
 			reel.append(renderFeed(mainPayload, {
 				classNames: 'tiles_main',
@@ -84,7 +87,7 @@ function(require, utils, imagePreloader, auth) {
 			
 			for (var i = 0; i < restPayload.length; i += itemsPerPage) {
 				reel.append(renderFeed(restPayload.slice(i, i + itemsPerPage), {
-					pageNumber: 2 + i,
+					pageNumber: ++pageCount,
 					totalPages: totalPages
 				}));
 			}

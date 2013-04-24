@@ -340,15 +340,18 @@ function program5(depth0,data) {
   if (stack1 = helpers.image) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.image; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\">\n			<h2 class=\"tiles__title\">";
+    + "\">\n			<h2 class=\"tiles__title\" data-subtitle=\"";
+  stack1 = helpers['if'].call(depth0, depth0.subtitle, {hash:{},inverse:self.program(8, program8, data),fn:self.program(6, program6, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\">";
   if (stack1 = helpers.title) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + " <span class=\"preloader-target\"></span></h2>\n			";
-  stack1 = helpers['if'].call(depth0, depth0.subtitle, {hash:{},inverse:self.noop,fn:self.program(6, program6, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.subtitle, {hash:{},inverse:self.noop,fn:self.program(10, program10, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n			";
-  stack1 = helpers['if'].call(depth0, depth0.allowComments, {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.allowComments, {hash:{},inverse:self.noop,fn:self.program(12, program12, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n			";
   if (stack1 = helpers.tileAddon) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -359,6 +362,20 @@ function program5(depth0,data) {
   }
 function program6(depth0,data) {
   
+  var stack1;
+  if (stack1 = helpers.subtitle) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.subtitle; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  return escapeExpression(stack1);
+  }
+
+function program8(depth0,data) {
+  
+  
+  return "Последнее";
+  }
+
+function program10(depth0,data) {
+  
   var buffer = "", stack1;
   buffer += "\n			<h3 class=\"tiles__subtitle\">";
   if (stack1 = helpers.subtitle) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -368,7 +385,7 @@ function program6(depth0,data) {
   return buffer;
   }
 
-function program8(depth0,data) {
+function program12(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\n			<i class=\"icon icon_comment\" data-trigger=\"show_comments:";
