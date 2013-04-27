@@ -67,19 +67,18 @@ html {
 body {
 	width: 320px;
 	height: 460px;
-	box-sizing: border-box;
-	/* background: red; */
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
 	position: relative;
 	-webkit-user-select: none;
 	user-select: none;
+}
 
-	/* -webkit-perspective: 500;
-	perspective: 500;
-	-webkit-transform-style: preserve-3d;
-	transform-style: preserve-3d; */
+@media only screen and (device-aspect-ratio: 40/71) {
+	body {
+		height: 568px;
+	}
 }
 
 h1 {

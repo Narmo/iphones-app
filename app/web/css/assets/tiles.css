@@ -31,7 +31,6 @@
 }
 
 .tiles__footer {
-	/* height: 40px; */
 	position: absolute;
 	width: 100%;
 	bottom: 0;
@@ -140,7 +139,6 @@
 	width: 157px;
 }
 
-
 .tiles_main .tiles__title {
 	padding: 12px;
 }
@@ -171,6 +169,30 @@
 
 .tiles_main .tiles__item:nth-of-type(3) {
 	margin-right: 0;
+}
+
+/* Стили для iPhone 5 */
+@media only screen and (device-aspect-ratio: 40/71) {
+	.tiles__header {
+		height: 78px;
+	}
+
+	.tiles__item {
+		margin-bottom: 16px;
+	}
+
+	.tiles_main .tiles__item {
+		height: 128px;
+		margin-bottom: 6px;
+	}
+
+	.tiles_main .tiles__item:nth-of-type(1) {
+		height: 414px;
+	}
+
+	.tiles__footer {
+		bottom: 29px;
+	}
 }
 
 .tiles_calc {
