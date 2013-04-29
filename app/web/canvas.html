@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+</head>
+<body>
+	<script>
+		var img = new Image();
+		var cv = document.createElement('canvas');
+		var ctx = cv.getContext('2d');
+		img.onload = function() {
+			cv.width = this.width / 2 >>> 0;
+			cv.height = this.height / 2 >>> 0;
+
+			ctx.scale(2, 2);
+			ctx.drawImage(this, 0, 0);
+
+
+			var im = new Image();
+			im.src = cv.toDataURL();
+			document.body.appendChild(im);
+		};
+
+		img.src = 'http://www.iphones.ru/wp-content/uploads/2013/04/appledevprogram.jpg';
+	</script>
+</body>
+</html>

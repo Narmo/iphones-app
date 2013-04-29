@@ -107,7 +107,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
   
 
 
-  return "<form class=\"auth\">\n	<fieldset>\n		<input type=\"text\" name=\"username\" />\n		<input type=\"password\" name=\"password\" />\n	</fieldset>\n	<button type=\"submit\">Войти</button>\n</form>";
+  return "<form class=\"auth\">\n	<fieldset>\n		<input type=\"text\" name=\"username\" placeholder=\"Логин\" />\n		<input type=\"password\" name=\"password\" placeholder=\"Пароль\" />\n	</fieldset>\n	<button type=\"submit\">Войти</button>\n</form>";
   };
 
 this["Handlebars"]["_templates"]["templates/comment-form.hbs"] = function (Handlebars,depth0,helpers,partials,data) {

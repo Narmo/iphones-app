@@ -88,6 +88,30 @@ define(function() {
 		},
 
 		/**
+		 * Преобразует переданный объект с габаритами к нормальному виду
+		 * @param {Object} size
+		 */
+		makeSize: function(size) {
+			if (_.isElement(size)) {
+				var sizeAttr = $(size).attr('data-size');
+				if (sizeAttr) {
+					sizeAttr = sizeAttr.split('x');
+					return {
+						width: +sizeAttr[0],
+						height: +sizeAttr[1]
+					};
+				} else {
+					return {
+						width: size.offsetWidth,
+						height: size.offsetHeight
+					};
+				}
+			}
+
+			return size;
+		},
+
+		/**
 		 * Возвращает коэффициент масштабирования, при котором прямоугольник
 		 * <code>originalSize</code> полносью заполнит прямоугольник 
 		 * <code>maxSize</code>. Коэффициент может быть как больше, так и меньше 1.
@@ -98,6 +122,9 @@ define(function() {
 		 * @returns {Number}
 		 */
 		getScaleCoeff: function(maxSize, originalSize) {
+			maxSize = this.makeSize(maxSize);
+			originalSize = this.makeSize(originalSize);
+
 			var wCoeff = maxSize.width / originalSize.width;
 			var hCoeff = maxSize.height /originalSize.height;
 			return Math.max(wCoeff, hCoeff);
@@ -156,25 +183,11 @@ define(function() {
 		},
 
 		centerImage: function(image, imageSize, targetSize) {
-			if (_.isElement(targetSize)) {
-				var sizeAttr = $(targetSize).attr('data-size');
-				if (sizeAttr) {
-					sizeAttr = sizeAttr.split('x');
-					targetSize = {
-						width: +sizeAttr[0],
-						height: +sizeAttr[1]
-					};
-				} else {
-					targetSize = {
-						width: targetSize.offsetWidth,
-						height: targetSize.offsetHeight
-					};
-				}
-			}
-
 			var coeff = this.getScaleCoeff(targetSize, imageSize);
 			var transformCSS = Modernizr.prefixed('transform');
 			image.style[transformCSS] = 'translate(-50%, -50%) scale(' + coeff + ')';
+			// image.width = Math.round(imageSize.width * coeff);
+			// image.height = Math.round(imageSize.height * coeff);
 		}
 	};
 });

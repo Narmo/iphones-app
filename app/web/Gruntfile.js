@@ -7,7 +7,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-handlebars');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-zipstream');
+	grunt.loadNpmTasks('grunt-contrib-compress');
 
 	grunt.registerMultiTask('touch', 'Toches (creates or modifies) file', function() {
 		var content = this.data.content;
@@ -100,16 +100,16 @@ module.exports = function(grunt) {
 			}
 		},
 
-		zip: {
+		compress: {
 			main: {
-				src: [
-					'out/**/*',
-					'!out/*.zip'
-				],
-				dest: path.join('out', 'app.zip'),
 				options: {
-					base: 'out/'
-				}
+					archive: 'out/app.zip'
+				},
+				files: [{
+					cwd: 'out/',
+					expand: true,
+					src: ['**/*', '!*.zip']
+				}]
 			}
 		},
 
@@ -122,6 +122,6 @@ module.exports = function(grunt) {
 	});
 
 	// Default task.
-	grunt.registerTask('default', ['handlebars', 'requirejs', 'frontend', 'copy:fonts', 'touch', 'zip']);
+	grunt.registerTask('default', ['handlebars', 'requirejs', 'frontend', 'copy:fonts', 'touch', 'compress']);
 	grunt.registerTask('app', ['default', 'copy:app']);
 };

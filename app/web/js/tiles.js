@@ -29,6 +29,29 @@ function(require, utils, imagePreloader, auth) {
 			return img;
 		});
 
+		function getScaleRatio(ctx) {
+			var devicePixelRatio = window.devicePixelRatio || 1;
+			var backingStoreRatio = ctx.webkitBackingStorePixelRatio || ctx.backingStorePixelRatio || 1;
+			return devicePixelRatio / backingStoreRatio;
+		}
+
+		function placeImage1(src, parent, size) {
+			parent.style.backgroundImage = 'url(' + src + ')';
+		}
+
+		function placeImage2(src, parent, size) {
+			var coeff = utils.getScaleCoeff(parent, size);
+			var targetSize = {
+				width: Math.ceil(size.width * coeff),
+				height: Math.ceil(size.height * coeff),
+			};
+					
+			parent.style.backgroundImage = 'url(' + src + ')';
+		}
+
+		// var cv = document.createElement('canvas');
+		// document.body.appendChild(cv);
+
 		imagePreloader.getSize(images, function(src, size, image) {
 			if (src === 'complete') {
 				if (options.waitImages && options.callback) {
@@ -36,10 +59,59 @@ function(require, utils, imagePreloader, auth) {
 				}
 			} else {
 				_.each(tileLookup[src], function(parent) {
-					var img = image.cloneNode(true);
-					utils.centerImage(img, size, parent);
-					img.className = 'tiles__image';
-					parent.appendChild(img);
+					// return
+					parent.style.backgroundImage = 'url(' + src + ')';
+					return;
+					// parent.style.backgroundSize = targetSize.width + 'px ' + targetSize.height + 'px';
+
+					var coeff = utils.getScaleCoeff(parent, size);
+					var targetSize = {
+						width: Math.ceil(size.width * coeff),
+						height: Math.ceil(size.height * coeff),
+					};
+
+					var imgToAppend = null;
+
+					// пытаемся оптимизировать отображение картинок
+					// var cv = document.createElement('canvas');
+					// cv.className = 'tiles__image';
+					// var ctx = cv.getContext('2d');
+					// var ratio = getScaleRatio(ctx);
+
+					// cv.width = targetSize.width;
+					// cv.height = targetSize.height;
+					// // ctx.scale(ratio, ratio);
+
+					// try {
+					// 	ctx = cv.getContext('2d');
+					// 	ctx.drawImage(image, 0, 0, targetSize.width, targetSize.height);
+					// 	// parent.style.backgroundImage = 'url(' + cv.toDataURL('image/jpeg', 0.7) + ')';
+					// 	imgToAppend = new Image();
+					// 	imgToAppend.src = cv.toDataURL();
+					// 	imgToAppend.className = 'tiles__image unscaled';
+					// 	parent.appendChild(imgToAppend);
+					// } catch(e) {
+					// 	console.log(e);
+						imgToAppend = image.cloneNode(true);
+						utils.centerImage(imgToAppend, size, targetSize);
+						imgToAppend.className += ' tiles__image';
+						parent.appendChild(imgToAppend);
+					// }
+
+					// cv = ctx = imgToAppend = null;
+					
+
+
+					// 
+					// var img = image.cloneNode(true);
+					// utils.centerImage(img, size, parent);
+					// img.className = 'tiles__image';
+					// parent.appendChild(img);
+
+					// var ctx = cv.getContext('2d');
+					// ctx.clearRect(0, 0, targetSize.width, targetSize.height);
+					// ctx.drawImage(image, 0, 0, targetSize.width, targetSize.height);
+					// parent.appendChild(cv);
 				});
 			}
 		});

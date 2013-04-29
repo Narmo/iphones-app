@@ -57,8 +57,13 @@
 	height: 120px;
 	float: left;
 	background: #2384c8;
+	-webkit-background-size: cover;
+	background-size: cover;
 	margin: 0 6px 6px 0;
 	overflow: hidden;
+
+	/* -webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0); */
 }
 
 .tiles__item:before {
@@ -98,8 +103,17 @@
 
 .tiles__image {
 	position: absolute;
+	/* top: 0;
+	left: 0; */
 	left: 50%;
 	top: 50%;
+	/* -webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%); */
+}
+
+.tiles__image.unscaled {
+	top: 0;
+	left: 0;
 }
 
 .tiles__badge {
@@ -203,11 +217,11 @@
 .tiles .icon_comment {
 	position: absolute;
 	right: 6px;
-	bottom: 0;
+	bottom: 1px;
 	z-index: 2;
 }
 
 .tiles_main .icon_comment {
 	right: 12px;
-	bottom: 6px;
+	bottom: 7px;
 }

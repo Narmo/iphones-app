@@ -7,7 +7,7 @@ var swype = (function() {
 		tapzone: 0,
 		xCoeff: 0.4,
 		yCoeff: 0.4,
-		maxShadeOpacity: 0.7,
+		maxShadeOpacity: 0.8,
 		shadeOpacityOffset: 0.2,
 		optimizeLayout: true,
 		shade: true,
@@ -66,6 +66,14 @@ var swype = (function() {
 			this[key].style.opacity = val;
 			this[opKey] = val;
 		}
+	}
+
+	function cloneCanvas(original, target) {
+		target.width = original.width;
+		target.height = original.height;
+
+		var ctx = target.getContext('2d');
+		ctx.drawImage(original, 0, 0);
 	}
 	
 	/**
@@ -386,10 +394,22 @@ var swype = (function() {
 			 * @return {Element}
 			 */
 			var clone = function(el, className) {
-				var clone = el ? $(el).clone().appendTo(wrapper)[0] : null;
-				if (clone && _.isString(className)) {
-					clone.className += ' ' + className;
+				var clone = el ? $(el).clone()[0] : null;
+				if (clone) {
+					var targetCanvases = clone.getElementsByTagName('canvas');
+					if (targetCanvases.length) {
+						$(el).find('canvas').each(function(i) {
+							cloneCanvas(this, targetCanvases[i]);
+						});
+					}
+
+					if (_.isString(className)) {
+						clone.className += ' ' + className;
+					}
+
+					wrapper.append(clone);
 				}
+				
 				return clone;
 			};
 			

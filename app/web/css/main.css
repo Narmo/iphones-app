@@ -102,6 +102,12 @@ iframe {
 	max-width: 100%;
 }
 
+/* canvas {
+	position: absolute;
+	left: -1000px;
+	top: -1000px;
+} */
+
 .page-header {
 	padding: 10px;
 	height: 52px;
