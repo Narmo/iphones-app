@@ -38,6 +38,8 @@
 		A5210F3116F8E206008FC5DA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A5210F3016F8E206008FC5DA /* Default-568h@2x.png */; };
 		A5210F3416F8E206008FC5DA /* IPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5210F3316F8E206008FC5DA /* IPViewController.m */; };
 		A5210F3716F8E206008FC5DA /* IPViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5210F3516F8E206008FC5DA /* IPViewController.xib */; };
+		A58ECB3E172FD826007CF4F2 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A58ECB3D172FD826007CF4F2 /* icon.png */; };
+		A58ECB40172FD829007CF4F2 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A58ECB3F172FD829007CF4F2 /* icon@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,6 +97,8 @@
 		A5210F3216F8E206008FC5DA /* IPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPViewController.h; sourceTree = "<group>"; };
 		A5210F3316F8E206008FC5DA /* IPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPViewController.m; sourceTree = "<group>"; };
 		A5210F3616F8E206008FC5DA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/IPViewController.xib; sourceTree = "<group>"; };
+		A58ECB3D172FD826007CF4F2 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		A58ECB3F172FD829007CF4F2 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +178,8 @@
 		A5210F0E16F8E206008FC5DA = {
 			isa = PBXGroup;
 			children = (
+				A58ECB3F172FD829007CF4F2 /* icon@2x.png */,
+				A58ECB3D172FD826007CF4F2 /* icon.png */,
 				A50F81C916FF103E00F68CF8 /* Libraries */,
 				A5210F2016F8E206008FC5DA /* iPhones News */,
 				A5210F1916F8E206008FC5DA /* Frameworks */,
@@ -286,6 +292,8 @@
 				A5210F3116F8E206008FC5DA /* Default-568h@2x.png in Resources */,
 				A5210F3716F8E206008FC5DA /* IPViewController.xib in Resources */,
 				A50F821116FF221F00F68CF8 /* app.zip in Resources */,
+				A58ECB3E172FD826007CF4F2 /* icon.png in Resources */,
+				A58ECB40172FD829007CF4F2 /* icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +411,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Vassily Chykuyonak (2FCY4B9354)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vassily Chykuyonak (2FCY4B9354)";
+				COMPRESS_PNG_FILES = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhones News/iPhones News-Prefix.pch";
 				INFOPLIST_FILE = "iPhones News/iPhones News-Info.plist";
@@ -419,6 +428,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer: Vassily Chykuyonak (2FCY4B9354)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vassily Chykuyonak (2FCY4B9354)";
+				COMPRESS_PNG_FILES = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhones News/iPhones News-Prefix.pch";
 				INFOPLIST_FILE = "iPhones News/iPhones News-Info.plist";
