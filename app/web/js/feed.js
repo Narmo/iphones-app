@@ -14,7 +14,8 @@ function(utils, api) {
 		'splash':         '/api/app/splash_simple/',
 		'category_posts': {url: '/api/app/get_category_posts/', params: {count: 40, exclude: 'comments,attachments'}},
 		'comments':       '/api/app/comments/',
-		'post':           {url: '/api/core/get_post/', params: {exclude: 'comments,attachments'}}
+		'post':           {url: '/api/core/get_post/', params: {exclude: 'comments,attachments'}},
+		'page':           {url: '/api/core/get_page/', params: {exclude: 'comments,attachments'}}
 	};
 
 	var cacheEnabled = true;

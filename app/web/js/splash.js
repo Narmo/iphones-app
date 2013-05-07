@@ -11,6 +11,7 @@ define(
 		var posts = _.clone(data.posts);
 		if (data.app) {
 			posts.unshift(data.app);
+			data.app.type = 'page';
 		}
 
 		var result = $(tiles.create(posts));
@@ -21,7 +22,8 @@ define(
 			var tile = $(this);
 			var itemId = $(this).attr('data-post-id');
 			var post = feed.getPost(itemId);
-			tile.attr('data-trigger', 'show_post:' + itemId);
+			var action = tile.attr('data-type') == 'page' ? 'show_page:' : 'show_post:';
+			tile.attr('data-trigger', action + itemId);
 		});
 
 		// добавляем pull to refresh
@@ -80,7 +82,6 @@ define(
 				.map(function(i, tile) {
 					return $(tile).attr('data-image');
 				});
-			console.log('Preloading', images);
 			imagePreloader.preloadImages(images);
 		})
 		.on('createLayer', function(layer, key) {

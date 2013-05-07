@@ -96,11 +96,13 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 				break;
 
 			case 'show_post':
+			case 'show_page':
+				var feedName = command == 'show_page' ? 'page' : 'post';
 				locker.lock('post');
 				var pl = preloader.createForBlock(this);
-				feed.get('post', {id: params}, function(data) {
-					if (data && data.post) {
-						nav.go(article.create(data.post));
+				feed.get(feedName, {id: params}, function(data) {
+					if (data && (data.post || data.page)) {
+						nav.go(article.create(data.post || data.page));
 					}
 
 					pl && pl.destroy();
