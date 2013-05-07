@@ -8,7 +8,7 @@ include_once('core.php');
 class JSON_API_App_Controller {
 	var $splashCatgories = array('news', 'appstore', 'accessories');
 	var $splashPages = array('team', 'app-custom');
-
+	var $totalSplashPages = 20;
 
 	function __construct() {
 		
@@ -43,13 +43,12 @@ class JSON_API_App_Controller {
 		global $json_api, $wpdb;
 
 		// получаем страницу «Приложение дня»
-		$app_day = $json_api->introspector->get_posts(array(
-			'pagename' => 'app-of-the-day'
-		));
+		// $app_day = $json_api->introspector->get_posts(array(
+		// 	'pagename' => 'app-of-the-day'
+		// ));
 
 		$app_day = get_posts(array(
 			'pagename' => 'app-of-the-day',
-			'posts_per_page' => 1,
 			'post_type' => 'page'
 		));
 
@@ -67,8 +66,9 @@ class JSON_API_App_Controller {
 		}
 
 		// получаем последние посты
+		$total_posts = ($this->totalSplashPages - 1) * 6 + ($app_day ? 2 : 3);
 		$recent_posts = get_posts(array(
-			'posts_per_page' => $app_day ? 38 : 39
+			'posts_per_page' => $total_posts
 		));
 
 		$recent_posts = array_map(function($item) {
