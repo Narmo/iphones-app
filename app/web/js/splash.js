@@ -2,8 +2,8 @@
  * Контроллер для работы со сплэш-страницей
  */
 define(
-	['feed', 'tiles', 'utils', 'flipper', 'locker', 'auth'], 
-	function(feed, tiles, utils, flipper, locker, auth) {
+	['feed', 'tiles', 'utils', 'flipper', 'locker', 'auth', 'image-preloader'], 
+	function(feed, tiles, utils, flipper, locker, auth, imagePreloader) {
 
 	var mainTiles = null;
 
@@ -73,6 +73,16 @@ define(
 			prevConstrain: 110,
 			swypeOnInit: true
 		}, options || {}))
+		.on('activated', function() {
+			// загружаем соседние картинки
+			var images = $([this.prevElement(), this.nextElement()])
+				.find('.tiles__item')
+				.map(function(i, tile) {
+					return $(tile).attr('data-image');
+				});
+			console.log('Preloading', images);
+			imagePreloader.preloadImages(images);
+		})
 		.on('createLayer', function(layer, key) {
 			if (~layer.className.indexOf('tiles_main')) return;
 

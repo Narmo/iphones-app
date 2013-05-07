@@ -5,7 +5,8 @@
  */
 define(['utils'], function(utils) {
 	/* Кэш загруженных картинок */
-	var cache = {};
+	var sizeCache = {};
+	var loadCache = {};
 
 	return {
 		/**
@@ -29,12 +30,12 @@ define(['utils'], function(utils) {
 			images = _.flatten(images);
 			var onLoad = function() {
 				var src = this._src;
-				cache[src] = {
+				sizeCache[src] = {
 					width: this.naturalWidth,
 					height: this.naturalHeight
 				};
 
-				imageLoaded(src, cache[src], this);
+				imageLoaded(src, sizeCache[src], this);
 			};
 
 			var imageLoaded = function(src, size, image) {
@@ -52,8 +53,8 @@ define(['utils'], function(utils) {
 			}
 
 			_.each(images, function(img) {
-				if (img in cache) {
-					imageLoaded(img, cache[img]);
+				if (img in sizeCache) {
+					imageLoaded(img, sizeCache[img]);
 				} else {
 					var image = new Image;
 					image.onload = onLoad;
@@ -63,11 +64,8 @@ define(['utils'], function(utils) {
 		},
 
 		getSize: function(images, callback) {
-			if (!_.isArray(images)) {
-				images = [images];
-			}
-
-			images = _.flatten(images);
+			callback = callback || _.noop;
+			images = _.flatten(!_.isArray(images) ? [images] : images);
 
 			var next = function() {
 				if (!images.length) {
@@ -79,8 +77,8 @@ define(['utils'], function(utils) {
 					return next();
 				}
 
-				if (img in cache) {
-					imageLoaded(img, cache[img]);
+				if (sizeCache[img]) {
+					imageLoaded(img, sizeCache[img]);
 				} else {
 					var image = new Image;
 					image.onload = onLoad;
@@ -90,12 +88,12 @@ define(['utils'], function(utils) {
 
 			var onLoad = function() {
 				var src = this._src;
-				cache[src] = {
+				sizeCache[src] = {
 					width: this.naturalWidth,
 					height: this.naturalHeight
 				};
 
-				imageLoaded(src, cache[src], this);
+				imageLoaded(src, sizeCache[src], this);
 			};
 
 			var imageLoaded = function(src, size, image) {
@@ -112,7 +110,27 @@ define(['utils'], function(utils) {
 		},
 
 		resetCache: function() {
-			cache = {};
+			sizeCache = {};
+		},
+
+		/**
+		 * @param {Array} images
+		 */
+		addImages: function(images) {
+			images.forEach(function(img) {
+				if (!sizeCache[img]) {
+					sizeCache[img] = null;
+				}
+			});
+		},
+
+		preloadImages: function(images, callback) {
+			console.log('preload', images);
+			this.getSize(images, function(status) {
+				if (status === 'complete' && callback) {
+					callback();
+				}
+			});
 		}
 	};
 });

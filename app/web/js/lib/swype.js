@@ -272,8 +272,7 @@ var swype = (function() {
 				});
 			}
 
-			// this.cleanUp();
-			// this._flipData = this._setupFlipData();
+			this.trigger('activated', this.activeElement(), this.activeElementIndex);
 		},
 		
 		/**
