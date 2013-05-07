@@ -59,7 +59,7 @@ function(require, utils, imagePreloader, auth) {
 				}
 			} else {
 				_.each(tileLookup[src], function(parent) {
-					// return
+					// return;
 					parent.style.backgroundImage = 'url(' + src + ')';
 					return;
 					// parent.style.backgroundSize = targetSize.width + 'px ' + targetSize.height + 'px';

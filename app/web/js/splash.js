@@ -47,8 +47,17 @@ define(
 		});
 	}
 
+	function cleanTile(tile) {
+		if (!tile) return;
+		tile.style.backgroundImage = 'none';
+		while (tile.firstChild) {
+			tile.removeChild(tile.firstChild);
+		}
+	}
+
 	function setupFlipper(elem, options) {
-		var spinner = $(elem).find('.pull-to-refresh .icon')[0];
+		var pullToRefresh = $(elem).find('.pull-to-refresh');
+		var spinner = pullToRefresh.find('.icon')[0];
 		var transformCSS = Modernizr.prefixed('transform');
 		var spinnerDeg = 0;
 
@@ -64,6 +73,25 @@ define(
 			prevConstrain: 110,
 			swypeOnInit: true
 		}, options || {}))
+		.on('createLayer', function(layer, key) {
+			if (~layer.className.indexOf('tiles_main')) return;
+
+			var items = layer.getElementsByClassName('tiles__item');
+			if (key == 'cur2' || key == 'next' || key == 'prev2') {
+				cleanTile(items[0]);
+				cleanTile(items[1]);
+			} else {
+				cleanTile(items[4]);
+				cleanTile(items[5]);
+			}
+		})
+		.on('pointerDown', function() {
+			if (!this.hasPrev()) {
+				pullToRefresh.show();
+			} else {
+				pullToRefresh.hide();
+			}
+		})
 		.on('willSnapPrevConstrain', function() {
 			locker.lock('pull-to-refresh');
 		})
@@ -85,7 +113,7 @@ define(
 			});
 		})
 		.on('flipTo', function(pos, deg) {
-			if (!this.hasPrev() && spinner) {
+			if (!this.hasPrev() && spinner && pos > 0) {
 				spinnerDeg = -2 * deg;
 				rotateSpinner();
 			}

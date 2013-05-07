@@ -45,6 +45,44 @@ var swype = (function() {
 	};
 	
 	var pointerTests = [];
+
+	var flipWrapper = $('<div class="swype-flip"></div>')[0];
+	var shadeWrapper = $('<div class="swype__shade"></div>')[0];
+
+	function Queue(ops) {
+		this._ops = ops || [];
+		this._started = false;
+	}
+
+	Queue.prototype = {
+		add: function() {
+			for (var i = 0; i < arguments.length; i++) {
+				this._ops.push(arguments[i]);
+			}
+			return this;
+		},
+		start: function() {
+			if (!this._started) {
+				this._started = true;
+				this._tick();
+			}
+
+			return this;
+		},
+
+		_tick: function() {
+			if (this._ops && this._ops.length) {
+				var that = this;
+				requestAnimationFrame(function() {
+					that._ops.shift()();
+					that._tick();
+				});
+			} else {
+				this._ops = null;
+				this._started = false;
+			}
+		}
+	};
 	
 	function dasherize(name) {
 		return name.replace(/[A-Z]/g, function(ch) {
@@ -55,16 +93,33 @@ var swype = (function() {
 	function _rotate(key, deg) {
 		var degKey = key + 'Deg';
 		if (this[key] && this[degKey] !== deg) {
+			if (typeof deg == 'undefined') {
+				deg = this[degKey];
+			}
 			this[key].style[transformCSS] = 'rotateX(' + deg + 'deg)';
-			this[degKey] = deg;
 		}
+		this[degKey] = deg;
 	}
 
 	function _opacity(key, val) {
 		var opKey = key + 'Op';
 		if (this[key] && this[opKey] !== val) {
 			this[key].style.opacity = val;
-			this[opKey] = val;
+		}
+		this[opKey] = val;
+	}
+
+	function _style(key, name, val) {
+		if (this[key]) {
+			var styleKey = key + 'Style';
+			if (!this[styleKey]) {
+				this[styleKey] = {};
+			}
+
+			if (this[styleKey][name] !== val) {
+				this[styleKey][name] = this[key].style[name] = val;
+			}
+			
 		}
 	}
 
@@ -383,85 +438,97 @@ var swype = (function() {
 			}
 		},
 
-		_setupFlipData: function() {
-			var start = +new Date;
+		_makeFlipLayer: function(elem, key, data, clip, className) {
+			if (!elem) return;
+
+			var clone = elem.cloneNode(true);
+			this.trigger('createLayer', clone, key);
+
+			if (clip) {
+				clone.style.clip = clip;
+			}
+
+			if (className) {
+				clone.className += ' ' + className;
+			}
+
+			data[key] = clone;
+
+			var degKey = key + 'Deg';
+			if (degKey in data) {
+				data.rotate(key);
+			}
+
+			if (this.options.shade) {
+				data[key + 'Shade'] = shadeWrapper.cloneNode();
+				clone.appendChild(data[key + 'Shade']);
+			}
+
+			data.wrap.appendChild(clone);
+			return clone;
+		},
+
+		_deferredSetupFlipData: function(isNextDir) {
 			var next = this.nextElement();
 			var prev = this.prevElement();
 			var cur = this.activeElement();
-			
-			var wrapper = $('<div class="swype-flip"></div>');
-			/**
-			 * @return {Element}
-			 */
-			var clone = function(el, className) {
-				var clone = el ? $(el).clone()[0] : null;
-				if (clone) {
-					var targetCanvases = clone.getElementsByTagName('canvas');
-					if (targetCanvases.length) {
-						$(el).find('canvas').each(function(i) {
-							cloneCanvas(this, targetCanvases[i]);
-						});
-					}
-
-					if (_.isString(className)) {
-						clone.className += ' ' + className;
-					}
-
-					wrapper.append(clone);
-				}
-				
-				return clone;
-			};
-			
-			// var elems = _.map([cur, next], clone);
-			var elems = _.map([cur, next, prev], clone);
-			
-			var data = {
-				cur:   elems[0],
-				cur2:  clone(elems[0], 'swype-dupe'),
-				next:  elems[1],
-				next2: clone(elems[1], 'swype-dupe'),
-				prev:  elems[2],
-				prev2: clone(elems[2], 'swype-dupe')
-			};
+			var wrapper = flipWrapper.cloneNode();
 
 			var half = Math.round(cur.offsetHeight / 2);
-
 			var leaveTop = 'rect(auto, auto, ' + half + 'px, auto)';
 			var leaveBottom = 'rect(' + half + 'px, auto, auto, auto)';
 
-			data.cur.style.clip = leaveTop;
-			data.cur2.style.clip = leaveBottom;
-
-			if (data.next) {
-				data.next.style.clip = leaveBottom;
-				data.next2.style.clip = leaveTop;
-			}
-
-			if (data.prev) {
-				data.prev.style.clip = leaveTop;
-				data.prev2.style.clip = leaveBottom;
-			}
-
-			// create shadows
-			if (this.options.shade) {
-				var shade = $('<div class="swype__shade"></div>')[0];
-				Object.keys(data).forEach(function(key) {
-					if (data[key]) {
-						var sh = shade.cloneNode(true);
-						data[key].appendChild(sh);
-						data[key + 'Shade'] = sh;
+			var that = this;
+			var changeDir = null;
+			var data = {
+				isNextDir: isNextDir,
+				wrap: wrapper,
+				opacity: _opacity,
+				rotate: _rotate,
+				s: _style,
+				changeDirection: function() {
+					if (changeDir) {
+						changeDir();
+						changeDir = null;
 					}
-				});
-				data.opacity = _opacity;
+				}
+			};
+
+			if (isNextDir) {
+				this._makeFlipLayer(cur, 'cur2', data, leaveBottom, 'swype-dupe');
+				if (next) {
+					this._makeFlipLayer(next, 'next', data, leaveBottom);
+					this._makeFlipLayer(next, 'next2', data, leaveTop, 'swype-dupe');
+				} else {
+					that._makeFlipLayer(cur, 'cur', data, leaveTop);
+					cur.style.display = 'none';
+				}
+
+				changeDir = function() {
+					if (next) {
+						that._makeFlipLayer(cur, 'cur', data, leaveTop);
+					}
+					that._makeFlipLayer(prev, 'prev', data, leaveTop);
+					that._makeFlipLayer(prev, 'prev2', data, leaveBottom);
+					cur.style.display = 'none';
+				};
+			} else {
+				this._makeFlipLayer(cur, 'cur', data, leaveTop);
+				this._makeFlipLayer(cur, 'cur2', data, leaveBottom, 'swype-dupe');
+				cur.style.display = 'none';
+				if (prev) {
+					this._makeFlipLayer(prev, 'prev', data, leaveTop);
+					this._makeFlipLayer(prev, 'prev2', data, leaveBottom, 'swype-dupe');
+				}
+
+				changeDir = function() {
+					that._makeFlipLayer(next, 'next', data, leaveBottom);
+					that._makeFlipLayer(next, 'next2', data, leaveTop, 'swype-dupe');
+					cur.style.display = 'none';
+				};
 			}
-			
-			wrapper.insertBefore(this.activeElement());
-			data.wrap = wrapper[0];
-			data.rotate = _rotate;
 
-			$(this.activeElement()).hide();
-
+			cur.parentNode.insertBefore(wrapper, cur);
 			return data;
 		},
 		
@@ -471,15 +538,21 @@ var swype = (function() {
 		 */
 		flipTo: function(pos) {
 			var elMain = this.activeElement();
+			var opt = this.options;
+			var angle = Math.min(Math.max(-90 * pos / opt.flipDistance, -180), 180);
+			var isNext = angle > 0;
 			
 			if (!this._flipData) {
-				this._flipData = this._setupFlipData();
+				// this._flipData = this._setupFlipData();
+				// return;
+				this._flipData = this._deferredSetupFlipData(isNext);
 			}
 			
 			this.distance.y = pos;
-			var opt = this.options;
-			var angle = Math.min(Math.max(-90 * pos / opt.flipDistance, -180), 180);
 			var fd = this._flipData;
+			if (fd.isNextDir !== isNext && fd.changeDirection) {
+				fd.changeDirection();
+			}
 
 			fd.rotate('cur', Math.min(0, angle));
 			fd.rotate('cur2', Math.max(0, angle));
@@ -504,17 +577,9 @@ var swype = (function() {
 
 			var isNext = angle > 0;
 
-			if (isNext && fd.shDir != 'next') {
-				fd.cur2Shade.style.backgroundColor = '#fff';
-			}
-
-			if (!isNext && fd.shDir != 'prev') {
-				fd.cur2Shade.style.backgroundColor = '#000';
-			}
+			fd.s('cur2Shade', 'backgroundColor', isNext ? '#fff' : '#000');
 
 			fd.shDir = isNext ? 'next' : 'prev';
-
-
 			fd.opacity('curShade', angle < 0 && angle > -90 
 				? absAngle / 90 * mso - soo
 				: 0);
@@ -545,6 +610,10 @@ var swype = (function() {
 
 				fd.opacity('prevShade', angle < 0 && angle > -90 
 					? 1 - Math.max(absAngle - 50, 0) / 40 * mso - soo
+					: 0);
+
+				fd.opacity('curShade', angle > 0 && angle < 90
+					? (1 - Math.max(absAngle - 50, 0) / 40) * mso - soo
 					: 0);
 			}
 		},
