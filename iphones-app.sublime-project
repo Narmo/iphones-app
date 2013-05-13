@@ -9,7 +9,9 @@
 		}
 	],
 	"ternjs": {
-		"exclude": ["wordpress/**", "node_modules/**", "out/**", "underscore.js", "lodash.js"],
+		"exclude": ["wordpress/**", "node_modules/**", "out/**", 
+			"underscore.js", "lodash.js", "zepto.js",
+			"require.js"],
 		"libs": ["browser", "jquery"],
 		"plugins": {
 			"requirejs": {

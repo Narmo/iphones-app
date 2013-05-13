@@ -7,13 +7,18 @@ define(
 
 	var mainTiles = null;
 
-	function renderTiles(data) {
-		var posts = _.clone(data.posts);
-		if (data.app) {
-			posts.unshift(data.app);
-			data.app.type = 'page';
+	function payloadPosts(payload) {
+		var posts = _.clone(payload.posts);
+		if (payload.app) {
+			posts.unshift(payload.app);
+			payload.app.type = 'page';
 		}
 
+		return posts;
+	}
+
+	function renderTiles(data) {
+		var posts = payloadPosts(data);
 		var result = $(tiles.create(posts));
 		result.attr('data-post-ids', _.pluck(posts, 'id').join(','))
 
@@ -113,7 +118,7 @@ define(
 				spinnerTween.stop();
 				that.animate(that.options.prevConstrain, 0, function() {
 					if (isUpdated) {
-						showNewFeed(elem, data.posts, function() {
+						showNewFeed(elem, data, function() {
 							locker.unlock('pull-to-refresh');
 						});
 					} else {
@@ -137,7 +142,8 @@ define(
 		var curIds = elem.attr('data-post-ids').split(',');
 
 		feed.get('splash', {nocache: true, withDelay: 2000}, function(data) {
-			var isUpdated = !!_.find(data.posts, function(post, i) {
+			var posts = payloadPosts(data);
+			var isUpdated = !!_.find(posts, function(post, i) {
 				return post.id != curIds[i];
 			});
 
@@ -153,10 +159,10 @@ define(
 		});
 	}
 
-	function showNewFeed(oldFeed, posts, callback) {
+	function showNewFeed(oldFeed, postsData, callback) {
 		oldFeed = $(oldFeed)[0];
 
-		mainTiles = renderTiles(posts);
+		mainTiles = renderTiles(postsData);
 		setupFlipper(mainTiles, {
 			swypeOnInit: true
 		});

@@ -125,7 +125,6 @@ define(['utils'], function(utils) {
 		},
 
 		preloadImages: function(images, callback) {
-			console.log('preload', images);
 			this.getSize(images, function(status) {
 				if (status === 'complete' && callback) {
 					callback();
