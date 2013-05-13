@@ -29,6 +29,7 @@ define(function() {
 		 * @param  {Element} block
 		 */
 		createForBlock: function(block) {
+			if (!block) return;
 			block = $(block);
 			var target = block.find('.preloader-target')[0];
 			if (target) {

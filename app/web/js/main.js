@@ -1,6 +1,6 @@
 require(
-['article', 'utils', 'feed', 'splash', 'comments', 'nav-history', 'article-reel', 'auth', 'preloader', 'locker', 'network'],
-function(article, utils, feed, splash, comments, nav, articleReel, auth, preloader, locker, network) {
+['feed', 'splash', 'nav-history', 'auth', 'locker', 'network', 'eventHandler'],
+function(feed, splash, nav, auth, locker, network, eventHandler) {
 	/**
 	 * Инициализация первого экрана страницы
 	 */
@@ -56,90 +56,7 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 	$(document).on('pointertap', '[data-trigger]', function(evt) {
 		evt.preventDefault();
 		evt.stopImmediatePropagation();
-
-		if (locker.locked()) {
-			return;
-		}
-
-		var parts = $(this).attr('data-trigger').split(':');
-		var command = parts.shift();
-		var params = parts.join(':');
-		if (params && params.charAt(0) == '{') {
-			params = JSON.parse(params);
-		}
-
-		// console.log('handle trigger', command, params);
-		switch (command) {
-			case 'show_comments':
-				comments.showForPost(params);
-				break;
-
-			case 'show_category_for_post':
-				var post = feed.getPost(params);
-				var cat = utils.getKnownCategory(post) || post.categories[0];
-				var pl = preloader.createForBlock(this);
-				locker.lock('category_posts');
-				feed.get('category_posts', {slug: cat.slug}, function(data) {
-					if (data && data.posts) {
-						articleReel.create(cat.title, data.posts, {
-							complete: function(reel) {
-								pl && pl.destroy();
-								locker.unlock('category_posts');
-								nav.go(reel);
-							}
-						});
-					} else {
-						pl && pl.destroy();
-						locker.unlock('category_posts');
-					}
-				});
-				break;
-
-			case 'show_post':
-			case 'show_page':
-				var feedName = command == 'show_page' ? 'page' : 'post';
-				locker.lock('post');
-				var pl = preloader.createForBlock(this);
-				feed.get(feedName, {id: params}, function(data) {
-					if (data && (data.post || data.page)) {
-						nav.go(article.create(data.post || data.page));
-					}
-
-					pl && pl.destroy();
-					locker.unlock('post');
-				});
-				break;
-
-			case 'reload_splash':
-				if (!network.ensureOnline()) {
-					return;
-				}
-				
-				var oldReel = $('.tiles-reel');
-				splash.reload($('.tiles-reel'), function(newReel) {
-					if (newReel) {
-						// лента обновилась, заменим её в истории
-						nav.replace(oldReel[0], newReel[0]);
-					}
-				});
-				break;
-				
-			case 'authorize':
-				auth.show(function(status) {
-					if (status) {
-						nav.back();
-					}
-				});
-				break;
-				
-			case 'add_comment':
-				comments.showForm(_.isObject(params) ? params : {post_id: params});
-				break;
-
-			case 'reply':
-				comments.showReplyWidget(this);
-				break;
-		}
+		eventHandler.handle($(this).attr('data-trigger'), this);
 	});
 
 	// XXX пробуем инициализировать приложение
