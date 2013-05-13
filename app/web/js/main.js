@@ -1,6 +1,6 @@
 requirejs(
-['feed', 'splash', 'nav-history', 'auth', 'locker', 'network', 'eventHandler'],
-function(feed, splash, nav, auth, locker, network, eventHandler) {
+['feed', 'splash', 'nav-history', 'auth', 'locker', 'network', 'eventHandler', 'tracker'],
+function(feed, splash, nav, auth, locker, network, eventHandler, tracker) {
 	/**
 	 * Инициализация первого экрана страницы
 	 */
@@ -18,6 +18,8 @@ function(feed, splash, nav, auth, locker, network, eventHandler) {
 
 		// попробуем залогинить пользователя
 		auth.check();
+
+		tracker.init();
 	}
 	
 	// после авторизации обновляем все данные на странице

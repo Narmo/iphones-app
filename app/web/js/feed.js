@@ -2,20 +2,37 @@
  * Модуль для получения списка JSON-данных с сервера
  */
 define(
-['utils', 'api'], 
+['utils', 'api', 'tracker'], 
 /**
  * @constructor
  * @memberOf __feedModule
  * @param {utilsModule} utils
  * @param {apiModule} api
  */
-function(utils, api) {
+function(utils, api, tracker) {
 	var urls = {
-		'splash':         '/api/app/splash_simple/',
-		'category_posts': {url: '/api/app/get_category_posts/', params: {count: 40, exclude: 'comments,attachments'}},
-		'comments':       '/api/app/comments/',
-		'post':           {url: '/api/core/get_post/', params: {exclude: 'comments,attachments'}},
-		'page':           {url: '/api/core/get_page/', params: {exclude: 'comments,attachments'}}
+		'splash': {
+			url: '/api/app/splash_simple/',
+			track: '/'
+		},
+		'category_posts': {
+			url: '/api/app/get_category_posts/', 
+			params: {count: 40, exclude: 'comments,attachments'}
+		},
+		'comments': {
+			url: '/api/app/comments/',
+			track: '/iNotes/<%= id %>/comments/',
+		},
+		'post': {
+			url: '/api/core/get_post/',
+			track: '/iNotes/<%= id %>/',
+			params: {exclude: 'comments,attachments'}
+		},
+		'page': {
+			url: '/api/core/get_page/',
+			track: '/<%= id %>/',
+			params: {exclude: 'comments,attachments'}
+		}
 	};
 
 	var cacheEnabled = true;
@@ -84,6 +101,11 @@ function(utils, api) {
 
 				if (useCache && cacheKey in cache) {
 					return callback(cache[cacheKey]);
+				}
+
+				// трэкинг просмотра страниц
+				if (urls[name].track) {
+					tracker.trackPageView(_.template(urls[name].track, params));
 				}
 				
 				return api.request(url, params, function(status, data) {

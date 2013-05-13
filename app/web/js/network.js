@@ -3,7 +3,7 @@
  * проверяет, есть ли сеть в данный момент 
  */
 define(['notifier'], function(notifier) {
-	return {
+	var module = {
 		__online: true,
 
 		/**
@@ -28,4 +28,14 @@ define(['notifier'], function(notifier) {
 			return true;
 		}
 	};
+
+	window.addEventListener('offline', function(e) {
+		module.trigger('offline');
+	});
+
+	window.addEventListener('online', function(e) {
+		module.trigger('online');
+	});
+
+	return _.extend(module, _.events);
 });

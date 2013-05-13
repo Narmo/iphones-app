@@ -47,7 +47,7 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 					if (/^\/?(\d+)/.exec(params)) {
 						postId = RegExp.$1;
 					} else {
-						break;
+						return '0';
 					}
 
 					locker.lock('post');

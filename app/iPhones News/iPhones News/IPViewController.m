@@ -12,6 +12,9 @@
 #import "ZKFileArchive.h"
 #import "ZKDataArchive.h"
 #import "ZKCDHeader.h"
+#import "GAI.h"
+
+static NSString *const kTrackingId = @"UA-115285-4";
 
 @interface IPViewController ()
 - (void)unpackEngine;
@@ -44,6 +47,14 @@
 	self.webview.delegate = self;
 	self.webview.dataDetectorTypes = UIDataDetectorTypeNone;
 	self.webview.scrollView.scrollEnabled = NO;
+	
+	// set-up tracker
+	#ifdef DEBUG
+	[GAI sharedInstance].debug = YES;
+	#endif
+	[GAI sharedInstance].dispatchInterval = 60;
+	[GAI sharedInstance].trackUncaughtExceptions = YES;
+	self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
 	
 	
 	[[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
@@ -103,12 +114,19 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 			navigationType:(UIWebViewNavigationType)navigationType {
 	
 	NSURL *url = [request URL];
-	if (![url isFileURL]) {
+	if ([[url scheme] isEqualToString:@"analytics"]) {
+		if ([url.host isEqualToString:@"_trackPageview"]) {
+			TRACE(@"Logging %@", url.path);
+			[self.tracker trackView:url.path];
+        }
+	} else if (![url isFileURL]) {
 		if ([[url absoluteString] hasPrefix:@"http://www.iphones.ru/iNotes/"]) {
 			NSString *postId = [url lastPathComponent];
-			[self.webview stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"require('eventHandler').handle('show_post:%@')", postId]];
+			NSString *resp = [self.webview stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"require('eventHandler').handle('show_post:%@')", postId]];
 			
-			return NO;
+			if (![resp isEqualToString:@"0"]) {
+				return NO;
+			}
 		}
 		
 		if (navigationType == UIWebViewNavigationTypeLinkClicked) {

@@ -40,6 +40,9 @@
 		A5210F3716F8E206008FC5DA /* IPViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5210F3516F8E206008FC5DA /* IPViewController.xib */; };
 		A58ECB3E172FD826007CF4F2 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A58ECB3D172FD826007CF4F2 /* icon.png */; };
 		A58ECB40172FD829007CF4F2 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A58ECB3F172FD829007CF4F2 /* icon@2x.png */; };
+		A5E8731F1741433D00A158D3 /* libGoogleAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E8731D1741433D00A158D3 /* libGoogleAnalytics.a */; };
+		A5E873221741468A00A158D3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E873211741468A00A158D3 /* SystemConfiguration.framework */; };
+		A5E873241741469B00A158D3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E873231741469B00A158D3 /* CoreData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +102,14 @@
 		A5210F3616F8E206008FC5DA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/IPViewController.xib; sourceTree = "<group>"; };
 		A58ECB3D172FD826007CF4F2 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		A58ECB3F172FD829007CF4F2 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		A5E873181741433D00A158D3 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		A5E873191741433D00A158D3 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		A5E8731A1741433D00A158D3 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		A5E8731B1741433D00A158D3 /* GAITransaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransaction.h; sourceTree = "<group>"; };
+		A5E8731C1741433D00A158D3 /* GAITransactionItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITransactionItem.h; sourceTree = "<group>"; };
+		A5E8731D1741433D00A158D3 /* libGoogleAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalytics.a; sourceTree = "<group>"; };
+		A5E873211741468A00A158D3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A5E873231741469B00A158D3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +121,9 @@
 				A5210F1B16F8E206008FC5DA /* UIKit.framework in Frameworks */,
 				A5210F1D16F8E206008FC5DA /* Foundation.framework in Frameworks */,
 				A5210F1F16F8E206008FC5DA /* CoreGraphics.framework in Frameworks */,
+				A5E873221741468A00A158D3 /* SystemConfiguration.framework in Frameworks */,
+				A5E873241741469B00A158D3 /* CoreData.framework in Frameworks */,
+				A5E8731F1741433D00A158D3 /* libGoogleAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +133,7 @@
 		A50F81C916FF103E00F68CF8 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A5E873171741433D00A158D3 /* GA */,
 				A50F81CA16FF105F00F68CF8 /* ZipKit */,
 			);
 			name = Libraries;
@@ -199,6 +214,8 @@
 			isa = PBXGroup;
 			children = (
 				A50F820E16FF211C00F68CF8 /* libz.dylib */,
+				A5E873231741469B00A158D3 /* CoreData.framework */,
+				A5E873211741468A00A158D3 /* SystemConfiguration.framework */,
 				A5210F1A16F8E206008FC5DA /* UIKit.framework */,
 				A5210F1C16F8E206008FC5DA /* Foundation.framework */,
 				A5210F1E16F8E206008FC5DA /* CoreGraphics.framework */,
@@ -232,6 +249,19 @@
 				A5210F3016F8E206008FC5DA /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A5E873171741433D00A158D3 /* GA */ = {
+			isa = PBXGroup;
+			children = (
+				A5E873181741433D00A158D3 /* GAI.h */,
+				A5E873191741433D00A158D3 /* GAITrackedViewController.h */,
+				A5E8731A1741433D00A158D3 /* GAITracker.h */,
+				A5E8731B1741433D00A158D3 /* GAITransaction.h */,
+				A5E8731C1741433D00A158D3 /* GAITransactionItem.h */,
+				A5E8731D1741433D00A158D3 /* libGoogleAnalytics.a */,
+			);
+			path = GA;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -416,6 +446,10 @@
 				GCC_PREFIX_HEADER = "iPhones News/iPhones News-Prefix.pch";
 				INFOPLIST_FILE = "iPhones News/iPhones News-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/GA\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0C6FDF05-DBF8-44D9-8310-5199522FC8BB";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0C6FDF05-DBF8-44D9-8310-5199522FC8BB";
@@ -433,6 +467,10 @@
 				GCC_PREFIX_HEADER = "iPhones News/iPhones News-Prefix.pch";
 				INFOPLIST_FILE = "iPhones News/iPhones News-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/GA\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0C6FDF05-DBF8-44D9-8310-5199522FC8BB";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0C6FDF05-DBF8-44D9-8310-5199522FC8BB";
