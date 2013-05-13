@@ -1,4 +1,4 @@
-require(
+requirejs(
 ['feed', 'splash', 'nav-history', 'auth', 'locker', 'network', 'eventHandler'],
 function(feed, splash, nav, auth, locker, network, eventHandler) {
 	/**

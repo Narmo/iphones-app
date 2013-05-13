@@ -103,12 +103,21 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 			navigationType:(UIWebViewNavigationType)navigationType {
 	
 	NSURL *url = [request URL];
-	if (![url isFileURL] && navigationType == UIWebViewNavigationTypeLinkClicked) {
-		if (![[UIApplication sharedApplication] openURL:url]) {
-			TRACE(@"%@%@",@"Failed to open url:",[url description]);
+	if (![url isFileURL]) {
+		if ([[url absoluteString] hasPrefix:@"http://www.iphones.ru/iNotes/"]) {
+			NSString *postId = [url lastPathComponent];
+			[self.webview stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"require('eventHandler').handle('show_post:%@')", postId]];
+			
+			return NO;
 		}
 		
-		return NO;
+		if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+			if (![[UIApplication sharedApplication] openURL:url]) {
+				TRACE(@"%@%@",@"Failed to open url:",[url description]);
+			}
+			
+			return NO;
+		}
 	}
 	
 	return YES;
