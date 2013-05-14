@@ -175,8 +175,8 @@ define(function() {
 
 			if (~post.title.indexOf(':::')) {
 				var parts = post.title.split(':::');
-				post.title = $.trim(parts[0]);
-				post.subtitle = $.trim(parts[1]);
+				post.title = $.trim(parts[1] || '');
+				post.subtitle = $.trim(parts[0] || '');
 			}
 
 			return post;

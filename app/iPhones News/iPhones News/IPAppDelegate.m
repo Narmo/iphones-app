@@ -25,6 +25,10 @@ void uncaughtExceptionHandler(NSException *exception) {
 	
 	CACHEPATH = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
 	
+	// update User Agent
+	NSDictionary *uaPrefs = [NSDictionary dictionaryWithObjectsAndKeys:@"iPhones News", @"UserAgent", nil];
+	[[NSUserDefaults standardUserDefaults] registerDefaults:uaPrefs];
+	
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 	self.viewController = [[IPViewController alloc] initWithNibName:@"IPViewController" bundle:nil];

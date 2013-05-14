@@ -235,3 +235,11 @@
 	right: 12px;
 	bottom: 7px;
 }
+
+.tiles_main .tiles__subtitle {
+	display: none;
+}
+
+.tiles_main .preloader-target {
+	position: absolute;
+}
