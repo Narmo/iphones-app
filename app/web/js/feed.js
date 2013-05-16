@@ -114,6 +114,10 @@ function(utils, api, tracker) {
 						if (data.post) {
 							posts.push(data.post);
 						}
+
+						if (data.page) {
+							posts.push(data.page);
+						}
 						
 						// сохраняем посты в кэш
 						_.each(posts, function(item) {

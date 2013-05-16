@@ -5,7 +5,7 @@ define(['sheet', 'utils', 'image-preloader'], function(sheet, utils, imagePreloa
 	return {
 		create: function(data, options) {
 			var page = $(sheet.create({
-				title: 'Статья',
+				title: '',
 				options: '<i class="icon icon_comment icon_comment_dark" data-trigger="show_comments:' + data.id + '">' + data.comment_count + '</i>',
 				content: utils.render('article', data)
 			}, options)).appendTo(document.body);
