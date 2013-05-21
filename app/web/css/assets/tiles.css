@@ -59,6 +59,7 @@
 	background: #2384c8;
 	-webkit-background-size: cover;
 	background-size: cover;
+	background-position: 50% 50%;
 	margin: 0 6px 6px 0;
 	overflow: hidden;
 
