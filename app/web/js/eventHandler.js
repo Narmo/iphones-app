@@ -44,15 +44,18 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 				case 'show_page':
 					var feedName = command == 'show_page' ? 'page' : 'post';
 					var postId = null;
+					var p = {};
 					if (/^\/?(\d+)/.exec(params)) {
-						postId = RegExp.$1;
+						p.id = RegExp.$1;
+					} else if (/^\/?([^\/]+)/.exec(params)) {
+						p.slug = RegExp.$1;
 					} else {
 						return '0';
 					}
 
 					locker.lock('post');
 					var pl = preloader.createForBlock(elem);
-					feed.get(feedName, {id: postId}, function(data) {
+					feed.get(feedName, p, function(data) {
 						if (data && (data.post || data.page)) {
 							nav.go(article.create(data.post || data.page));
 						}
