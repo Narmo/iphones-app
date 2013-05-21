@@ -47,8 +47,8 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 					var p = {};
 					if (/^\/?(\d+)/.exec(params)) {
 						p.id = RegExp.$1;
-					} else if (/^\/?([^\/]+)/.exec(params)) {
-						p.slug = RegExp.$1;
+					// } else if (/^\/?([^\/]+)/.exec(params)) {
+					// 	p.slug = RegExp.$1;
 					} else {
 						return '0';
 					}

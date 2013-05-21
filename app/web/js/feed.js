@@ -105,7 +105,13 @@ function(utils, api, tracker) {
 
 				// трэкинг просмотра страниц
 				if (urls[name].track) {
-					tracker.trackPageView(_.template(urls[name].track, params));
+					try {
+						var trackParams = _.copy(params);
+						if (!trackParams.id && trackParams.slug) {
+							trackParams.id = trackParams.slug;
+						}
+						tracker.trackPageView(_.template(urls[name].track, trackParams));
+					} catch(e) {}
 				}
 				
 				return api.request(url, params, function(status, data) {
