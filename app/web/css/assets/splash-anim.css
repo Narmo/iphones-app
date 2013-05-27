@@ -1,0 +1,15 @@
+.splash-anim .swype-item,
+.splash-anim .swype__shade {
+	-webkit-transition: -webkit-transform 0.7s ease-in-out 0s;
+	transition: transform 0.7s ease-in-out 0s;
+}
+
+.splash-anim .swype-item:nth-child(-n+3) {
+	-webkit-transition-delay: 0.3s;
+	transition-delay: 0.3s;
+}
+
+.splash-anim .swype__shade {
+	-webkit-transition-property: opacity;
+	transition-property: opacity;
+}

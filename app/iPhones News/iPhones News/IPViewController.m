@@ -18,6 +18,8 @@ static NSString *const kTrackingId = @"UA-115285-4";
 
 @interface IPViewController ()
 - (void)unpackEngine;
+- (void)showSplash;
+- (void)hideSplash;
 @end
 
 @implementation IPViewController
@@ -41,6 +43,8 @@ static NSString *const kTrackingId = @"UA-115285-4";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	[self showSplash];
 	
 	[self unpackEngine];
 	
@@ -119,6 +123,12 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 			TRACE(@"Logging %@", url.path);
 			[self.tracker trackView:url.path];
         }
+	} else if ([[url scheme] isEqualToString:@"app"]) {
+		TRACE(@"App command %@", url.host);
+		if ([url.host isEqualToString:@"hide-splash"]) {
+			[self hideSplash];
+		}
+		return NO;
 	} else if (![url isFileURL]) {
 		if ([[url absoluteString] hasPrefix:@"http://www.iphones.ru/iNotes/"]) {
 			NSString *postId = [url lastPathComponent];
@@ -139,6 +149,45 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	}
 	
 	return YES;
+}
+
+- (void)showSplash {
+	self.splash = [[UIView alloc] initWithFrame:self.view.frame];
+	
+	NSString *img = @"Default";
+	if ([UIScreen mainScreen].bounds.size.height == 568.0) {
+		img = @"Default-568h";
+	}
+	
+	TRACE(@"Image: %@", img);
+	
+	UIImageView *splashImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:img]];
+	splashImage.frame = CGRectMake(0.0, -[UIApplication sharedApplication].statusBarFrame.size.height, splashImage.frame.size.width, splashImage.frame.size.height);
+	
+	UIActivityIndicatorView *loader = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+	loader.frame = CGRectMake(120.0, 320, 80.0, 80.0);
+	[self.splash addSubview:splashImage];
+	[self.splash addSubview:loader];
+	[loader startAnimating];
+	
+	[self.view addSubview:self.splash];
+}
+
+- (void)hideSplash {
+	[UIView
+	 animateWithDuration:0.3
+	 animations:^{
+		 self.splash.alpha = 0.0;
+	 }
+	 completion:(void (^)(BOOL)) ^{
+		 for (UIView *v in self.splash.subviews) {
+			 if ([v respondsToSelector:@selector(stopAnimating)]) {
+				 [v performSelector:@selector(stopAnimating)];
+			 }
+		 }
+		 [self.splash removeFromSuperview];
+		 self.splash = nil;
+	 }];
 }
 
 @end

@@ -6,6 +6,7 @@ define(
 	function(feed, tiles, utils, flipper, locker, auth, imagePreloader) {
 
 	var mainTiles = null;
+	var mainSwypeGroup = null;
 
 	function payloadPosts(payload) {
 		var posts = _.clone(payload.posts);
@@ -211,11 +212,11 @@ define(
 		create: function(callback) {
 			feed.get('splash', function(data) {
 				mainTiles = renderTiles(data);
-				setupFlipper(mainTiles);
+				mainSwypeGroup = setupFlipper(mainTiles);
 				updateAuthData();
 
 				if (callback) {
-					callback(mainTiles);
+					callback(mainTiles, mainSwypeGroup);
 				}
 			});
 		},

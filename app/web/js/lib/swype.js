@@ -49,41 +49,6 @@ var swype = (function() {
 	var flipWrapper = $('<div class="swype-flip"></div>')[0];
 	var shadeWrapper = $('<div class="swype__shade"></div>')[0];
 
-	function Queue(ops) {
-		this._ops = ops || [];
-		this._started = false;
-	}
-
-	Queue.prototype = {
-		add: function() {
-			for (var i = 0; i < arguments.length; i++) {
-				this._ops.push(arguments[i]);
-			}
-			return this;
-		},
-		start: function() {
-			if (!this._started) {
-				this._started = true;
-				this._tick();
-			}
-
-			return this;
-		},
-
-		_tick: function() {
-			if (this._ops && this._ops.length) {
-				var that = this;
-				requestAnimationFrame(function() {
-					that._ops.shift()();
-					that._tick();
-				});
-			} else {
-				this._ops = null;
-				this._started = false;
-			}
-		}
-	};
-	
 	function dasherize(name) {
 		return name.replace(/[A-Z]/g, function(ch) {
 			return '-' + ch.toLowerCase();

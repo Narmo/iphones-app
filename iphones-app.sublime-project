@@ -19,15 +19,13 @@
 			}
 		}
 	},
-	"build_systems": [
-        {
-            "name": "Grunt (iphones)",
-            "selector": "Gruntfile.js",
-			"working_dir": "${project_path}/app/web",
-  			"path": "/usr/local/bin",
-			"osx": {
-				"cmd": ["grunt", "app", "--no-color"]
-			}
-        }
-    ]
+	"build_systems": [{
+		"name": "Grunt (iphones)",
+		"selector": "Gruntfile.js",
+		"working_dir": "${project_path}/app/web",
+		"path": "/usr/local/bin",
+		"osx": {
+			"cmd": ["grunt", "app", "--no-color"]
+		}
+	}]
 }
