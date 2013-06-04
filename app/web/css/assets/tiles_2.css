@@ -1,0 +1,38 @@
+.tiles_2 .tiles__item {
+	float: none;
+	width: auto;
+	border: 1px solid #ccc;
+	margin-bottom: 4px;
+}
+
+.tiles_2 .tiles__title {
+	position: absolute;
+	width: 100%;
+	padding: 6px 40px 6px 6px;
+	background: rgba(0,0,0,0.7);
+	bottom: 0;
+	min-height: 36px;
+
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.tiles_2 .tiles__item:before {
+	display: none;
+}
+
+@media only screen and (device-aspect-ratio: 40/71) {
+	.tiles_2 .tiles__header {
+		height: 48px;
+	}
+
+	.tiles__item {
+		height: 149px;
+		margin-bottom: 5px;
+	}
+
+	.tiles__footer {
+		bottom: 0;
+	}
+}

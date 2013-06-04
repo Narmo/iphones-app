@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Tiles</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="red" />
+	<link rel="stylesheet" href="./css/main.css" media="all" />
+</head>
+<body>
+	<section class="tiles tiles_2">
+		<header class="tiles__header">
+			<div class="user-profile user-profile_no-auth">
+				<span class="avatar user-profile__avatar"></span>
+				<h4 class="user-profile__name">Мой профиль</h4>
+				<i class="icon icon_profile user-profile__info" data-trigger="authorize"></i>
+			</div>
+			<div class="user-profile user-profile_auth">
+				<span class="avatar user-profile__avatar"></span>
+				<h4 class="user-profile__name">Sergey</h4>
+			</div>
+		</header>
+
+		<div class="tiles__item" data-post-id="1" style="background-image: url(http://www.iphones.ru/wp-content/uploads/2013/06/3-7.jpg);" data-type="post">
+			<h2 class="tiles__title" data-subtitle="Последнее">Прогород. Обновление к лету, актуальная информация каждый день <span class="preloader-target"></span></h2>
+			<i class="icon icon_comment" data-trigger="show_comments:{{ id }}">10</i>
+		</div>
+		<div class="tiles__item" data-post-id="2" style="background-image: url(http://www.iphones.ru/wp-content/uploads/2013/06/3-7.jpg);" data-type="post">
+			<h2 class="tiles__title" data-subtitle="Последнее">Обзор персонального «оператора» Swivl</h2>
+			<i class="icon icon_comment" data-trigger="show_comments:{{ id }}">10</i>
+		</div>
+		<div class="tiles__item" data-post-id="2" style="background-image: url(http://www.iphones.ru/wp-content/uploads/2013/06/photo-1.jpg);" data-type="post">
+			<h2 class="tiles__title" data-subtitle="Последнее">Apple предлагает заменить дисплей iPhone 5 за $149 прямо в магазине</h2>
+			<i class="icon icon_comment" data-trigger="show_comments:{{ id }}">10</i>
+		</div>
+		
+		<footer class="tiles__footer">
+			<i class="icon icon_refresh tiles__refresh" data-trigger="reload_splash"></i>
+			<div class="tiles__paging">Стр. 1 из 2</div>
+		</footer>
+	</section>
+</body>
+</html>

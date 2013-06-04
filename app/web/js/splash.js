@@ -96,9 +96,9 @@ define(
 			var items = layer.getElementsByClassName('tiles__item');
 			if (key == 'cur2' || key == 'next' || key == 'prev2') {
 				cleanTile(items[0]);
-				cleanTile(items[1]);
+				// cleanTile(items[1]);
 			} else {
-				cleanTile(items[4]);
+				// cleanTile(items[4]);
 				cleanTile(items[5]);
 			}
 		})

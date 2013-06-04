@@ -42,7 +42,7 @@ function(require, utils, imagePreloader, auth) {
 			var reel = $('<div class="tiles-reel"></div>').appendTo(document.body);
 			var mainPayload = feed.slice(0, 3);
 			var restPayload = feed.slice(3);
-			var itemsPerPage = 6;
+			var itemsPerPage = 3;
 
 			var totalPages = 1 + Math.ceil(restPayload.length / itemsPerPage);
 			var pageCount = 1;
@@ -56,7 +56,8 @@ function(require, utils, imagePreloader, auth) {
 			for (var i = 0; i < restPayload.length; i += itemsPerPage) {
 				reel.append(renderFeed(restPayload.slice(i, i + itemsPerPage), {
 					pageNumber: ++pageCount,
-					totalPages: totalPages
+					totalPages: totalPages,
+					classNames: 'tiles_2'
 				}));
 			}
 
@@ -65,7 +66,7 @@ function(require, utils, imagePreloader, auth) {
 			});
 
 			imagePreloader.addImages(allImages);
-			imagePreloader.preloadImages(allImages.slice(0, 9), callback);
+			imagePreloader.preloadImages(allImages.slice(0, 6), callback);
 
 			return reel[0];
 		}

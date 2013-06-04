@@ -4,6 +4,7 @@
 @import url(assets/icons.css);
 @import url(assets/forms.css);
 @import url(assets/tiles.css);
+@import url(assets/tiles_2.css);
 @import url(assets/sheet.css);
 @import url(assets/article.css);
 @import url(assets/comments.css);
@@ -77,8 +78,8 @@ body {
 }
 
 @media only screen and (device-aspect-ratio: 40/71) {
-	body {
-		height: 568px;
+	html, body {
+		height: 100%;
 	}
 }
 
