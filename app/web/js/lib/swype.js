@@ -603,16 +603,10 @@ var swype = (function() {
 		onPointerUp: function(evt) {
 			var delta, coeff, maxDistance;
 			if (this.pointerMoved) {
-				if (!this._swipeHandled) {
-					if (this.pointerMoved === 'y') {
-						delta = this.distance.y;
-						coeff = this.options.yCoeff;
-						maxDistance = this.options.flipDistance;
-					} else {
-						delta = this.distance.x;
-						coeff = this.options.xCoeff;
-						maxDistance = this.getViewportWidth();
-					}
+				if (!this._swipeHandled && this.pointerMoved === 'y') {
+					delta = this.distance.y;
+					coeff = this.options.yCoeff;
+					maxDistance = this.options.flipDistance;
 					
 					// если переместили указатель — смотрим на расстояние.
 					// если оно достаточно для перемещения к следующему/предыдущему
@@ -675,13 +669,10 @@ var swype = (function() {
 			var dy = coords.y - this.pointerStart.y;
 			
 			if (this.pointerMoved) {
-				var isX = this.pointerMoved === 'x';
-				// var delta = isX ? dx : dy;
-				// var fn = isX ? 'moveTo' : 'flipTo';
-				// var coeff = this.options[this.pointerMoved + 'Coeff'];
+				if (this.pointerMoved === 'x') {
+					return;
+				}
 				var delta = dy;
-				// console.log('Move delta', delta);
-				var fn = 'flipTo';
 				var coeff = this.options['yCoeff'];
 				
 				// обработка перемещения указателя
@@ -691,7 +682,7 @@ var swype = (function() {
 					delta *= coeff;
 				}
 				
-				this[fn](delta);
+				this.flipTo(delta);
 			} else {
 				// определяем, началось ли движение
 				var threshold = 5;
@@ -712,11 +703,11 @@ var swype = (function() {
 			
 			var dir = evt.swipeDirection;
 			
-			if ((dir == 'left' || dir == 'up') && this.hasNext()) {
-				this.next(null, {axis: dir == 'up' ? 'y' : 'x'});
+			if (dir == 'up' && this.hasNext()) {
+				this.next(null, {axis: 'y'});
 				this._swipeHandled = true;
-			} else if ((dir == 'right' || dir == 'down') && this.hasPrev()) {
-				this.prev(null, {axis: dir == 'down' ? 'y' : 'x'});
+			} else if (dir == 'down' && this.hasPrev()) {
+				this.prev(null, {axis: 'y'});
 				this._swipeHandled = true;
 			}
 			

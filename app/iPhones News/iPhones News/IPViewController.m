@@ -159,8 +159,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		img = @"Default-568h";
 	}
 	
-	TRACE(@"Image: %@", img);
-	
 	UIImageView *splashImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:img]];
 	splashImage.frame = CGRectMake(0.0, -[UIApplication sharedApplication].statusBarFrame.size.height, splashImage.frame.size.width, splashImage.frame.size.height);
 	
@@ -188,6 +186,10 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		 [self.splash removeFromSuperview];
 		 self.splash = nil;
 	 }];
+}
+
+- (BOOL)shouldAutorotate {
+	return NO;
 }
 
 @end

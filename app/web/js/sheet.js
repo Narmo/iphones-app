@@ -72,6 +72,18 @@ function(utils, nav) {
 				return options.onTitleTap(evt);
 			});
 
+			sheet.find('.sheet__scroller').on('scroll', function(evt) {
+				$(this).attr('data-scroll', this.scrollTop);
+			});
+
+			sheet.on('history:attach', function() {
+				var scroller = $(this).find('.sheet__scroller');
+				var scrollPos = scroller.attr('data-scroll');
+				if (scrollPos) {
+					scroller[0].scrollTop = +scrollPos;
+				}
+			});
+
 			return sheet;
 		},
 		
