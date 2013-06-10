@@ -7,7 +7,6 @@
 //
 
 #import "IPViewController.h"
-
 #import "ZKDefs.h"
 #import "ZKFileArchive.h"
 #import "ZKDataArchive.h"
@@ -15,12 +14,6 @@
 #import "GAI.h"
 
 static NSString *const kTrackingId = @"UA-115285-4";
-
-@interface IPViewController ()
-- (void)unpackEngine;
-- (void)showSplash;
-- (void)hideSplash;
-@end
 
 @implementation IPViewController
 
@@ -40,37 +33,37 @@ static NSString *const kTrackingId = @"UA-115285-4";
 	}
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	
-	[self showSplash];
+	CACHEPATH = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
 	
+	[self showSplash];
 	[self unpackEngine];
 	
-	self.webview.delegate = self;
-	self.webview.dataDetectorTypes = UIDataDetectorTypeNone;
-	self.webview.scrollView.scrollEnabled = NO;
+	mWebView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+	mWebView.delegate = self;
+	mWebView.dataDetectorTypes = UIDataDetectorTypeNone;
+	mWebView.scrollView.scrollEnabled = NO;
+	[self.view insertSubview:mWebView atIndex:0];
 	
 	// set-up tracker
-	#ifdef DEBUG
+#ifdef DEBUG
 	[GAI sharedInstance].debug = YES;
-	#endif
+#endif
 	[GAI sharedInstance].dispatchInterval = 60;
 	[GAI sharedInstance].trackUncaughtExceptions = YES;
 	self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
 	
-	
 	[[NSNotificationCenter defaultCenter] addObserverForName:UIKeyboardWillShowNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-		self.webview.scrollView.contentInset = UIEdgeInsetsZero;
-		[self performSelector:@selector(removeBar) withObject:nil afterDelay:0];
+		mWebView.scrollView.contentInset = UIEdgeInsetsZero;
+		[self removeBar];
 	}];
-
-
+	
 	NSString *mainFile = [CACHEPATH stringByAppendingPathComponent:@"index.html"];
 	if (mainFile) {
 		NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:mainFile]];
-		[self.webview loadRequest:req];
+		[mWebView loadRequest:req];
 	}
 }
 
@@ -102,37 +95,25 @@ static NSString *const kTrackingId = @"UA-115285-4";
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)viewDidUnload {
-    [self setWebview:nil];
-    [super viewDidUnload];
-}
-
-- (BOOL)           webView:(UIWebView *)webView
-shouldStartLoadWithRequest:(NSURLRequest *)request
-			navigationType:(UIWebViewNavigationType)navigationType {
-	
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
 	NSURL *url = [request URL];
 	if ([[url scheme] isEqualToString:@"analytics"]) {
 		if ([url.host isEqualToString:@"_trackPageview"]) {
 			TRACE(@"Logging %@", url.path);
 			[self.tracker trackView:url.path];
         }
-	} else if ([[url scheme] isEqualToString:@"app"]) {
+	}
+	else if ([[url scheme] isEqualToString:@"app"]) {
 		TRACE(@"App command %@", url.host);
 		if ([url.host isEqualToString:@"hide-splash"]) {
 			[self hideSplash];
 		}
 		return NO;
-	} else if (![url isFileURL]) {
+	}
+	else if (![url isFileURL]) {
 		if ([[url absoluteString] hasPrefix:@"http://www.iphones.ru/iNotes/"]) {
 			NSString *postId = [url lastPathComponent];
-			NSString *resp = [self.webview stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"require('eventHandler').handle('show_post:%@')", postId]];
+			NSString *resp = [mWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"require('eventHandler').handle('show_post:%@')", postId]];
 			
 			if (![resp isEqualToString:@"0"]) {
 				return NO;
@@ -152,44 +133,51 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 }
 
 - (void)showSplash {
-	self.splash = [[UIView alloc] initWithFrame:self.view.frame];
-	
-	NSString *img = @"Default";
-	if ([UIScreen mainScreen].bounds.size.height == 568.0) {
-		img = @"Default-568h";
+	if (splashView) {
+		return;
 	}
 	
-	UIImageView *splashImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:img]];
-	splashImage.frame = CGRectMake(0.0, -[UIApplication sharedApplication].statusBarFrame.size.height, splashImage.frame.size.width, splashImage.frame.size.height);
-	
+	NSString *imgName = nil;
+	if ([UIScreen mainScreen].bounds.size.height == 568.0) {
+		imgName = @"Default-568h";
+	}
+	else {
+		imgName = @"Default";
+	}
+
+	UIImageView *splash = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
+	CGRect frame = splash.bounds;
+	frame.origin.y = -[UIApplication sharedApplication].statusBarFrame.size.height;
+	splash.frame = frame;
+
 	UIActivityIndicatorView *loader = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 	loader.frame = CGRectMake(120.0, 320, 80.0, 80.0);
-	[self.splash addSubview:splashImage];
-	[self.splash addSubview:loader];
+	[splash addSubview:loader];
 	[loader startAnimating];
+	[self.view addSubview:splash];
 	
-	[self.view addSubview:self.splash];
+	splashView = splash;
 }
 
 - (void)hideSplash {
 	[UIView
 	 animateWithDuration:0.3
 	 animations:^{
-		 self.splash.alpha = 0.0;
+		 splashView.alpha = 0.0;
 	 }
 	 completion:(void (^)(BOOL)) ^{
-		 for (UIView *v in self.splash.subviews) {
-			 if ([v respondsToSelector:@selector(stopAnimating)]) {
-				 [v performSelector:@selector(stopAnimating)];
-			 }
-		 }
-		 [self.splash removeFromSuperview];
-		 self.splash = nil;
+		 [splashView removeFromSuperview];
+		 splashView = nil;
 	 }];
 }
 
 - (BOOL)shouldAutorotate {
 	return NO;
+}
+
+- (void)dealloc {
+	CACHEPATH = nil;
+	self.tracker = nil;
 }
 
 @end

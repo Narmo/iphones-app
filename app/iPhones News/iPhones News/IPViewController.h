@@ -6,12 +6,14 @@
 //  Copyright (c) 2013 Sergey Chikuyonok. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "GAI.h"
 
-@interface IPViewController : UIViewController <UIWebViewDelegate, UIAlertViewDelegate>
-@property (strong, nonatomic) IBOutlet UIWebView *webview;
-@property (strong, nonatomic) UIView *splash;
-@property(nonatomic, retain) id<GAITracker> tracker;
+@interface IPViewController : UIViewController <UIWebViewDelegate, UIAlertViewDelegate> {
+	UIWebView *mWebView;
+	__weak UIImageView *splashView;
+	__strong NSString *CACHEPATH;
+}
+
+@property (nonatomic, strong) id<GAITracker> tracker;
 
 @end
