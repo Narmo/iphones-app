@@ -12,6 +12,7 @@
 #import "ZKDataArchive.h"
 #import "ZKCDHeader.h"
 #import "GAI.h"
+#import "XQueryComponents.h"
 
 static NSString *const kTrackingId = @"UA-115285-4";
 
@@ -107,6 +108,22 @@ static NSString *const kTrackingId = @"UA-115285-4";
 		TRACE(@"App command %@", url.host);
 		if ([url.host isEqualToString:@"hide-splash"]) {
 			[self hideSplash];
+		} else if ([url.host isEqualToString:@"external"]) {
+			NSDictionary *query = [url queryComponents];
+			if ([query objectForKey:@"app_url"]) {
+				NSArray *appUrlValue = (NSArray *)[query objectForKey:@"app_url"];
+				NSURL *launchUrl = [NSURL URLWithString:[appUrlValue objectAtIndex:0]];
+				
+				if ([[UIApplication sharedApplication] canOpenURL:launchUrl]) {
+					[[UIApplication sharedApplication] openURL:launchUrl];
+				} else if ([query objectForKey:@"fallback_url"]) {
+					NSArray *fallbackUrlValue = (NSArray *)[query objectForKey:@"fallback_url"];
+					TRACE(@"Fallback: %@", [fallbackUrlValue objectAtIndex:0]);
+					[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[fallbackUrlValue objectAtIndex:0]]];
+				}
+				
+//				TRACE(@"App URL: %@, fallback URL: %@", [query objectForKey:@"app_url"], [query objectForKey:@"fallback_url"]);
+			}
 		}
 		return NO;
 	}

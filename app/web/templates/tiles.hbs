@@ -14,7 +14,7 @@
 		</div>
 	</header>
 	{{#each tiles}}
-		<div class="tiles__item" data-post-id="{{ id }}" data-image="{{ image }}" style="background-image: url({{ image }});" data-type="{{ type }}">
+		<div class="tiles__item" data-post-id="{{ id }}" data-image="{{ image }}" style="background-image: url({{ image }});" data-type="{{ type }}" data-url="{{ url }}">
 			<h2 class="tiles__title" data-subtitle="{{#if subtitle}}{{subtitle}}{{ else }}Последнее{{/if}}">{{ title }} <span class="preloader-target"></span></h2>
 			{{#if subtitle }}
 			<h3 class="tiles__subtitle">{{ subtitle }}</h3>

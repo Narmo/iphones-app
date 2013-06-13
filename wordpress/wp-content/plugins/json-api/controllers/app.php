@@ -86,10 +86,37 @@ class JSON_API_App_Controller {
 			);
 		}, $recent_posts);
 
-		return array(
+		$out = array(
 			'app' => empty($app_day) ? null : $app_day, 
 			'posts' => $recent_posts
 		);
+
+		$app_banner = $this->app_banner();
+		if ($app_banner) {
+			$out['app_banner'] = $app_banner;
+		}
+
+		return $out;
+	}
+
+	/**
+	 * Находит JSON баннера приложения и возвращает его 
+	 * @return array
+	 */
+	private function app_banner() {
+		$path = realpath(dirname(__FILE__) . '/../../../app-banner.json');
+		if ($path && file_exists($path)) {
+			$content = file_get_contents($path);
+			if ($content) {
+				try {
+					return json_decode($content, true);
+				} catch (Exception $e) {
+
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/**

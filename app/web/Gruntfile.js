@@ -53,7 +53,7 @@ module.exports = function(grunt) {
 			app: {
 				files: [{
 					src: './out/app.zip',
-					dest: '../iPhones News/iPhones News/',
+					dest: '../iPhones News/Resources/',
 					expand: true,
 					flatten: true
 				}]

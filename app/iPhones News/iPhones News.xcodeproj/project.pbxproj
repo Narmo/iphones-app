@@ -14,6 +14,7 @@
 		A5210F2716F8E206008FC5DA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A5210F2616F8E206008FC5DA /* main.m */; };
 		A5210F2B16F8E206008FC5DA /* IPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A5210F2A16F8E206008FC5DA /* IPAppDelegate.m */; };
 		A5210F3416F8E206008FC5DA /* IPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5210F3316F8E206008FC5DA /* IPViewController.m */; };
+		A5E0F4A1176A13F0007A4F40 /* XQueryComponents.m in Sources */ = {isa = PBXBuildFile; fileRef = A5E0F4A0176A13F0007A4F40 /* XQueryComponents.m */; };
 		A5E873221741468A00A158D3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E873211741468A00A158D3 /* SystemConfiguration.framework */; };
 		A5E873241741469B00A158D3 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5E873231741469B00A158D3 /* CoreData.framework */; };
 		AF24EF5F17636721002E2B89 /* app.zip in Resources */ = {isa = PBXBuildFile; fileRef = AF24EF5917636721002E2B89 /* app.zip */; };
@@ -57,6 +58,8 @@
 		A5210F2A16F8E206008FC5DA /* IPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPAppDelegate.m; sourceTree = "<group>"; };
 		A5210F3216F8E206008FC5DA /* IPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPViewController.h; sourceTree = "<group>"; };
 		A5210F3316F8E206008FC5DA /* IPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPViewController.m; sourceTree = "<group>"; };
+		A5E0F49F176A13F0007A4F40 /* XQueryComponents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XQueryComponents.h; sourceTree = "<group>"; };
+		A5E0F4A0176A13F0007A4F40 /* XQueryComponents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XQueryComponents.m; sourceTree = "<group>"; };
 		A5E873211741468A00A158D3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A5E873231741469B00A158D3 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AF24EF5917636721002E2B89 /* app.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = app.zip; sourceTree = "<group>"; };
@@ -187,6 +190,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		A5E0F49D176A13C7007A4F40 /* XQueryComponents */ = {
+			isa = PBXGroup;
+			children = (
+				A5E0F49F176A13F0007A4F40 /* XQueryComponents.h */,
+				A5E0F4A0176A13F0007A4F40 /* XQueryComponents.m */,
+			);
+			path = XQueryComponents;
+			sourceTree = "<group>";
+		};
 		AF24EF5817636721002E2B89 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,6 +215,7 @@
 		AF24EF6517636735002E2B89 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A5E0F49D176A13C7007A4F40 /* XQueryComponents */,
 				AF24EF6617636735002E2B89 /* GA */,
 				AF24EF6E17636735002E2B89 /* ZipKit */,
 			);
@@ -367,6 +380,7 @@
 				AF24EFAB17636736002E2B89 /* ZKFileArchive.m in Sources */,
 				AF24EFAC17636736002E2B89 /* ZKLFHeader.m in Sources */,
 				AF24EFAD17636736002E2B89 /* ZKLog.m in Sources */,
+				A5E0F4A1176A13F0007A4F40 /* XQueryComponents.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

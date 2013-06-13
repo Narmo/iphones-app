@@ -15,6 +15,11 @@ define(
 			payload.app.type = 'page';
 		}
 
+		if (payload.app_banner) {
+			posts.length--;
+			posts.splice(2, 0, utils.transformPost(payload.app_banner));
+		}
+
 		return posts;
 	}
 
@@ -26,10 +31,14 @@ define(
 		// вешаем триггеры на плитку
 		result.find('.tiles__item').each(function() {
 			var tile = $(this);
-			var itemId = $(this).attr('data-post-id');
-			var post = feed.getPost(itemId);
-			var action = tile.attr('data-type') == 'page' ? 'show_page:' : 'show_post:';
-			tile.attr('data-trigger', action + itemId);
+			var tileType = tile.attr('data-type');
+			if (tileType == 'app_banner') {
+				tile.attr('data-trigger', 'app_banner:' + tile.attr('data-url'));
+			} else {
+				var itemId = tile.attr('data-post-id');
+				var action = tileType == 'page' ? 'show_page:' : 'show_post:';
+				tile.attr('data-trigger', action + itemId);
+			}
 		});
 
 		// добавляем pull to refresh
@@ -211,6 +220,15 @@ define(
 		 */
 		create: function(callback) {
 			feed.get('splash', function(data) {
+
+				// DEMO
+				// data.app_banner = {
+				// 	"title": "One Free Book a Day",
+				// 	"image": "http:\/\/www.iphones.ru\/wp-content\/uploads\/2013\/06\/overview_more_title.png",
+				// 	"app_url": "fb341746605944290://target_url=608249&",
+				// 	"fallback_url": "itms-apps://itunes.com/app/onefreebookaday"
+				// };
+
 				mainTiles = renderTiles(data);
 				mainSwypeGroup = setupFlipper(mainTiles);
 				updateAuthData();

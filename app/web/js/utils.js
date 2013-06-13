@@ -158,19 +158,17 @@ define(function() {
 		transformPost: function(post) {
 			// post.allowComments = post.comment_status == 'open';
 			post.allowComments = 'comment_count' in post;
-
 			setImage(post);
 
-			if (post.type == 'post') {
-				// запись из блога
-				// var isNews = _.find(post.categories, function(c) {
-				// 	return c.slug == 'news';
-				// });
+			if (!post.url) {
+				post.url = '';
+			}
 
-				// if (!isNews && post.categories.length) {
-				// 	var cat = this.getKnownCategory(post) || post.categories[0];
-				// 	post.title = cat.title;
-				// }
+			if (post.app_url) {
+				post.type = 'app_banner';
+				post.url = 'app://external' 
+					+ '?app_url=' + encodeURIComponent(post.app_url)
+					+ '&fallback_url=' + encodeURIComponent(post.fallback_url || '');
 			}
 
 			if (~post.title.indexOf(':::')) {

@@ -94,6 +94,10 @@ function(article, utils, feed, splash, comments, nav, articleReel, auth, preload
 				case 'reply':
 					comments.showReplyWidget(elem);
 					break;
+
+				case 'app_banner':
+					location.href = params;
+					break;
 			}
 		}
 	}
