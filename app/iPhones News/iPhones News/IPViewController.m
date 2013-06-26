@@ -42,7 +42,15 @@ static NSString *const kTrackingId = @"UA-115285-4";
 	[self showSplash];
 	[self unpackEngine];
 	
-	mWebView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+	CGRect frame = self.view.bounds;
+	
+	if (DeviceSystemMajorVersion() >= 7) {
+		CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+		frame.origin.y += statusBarHeight;
+		frame.size.height -= statusBarHeight;
+	}
+	
+	mWebView = [[UIWebView alloc] initWithFrame:frame];
 	mWebView.delegate = self;
 	mWebView.dataDetectorTypes = UIDataDetectorTypeNone;
 	mWebView.scrollView.scrollEnabled = NO;
@@ -108,7 +116,8 @@ static NSString *const kTrackingId = @"UA-115285-4";
 		TRACE(@"App command %@", url.host);
 		if ([url.host isEqualToString:@"hide-splash"]) {
 			[self hideSplash];
-		} else if ([url.host isEqualToString:@"external"]) {
+		}
+		else if ([url.host isEqualToString:@"external"]) {
 			NSDictionary *query = [url queryComponents];
 			if ([query objectForKey:@"app_url"]) {
 				NSArray *appUrlValue = (NSArray *)[query objectForKey:@"app_url"];
@@ -122,7 +131,7 @@ static NSString *const kTrackingId = @"UA-115285-4";
 					[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[fallbackUrlValue objectAtIndex:0]]];
 				}
 				
-//				TRACE(@"App URL: %@, fallback URL: %@", [query objectForKey:@"app_url"], [query objectForKey:@"fallback_url"]);
+				//				TRACE(@"App URL: %@, fallback URL: %@", [query objectForKey:@"app_url"], [query objectForKey:@"fallback_url"]);
 			}
 		}
 		return NO;
@@ -131,17 +140,16 @@ static NSString *const kTrackingId = @"UA-115285-4";
 		if ([[url absoluteString] hasPrefix:@"http://www.iphones.ru/iNotes/"]) {
 			NSString *postId = [url lastPathComponent];
 			NSString *resp = [mWebView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"require('eventHandler').handle('show_post:%@')", postId]];
-			
+
 			if (![resp isEqualToString:@"0"]) {
 				return NO;
 			}
 		}
-		
+
 		if (navigationType == UIWebViewNavigationTypeLinkClicked) {
 			if (![[UIApplication sharedApplication] openURL:url]) {
 				TRACE(@"%@%@",@"Failed to open url:",[url description]);
 			}
-			
 			return NO;
 		}
 	}
@@ -161,12 +169,15 @@ static NSString *const kTrackingId = @"UA-115285-4";
 	else {
 		imgName = @"Default";
 	}
-
+	
 	UIImageView *splash = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
-	CGRect frame = splash.bounds;
-	frame.origin.y = -[UIApplication sharedApplication].statusBarFrame.size.height;
-	splash.frame = frame;
-
+	
+	if (DeviceSystemMajorVersion() < 7) {
+		CGRect frame = splash.bounds;
+		frame.origin.y = -[UIApplication sharedApplication].statusBarFrame.size.height;
+		splash.frame = frame;
+	}
+	
 	UIActivityIndicatorView *loader = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 	loader.frame = CGRectMake(120.0, 320, 80.0, 80.0);
 	[splash addSubview:loader];
@@ -195,6 +206,16 @@ static NSString *const kTrackingId = @"UA-115285-4";
 - (void)dealloc {
 	CACHEPATH = nil;
 	self.tracker = nil;
+}
+
+NSUInteger DeviceSystemMajorVersion() {
+	static NSUInteger _deviceSystemMajorVersion = -1;
+	
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_deviceSystemMajorVersion = [[[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."] objectAtIndex:0] intValue];
+	});
+	return _deviceSystemMajorVersion;
 }
 
 @end

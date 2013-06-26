@@ -9,6 +9,8 @@
 #import "IPAppDelegate.h"
 #import "IPViewController.h"
 
+NSUInteger DeviceSystemMajorVersion();
+
 @implementation IPAppDelegate
 
 void uncaughtExceptionHandler(NSException *exception) {
@@ -23,7 +25,12 @@ void uncaughtExceptionHandler(NSException *exception) {
 	NSDictionary *uaPrefs = [NSDictionary dictionaryWithObjectsAndKeys:@"iPhones News", @"UserAgent", nil];
 	[[NSUserDefaults standardUserDefaults] registerDefaults:uaPrefs];
 	
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+	if (DeviceSystemMajorVersion() >= 7) {
+		application.statusBarStyle = UIStatusBarStyleDefault;
+	}
+	
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+	self.window.backgroundColor = [UIColor whiteColor]; // RGB(235, 235, 235);
 	self.viewController = [[IPViewController alloc] init];
 	self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
