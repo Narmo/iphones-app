@@ -1,6 +1,6 @@
 //
 //  IPViewController.m
-//  iPhones News
+//  iNews76
 //
 //  Created by Sergey Chikuyonok on 3/19/13.
 //  Copyright (c) 2013 Sergey Chikuyonok. All rights reserved.
@@ -43,13 +43,12 @@ static NSString *const kTrackingId = @"UA-115285-4";
 	[self unpackEngine];
 	
 	CGRect frame = self.view.bounds;
-	
-	// TODO: uncomment following when building in Xcode 5 release
-//	if (DeviceSystemMajorVersion() >= 7) {
-//		CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-//		frame.origin.y += statusBarHeight;
-//		frame.size.height -= statusBarHeight;
-//	}
+
+	if (DeviceSystemMajorVersion() >= 7) {
+		CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+		frame.origin.y += statusBarHeight;
+		frame.size.height -= statusBarHeight;
+	}
 	
 	mWebView = [[UIWebView alloc] initWithFrame:frame];
 	mWebView.delegate = self;
@@ -173,12 +172,11 @@ static NSString *const kTrackingId = @"UA-115285-4";
 	
 	UIImageView *splash = [[UIImageView alloc] initWithImage:[UIImage imageNamed:imgName]];
 
-	// TODO: uncomment following when building in Xcode 5 release
-//	if (DeviceSystemMajorVersion() < 7) {
+	if (DeviceSystemMajorVersion() < 7) {
 		CGRect frame = splash.bounds;
 		frame.origin.y = -[UIApplication sharedApplication].statusBarFrame.size.height;
 		splash.frame = frame;
-//	}
+	}
 
 	UIActivityIndicatorView *loader = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 	loader.frame = CGRectMake(120.0, 320, 80.0, 80.0);

@@ -14,6 +14,10 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
+				<string>iphs_appicon_29</string>
+				<string>iphs_appicon_58</string>
+				<string>iphs_appicon_80</string>
+				<string>iphs_appicon_120</string>
 				<string>iphs_appicon_57.png</string>
 				<string>iphs_appicon_114.png</string>
 			</array>
@@ -22,7 +26,7 @@
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>ru.iphones.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>ru.iphones.iPhones-News</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
