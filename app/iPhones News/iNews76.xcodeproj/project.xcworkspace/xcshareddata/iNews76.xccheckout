@@ -10,29 +10,29 @@
 	<string>iNews76</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>361B31DC-F321-46DE-B91A-644743034DA0</key>
-		<string>ssh://github.com/sergeche/iphones-app.git</string>
+		<key>BCF3E2EF74E8BDD9CE934446B2BFB538D3478977</key>
+		<string>github.com:Narmo/iphones-app.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>app/iPhones News/iNews76.xcodeproj/project.xcworkspace</string>
+	<string>app/iPhones News/iNews76.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>361B31DC-F321-46DE-B91A-644743034DA0</key>
+		<key>BCF3E2EF74E8BDD9CE934446B2BFB538D3478977</key>
 		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/sergeche/iphones-app.git</string>
+	<string>github.com:Narmo/iphones-app.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>361B31DC-F321-46DE-B91A-644743034DA0</string>
+	<string>BCF3E2EF74E8BDD9CE934446B2BFB538D3478977</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>361B31DC-F321-46DE-B91A-644743034DA0</string>
+			<string>BCF3E2EF74E8BDD9CE934446B2BFB538D3478977</string>
 			<key>IDESourceControlWCCName</key>
 			<string>iphones-app</string>
 		</dict>

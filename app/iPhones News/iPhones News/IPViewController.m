@@ -7,31 +7,16 @@
 //
 
 #import "IPViewController.h"
-#import "ZKDefs.h"
-#import "ZKFileArchive.h"
-#import "ZKDataArchive.h"
-#import "ZKCDHeader.h"
 #import "GAI.h"
 #import "XQueryComponents.h"
+#import "MiniZip.h"
 
 static NSString *const kTrackingId = @"UA-115285-4";
 
 @implementation IPViewController
 
 - (void)unpackEngine {
-	ZKFileArchive *archive = [ZKFileArchive archiveWithArchivePath:[[NSBundle mainBundle] pathForResource:@"app" ofType:@"zip"]];
-	
-	// Clean-up old files to make sure that new ones won’t break them
-	NSFileManager *fm = [NSFileManager defaultManager];
-	for (ZKCDHeader *cdHeader in archive.centralDirectory) {
-		NSString *fullPath = [CACHEPATH stringByAppendingPathComponent:cdHeader.filename];
-		[fm removeItemAtPath:fullPath error:nil];
-	}
-	
-	NSInteger result = [archive inflateToDirectory:CACHEPATH usingResourceFork:NO];
-	if (result != zkSucceeded) {
-		TRACE(@"ERROR UNPACKING ENGINE!!!");
-	}
+	[MiniZip extractZipArchiveAtPath:[[NSBundle mainBundle] pathForResource:@"app" ofType:@"zip"] toPath:CACHEPATH];
 }
 
 - (void)viewDidLoad {
@@ -57,9 +42,6 @@ static NSString *const kTrackingId = @"UA-115285-4";
 	[self.view insertSubview:mWebView atIndex:0];
 	
 	// set-up tracker
-#ifdef DEBUG
-	[GAI sharedInstance].debug = YES;
-#endif
 	[GAI sharedInstance].dispatchInterval = 60;
 	[GAI sharedInstance].trackUncaughtExceptions = YES;
 	self.tracker = [[GAI sharedInstance] trackerWithTrackingId:kTrackingId];
@@ -109,7 +91,7 @@ static NSString *const kTrackingId = @"UA-115285-4";
 	if ([[url scheme] isEqualToString:@"analytics"]) {
 		if ([url.host isEqualToString:@"_trackPageview"]) {
 			TRACE(@"Logging %@", url.path);
-			[self.tracker trackView:url.path];
+			[self.tracker send:@{@"url": url.path}];
         }
 	}
 	else if ([[url scheme] isEqualToString:@"app"]) {

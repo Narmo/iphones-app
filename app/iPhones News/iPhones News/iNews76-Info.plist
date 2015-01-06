@@ -9,22 +9,9 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIcons</key>
-	<dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>iphs_appicon_29</string>
-				<string>iphs_appicon_58</string>
-				<string>iphs_appicon_80</string>
-				<string>iphs_appicon_120</string>
-				<string>iphs_appicon_57.png</string>
-				<string>iphs_appicon_114.png</string>
-			</array>
-			<key>UIPrerenderedIcon</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
+	<key>CFBundleIcons~ipad</key>
+	<dict/>
 	<key>CFBundleIdentifier</key>
 	<string>ru.iphones.iPhones-News</string>
 	<key>CFBundleInfoDictionaryVersion</key>
